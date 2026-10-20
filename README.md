@@ -83,6 +83,9 @@ Verified on this machine with x64 MSVC Perl 5.44.0 and Visual Studio 2026:
   restoration of console modes and code pages.
 - The staged Perl module passes console Unicode/history/callback tests, and
   the Perl debugger confirms it selected `Term::ReadLine::Gnu`.
+- `perlsh.bat` startup tests cover `HOME`, `USERPROFILE`, and
+  `HOMEDRIVE`/`HOMEPATH`, loading `.perlshrc`, evaluation, history, and exit.
+  Windows uses Perl's native signal handler instead of POSIX `sigaction`.
 - A clean build succeeds with spaces in both output paths. DLL imports contain
   only Perl, Windows, and Microsoft CRT libraries.
 

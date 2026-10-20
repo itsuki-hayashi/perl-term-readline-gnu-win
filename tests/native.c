@@ -159,25 +159,68 @@ static void debugger_tests(void) {
   assert(fgets(backend, sizeof(backend), f)); fclose(f);
   assert(!strcmp(backend, "Term::ReadLine::Gnu"));
 }
+static void perlsh_tests(void) {
+  const wchar_t *launcher = _wgetenv(L"RL_TEST_PERLSH");
+  const wchar_t *shell = _wgetenv(L"COMSPEC");
+  wchar_t command[32768]; char cwd[32768], home[32768], expected[32768], actual[32768];
+  int scenario; FILE *f;
+  assert(launcher && shell && getcwd(cwd, sizeof(cwd)));
+  snprintf(home, sizeof(home), "%s/perlsh test home", cwd);
+  assert(_mkdir(home) == 0 || errno == EEXIST);
+  snprintf(expected, sizeof(expected), "%s/.perlshrc", home);
+  f = fopen(expected, "w"); assert(f);
+  fputs("$PerlSh::PS1 = ''; sub main::afterinit { open my $f, '>', 'perlsh-config-loaded.log' or die $!; print $f 'loaded'; close $f; } 1;\n", f);
+  fclose(f);
+  _putenv_s("PERL_RL", "Gnu"); _putenv_s("TERM", "win32"); _putenv_s("INPUTRC", "NUL");
+  for (scenario = 0; scenario < 3; ++scenario) {
+    STARTUPINFOW si = {sizeof(si)}; PROCESS_INFORMATION pi; DWORD code;
+    const char *input = "open my $f, '>', 'perlsh-startup-result.log' or die $!; print $f $PerlSh::HISTFILE; close $f; PerlSh::quit()\r";
+    _putenv_s("HOME", scenario == 0 ? home : "");
+    _putenv_s("USERPROFILE", scenario == 2 ? "" : scenario == 0 ? "missing-profile" : home);
+    if (scenario == 2) {
+      char drive[3] = {home[0], ':', 0};
+      _putenv_s("HOMEDRIVE", drive); _putenv_s("HOMEPATH", home + 2);
+    }
+    while (*input) { inject((WCHAR)*input, 0, 0); ++input; }
+    swprintf(command, 32768, L"\"%ls\" /d /s /c \"\"%ls\"\"", shell, launcher);
+    assert(CreateProcessW(shell, command, NULL, NULL, TRUE, 0, NULL, NULL, &si, &pi));
+    if (WaitForSingleObject(pi.hProcess, 15000) != WAIT_OBJECT_0) { TerminateProcess(pi.hProcess, 1); exit(1); }
+    assert(GetExitCodeProcess(pi.hProcess, &code) && code == 0);
+    CloseHandle(pi.hProcess); CloseHandle(pi.hThread);
+    f = fopen("perlsh-startup-result.log", "r"); assert(f);
+    assert(fgets(actual, sizeof(actual), f)); fclose(f);
+    snprintf(expected, sizeof(expected), "%s/.perlsh_history", home);
+    assert(!strcmp(actual, expected));
+    f = fopen(expected, "r"); assert(f); fclose(f);
+    f = fopen("perlsh-config-loaded.log", "r"); assert(f); fclose(f);
+    assert(unlink("perlsh-startup-result.log") == 0);
+    assert(unlink("perlsh-config-loaded.log") == 0);
+  }
+  f = fopen("perlsh-tests.log", "w"); assert(f);
+  fputs("perlsh.bat passed: HOME, USERPROFILE, HOMEDRIVE/HOMEPATH; startup config, evaluation, history, exit\n", f);
+  fclose(f);
+}
 int main(int argc, char **argv) {
   if (argc == 3 && !strcmp(argv[1], "--console-child")) { console_tests(argv[2]); return 0; }
   if (argc == 3 && !strcmp(argv[1], "--perl-child")) { perl_console_tests(argv[2]); return 0; }
   if (argc == 3 && !strcmp(argv[1], "--debugger-child")) { debugger_tests(); return 0; }
+  if (argc == 3 && !strcmp(argv[1], "--perlsh-child")) { perlsh_tests(); return 0; }
   if (argc == 1) basic_tests();
   {
     wchar_t exe[32768], cmd[32768]; STARTUPINFOW si = {sizeof(si)}; PROCESS_INFORMATION pi;
     DWORD code;
     assert(GetModuleFileNameW(NULL, exe, 32768));
     int debugger = argc > 1 && !strcmp(argv[1], "--debugger");
+    int perlsh = argc > 1 && !strcmp(argv[1], "--perlsh");
     swprintf(cmd, 32768, L"\"%ls\" %ls %ls", exe,
-        argc == 1 ? L"--console-child" : debugger ? L"--debugger-child" : L"--perl-child",
+        argc == 1 ? L"--console-child" : debugger ? L"--debugger-child" : perlsh ? L"--perlsh-child" : L"--perl-child",
         argc == 1 ? L"console-tests.log" : L"perl-console-tests.log");
     si.dwFlags = STARTF_USESHOWWINDOW; si.wShowWindow = SW_HIDE;
     assert(CreateProcessW(exe, cmd, NULL, NULL, FALSE, CREATE_NEW_CONSOLE, NULL, NULL, &si, &pi));
     if (WaitForSingleObject(pi.hProcess, 30000) != WAIT_OBJECT_0) { TerminateProcess(pi.hProcess, 1); fputs("Console test timed out\n", stderr); return 1; }
     GetExitCodeProcess(pi.hProcess, &code); CloseHandle(pi.hProcess); CloseHandle(pi.hThread);
     if (code) { fprintf(stderr, "Console test failed: %lu\n", code); return 1; }
-    puts(argc == 1 ? "Native console tests passed" : debugger ? "Perl debugger integration passed" : "Perl console tests passed");
+    puts(argc == 1 ? "Native console tests passed" : debugger ? "Perl debugger integration passed" : perlsh ? "perlsh.bat integration passed" : "Perl console tests passed");
   }
   return 0;
 }

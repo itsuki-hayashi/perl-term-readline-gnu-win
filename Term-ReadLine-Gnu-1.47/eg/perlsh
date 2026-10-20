@@ -41,9 +41,20 @@ use vars qw($PS1 $PS2 $HISTFILE $HISTSIZE $INPUTRC $STRICT
 #$PS1 = '$ ';
 $PS1='\w[\!]$ ';
 $PS2 = '> ';
-$HISTFILE = ($ENV{HOME} || ((getpwuid($<))[7])) . "/.perlsh_history";
+my $home = $ENV{HOME};
+if (!$home) {
+    if ($^O eq 'MSWin32') {
+        $home = $ENV{USERPROFILE}
+            || ($ENV{HOMEDRIVE} && $ENV{HOMEPATH}
+                ? $ENV{HOMEDRIVE} . $ENV{HOMEPATH} : undef);
+    } else {
+        $home = (getpwuid($<))[7];
+    }
+}
+die "perlsh: cannot determine home directory\n" unless $home;
+$HISTFILE = $home . "/.perlsh_history";
 $HISTSIZE = 256;
-$INPUTRC = ($ENV{HOME} || ((getpwuid($<))[7])) . "/.perlshrc";
+$INPUTRC = $home . "/.perlshrc";
 $STRICT = 0;
 
 $HOSTNAME = $ENV{HOSTNAME};
@@ -90,12 +101,13 @@ sub toplevel {
 
     # See http://perldoc.perl.org/perlipc.html#Deferred-Signals-%28Safe-Signals%29
     # was '$SIG{INT} = sub { ...'
-    sigaction SIGINT, new POSIX::SigAction sub {
-        $term->modifying;
-        $term->delete_text;
-        $attribs->{point} = $attribs->{end} = 0;
-        $term->redisplay;
-    } or die "Error setting SIGINT handler: $!\n";
+    if ($^O eq 'MSWin32') {
+        # Native Windows Perl does not implement POSIX sigaction().
+        $SIG{INT} = \&sigint;
+    } else {
+        sigaction SIGINT, new POSIX::SigAction \&sigint
+            or die "Error setting SIGINT handler: $!\n";
+    }
 
     my ($strict, $command, @result);
     $strict = $STRICT ? '' : 'no strict;';

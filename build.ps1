@@ -29,6 +29,7 @@ $savedPath = $env:PATH
 $savedPerl5Lib = $env:PERL5LIB
 $savedTestPerl = $env:RL_TEST_PERL
 $savedTestScript = $env:RL_TEST_SCRIPT
+$savedTestPerlsh = $env:RL_TEST_PERLSH
 $validationFile = $null
 try {
 $env:LC_ALL = 'C'
@@ -103,10 +104,12 @@ if (!$LibrariesOnly) {
         $env:PERL5LIB = "$InstallPrefix/perl/lib/perl5/$($config.archname);$InstallPrefix/perl/lib/perl5"
         $env:RL_TEST_PERL = $Perl
         $env:RL_TEST_SCRIPT = "$PSScriptRoot/tests/perl-console.pl"
+        $env:RL_TEST_PERLSH = "$InstallPrefix/perl/bin/perlsh.bat"
         Push-Location $native
         try {
             Invoke-Checked $testExe @('--perl')
             Invoke-Checked $testExe @('--debugger')
+            Invoke-Checked $testExe @('--perlsh')
         } finally { Pop-Location }
         $dll = Join-Path $module 'blib/arch/auto/Term/ReadLine/Gnu/Gnu.dll'
         $dependencies = & dumpbin /nologo /dependents $dll
@@ -135,4 +138,5 @@ Write-Host "Staged MSVC libraries and headers in $InstallPrefix"
     $env:PERL5LIB = $savedPerl5Lib
     $env:RL_TEST_PERL = $savedTestPerl
     $env:RL_TEST_SCRIPT = $savedTestScript
+    $env:RL_TEST_PERLSH = $savedTestPerlsh
 }
