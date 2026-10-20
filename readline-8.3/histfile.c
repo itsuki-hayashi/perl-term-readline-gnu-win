@@ -82,7 +82,9 @@
 #endif /* HISTORY_USE_MMAP */
 
 #if defined(_WIN32)
-#  define WIN32_LEAN_AND_MEAN
+#  ifndef WIN32_LEAN_AND_MEAN
+#    define WIN32_LEAN_AND_MEAN
+#  endif
 #  include <windows.h>
 #endif
 
@@ -480,7 +482,9 @@ read_history_range (const char *filename, int from, int to)
 static int
 history_rename (const char *old, const char *new)
 {
-#if defined (_WIN32)
+#if defined (_MSC_VER)
+  return rl_win_rename (old, new);
+#elif defined (_WIN32)
   return (MoveFileEx (old, new, MOVEFILE_REPLACE_EXISTING) == 0 ? -1 : 0);
 #else
   return (rename (old, new));

@@ -19,14 +19,17 @@ use strict;
 use ExtUtils::MakeMaker;
 use Config;
 use Getopt::Long;
+use File::Spec;
 use 5.008; use 5.8.1;
 my (@defs, @libs, @lddflags, @RLLIB, @RLINC, @LIBPTH, $verbose, $err);
+my $msvc = $^O eq 'MSWin32' && $Config{cc} =~ /(?:^|[\\\/])cl(?:\.exe)?$/i;
+my $path_separator = $^O eq 'MSWin32' ? qr/;/ : qr/:/;
 
 # exit 0 before creating the Makefile to be CPAN Testers friendly
 # see http://wiki.cpantester.org/wiki/CPANAuthorNotes
 $err = $ENV{AUTOMATED_TESTING} ? 0 : 1;
 # test /dev/tty for CPAN Testers
-if ($ENV{AUTOMATED_TESTING} && !open(SESAMI, '/dev/tty')) {
+if ($ENV{AUTOMATED_TESTING} && $^O ne 'MSWin32' && !open(SESAMI, '/dev/tty')) {
     warn "cannot open /dev/tty\n";
     exit 0;
 }
@@ -43,21 +46,21 @@ push(@defs, '-O') if ($Config{ccflags} =~ /-D_FORTIFY_SOURCE=/);
                "libdir=s" => \$libdir,
                "includedir=s" => \$incdir);
     if (defined $libdir) {
-        foreach (split(':', $libdir)) {
-            push(@RLLIB, "-L$_");
+        foreach (split($path_separator, $libdir)) {
+            push(@RLLIB, qq{-L"$_"});
             push(@LIBPTH, $_);
         }
     }
     if (defined $incdir) {
-        foreach (split(':', $incdir)) {
-            push(@RLINC, "-I$_");
+        foreach (split($path_separator, $incdir)) {
+            push(@RLINC, qq{-I"$_"});
         }
     }
     if (defined $prefix) {
-        foreach (split(':', $prefix)) {
-            push(@RLLIB, "-L$_/lib");
+        foreach (split($path_separator, $prefix)) {
+            push(@RLLIB, qq{-L"$_/lib"});
             push(@LIBPTH, "$_/lib");
-            push(@RLINC, "-I$_/include");
+            push(@RLINC, qq{-I"$_/include"});
         }
     }
     foreach (@ARGV) {
@@ -99,6 +102,7 @@ if ($Config{osname} eq 'os2') {
 } else {
     push(@libs, '-lreadline');
 }
+push(@libs, '-luser32') if $msvc;
 
 {
     my $frlver = 'rlver';
@@ -166,6 +170,7 @@ WriteMakefile
      ABSTRACT_FROM => 'Gnu.pm',
      AUTHOR       => 'Hiroo HAYASHI <hiroo.hayashi@computer.org>',
      NAME         => 'Term::ReadLine::Gnu',
+     ($msvc ? (PERL => $^X) : ()),
      LICENSE      => 'perl',
      EXE_FILES    => [ 'eg/perlsh' ],
      META_MERGE   => {
@@ -179,7 +184,7 @@ WriteMakefile
      VERSION_FROM => 'Gnu.pm',
      MIN_PERL_VERSION => '5.8.1',
      LIBS         => [ "@RLLIB @libs" ],
-     LDDLFLAGS    => "@RLLIB $Config{lddlflags}",
+     LDDLFLAGS    => ($msvc ? $Config{lddlflags} : "@RLLIB $Config{lddlflags}"),
      dynamic_lib  => { OTHERLDFLAGS => "@lddflags" },
      DEFINE       => "@defs",
      ($Config{osname} eq 'os2' ?
@@ -286,6 +291,8 @@ EOF
 sub compile_rlver {
     my ($base, $RLINC, $RLLIB, $defs, $lddflags, $libs, $quiet) = @_;
 
+    return compile_msvc_probe($base, $RLINC, $RLLIB, $defs, $libs) if $msvc;
+
     my $comp_cmd = "$Config{cc} $RLINC $Config{ccflags} $defs $base.c -o $base $RLLIB $lddflags $Config{ldflags} $libs";
     $comp_cmd .= " >/dev/null 2>&1" if $quiet && !$verbose;
     print $comp_cmd, "\n" if $verbose;
@@ -296,7 +303,7 @@ sub compile_rlver {
 sub check_readline_version {
     # execute rlver and get version
     my $rlver;
-    chomp($rlver = `./rlver`);
+    chomp($rlver = run_probe('rlver'));
     # MacOS X 10.4 has libedit by default.
     if ($rlver =~ /EditLine/) {
         warn <<EOM;
@@ -346,8 +353,8 @@ sub guess_malloc_names {
 #include <readline/readline.h>
 
 /* we assume support for ANSI C */
-extern void *xmalloc(int);
-extern void *xrealloc(void *, int);
+extern void *xmalloc(size_t);
+extern void *xrealloc(void *, size_t);
 extern void xfree(void *);
 
 int main() {
@@ -366,6 +373,11 @@ EOF
 
     for my $symbol_set (@symbol_sets) {
         my $xdef = join " ", map "-D$_=$symbol_set->{$_}", sort keys %$symbol_set;
+        if ($msvc) {
+            return $xdef if compile_msvc_probe('rlmalloc', $RLINC, $RLLIB, "$defs $xdef", $libs) == 0
+                && run_probe('rlmalloc') =~ /^ok\s*$/;
+            next;
+        }
         # compile it
         my $comp_cmd = "$Config{cc} $RLINC $Config{ccflags} $defs $xdef $frlmalloc -o rlmalloc $RLLIB $lddflags $Config{ldflags} $libs";
         print $comp_cmd, "\n" if $verbose;
@@ -377,5 +389,32 @@ I was unable to find a working xmalloc in your readline library.
 !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
 EOM
     exit $err;
+}
+
+sub compile_msvc_probe {
+    my ($base, $inc, $libpath, $defs, $libs) = @_;
+    require ExtUtils::CBuilder;
+    my $builder = ExtUtils::CBuilder->new(quiet => !$verbose);
+    my ($extra, undef, $linklibs) = ExtUtils::Liblist->ext("$libpath $libs", $verbose);
+    my $ok = eval {
+        my $obj = $builder->compile(source => "$base.c",
+            extra_compiler_flags => "$inc $defs");
+        $builder->link_executable(objects => $obj,
+            exe_file => "$base$Config{_exe}",
+            extra_linker_flags => $linklibs || $extra);
+        1;
+    };
+    warn $@ if !$ok && $verbose;
+    return $ok ? 0 : 1;
+}
+
+sub run_probe {
+    my ($base) = @_;
+    my $exe = File::Spec->rel2abs("$base$Config{_exe}");
+    open(my $pipe, '-|', $exe) or die "Cannot execute $exe: $!\n";
+    local $/;
+    my $output = <$pipe>;
+    close($pipe) or die "Probe $exe failed\n";
+    return $output;
 }
 # End of Makefile.PL

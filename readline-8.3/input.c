@@ -140,6 +140,7 @@ win32_isatty (int fd)
   return 0;
 }
 
+#undef isatty
 #define isatty(x)	win32_isatty(x)
 #endif
 
@@ -400,6 +401,10 @@ _rl_input_available (void)
 
   if (rl_input_available_hook)
     return (*rl_input_available_hook) ();
+
+#if defined (_MSC_VER)
+  return rl_win_available (rl_instream, _keyboard_input_timeout);
+#endif
 
   tty = fileno (rl_instream);
 
@@ -832,6 +837,9 @@ rl_read_key (void)
 int
 rl_getc (FILE *stream)
 {
+#if defined (_MSC_VER)
+  return rl_win_getc (stream);
+#endif
   int result, ostate, osig;
   unsigned char c;
   int fd;

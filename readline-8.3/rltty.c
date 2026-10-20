@@ -596,11 +596,17 @@ void
 rl_prep_terminal (int meta_flag)
 {
   _rl_echoing_p = 1;
+#if defined (_MSC_VER)
+  rl_win_prep ();
+#endif
 }
 
 void
 rl_deprep_terminal (void)
 {
+#if defined (_MSC_VER)
+  rl_win_deprep ();
+#endif
 }
 
 #else /* ! NO_TTY_DRIVER */

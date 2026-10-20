@@ -159,6 +159,12 @@ sh_get_home_dir (void)
     return (home_dir);
 
   home_dir = (char *)NULL;
+#if defined (_MSC_VER)
+  {
+    const char *p = getenv ("USERPROFILE");
+    if (p) home_dir = savestring (p);
+  }
+#endif
 #if defined (HAVE_GETPWUID)
 #  if defined (__TANDEM)
   entry = getpwnam (getlogin ());

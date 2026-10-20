@@ -129,6 +129,13 @@ _rl_init_locale (void)
 {
   char *ret, *lspec;
 
+#if defined (_MSC_VER)
+  /* The native backend exchanges UTF-8 independently of the process locale. */
+  _rl_utf8locale = 1;
+  _rl_current_locale = savestring ("UTF-8");
+  return "UTF-8";
+#endif
+
   /* Set the LC_CTYPE locale category from environment variables. */
   lspec = _rl_get_locale_var ("LC_CTYPE");
   /* Since _rl_get_locale_var queries the right environment variables,

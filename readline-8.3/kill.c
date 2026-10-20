@@ -862,7 +862,9 @@ _rl_bracketed_read_mbstring (char *mb, int mlen)
 
 /* A special paste command for Windows users. */
 #if defined (_WIN32)
+#ifndef WIN32_LEAN_AND_MEAN
 #define WIN32_LEAN_AND_MEAN
+#endif
 
 #include <windows.h>
 

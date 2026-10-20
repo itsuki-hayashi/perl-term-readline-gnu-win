@@ -41,7 +41,7 @@ extern "C" {
 
 /* from GNU Readline:xmalloc.h */
 #ifndef PTR_T
-#ifdef __STDC__
+#if defined(__STDC__) || defined(_MSC_VER)
 #  define PTR_T void *
 #else
 #  define PTR_T char *

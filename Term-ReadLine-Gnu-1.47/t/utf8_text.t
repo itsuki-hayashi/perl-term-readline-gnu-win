@@ -85,13 +85,14 @@ if (0) {        # This may cause a fail.
     ok($line eq "🐪", 'pre-read');
 }
 
-my $expected = $] >= 5.010 ? ['unix', 'perlio', 'encoding(utf-8-strict)', 'utf8']
+my @native_layers = $^O eq 'MSWin32' ? ('unix', 'crlf') : ('unix', 'perlio');
+my $expected = $] >= 5.010 ? [@native_layers, 'encoding(utf-8-strict)', 'utf8']
     : ['stdio', 'encoding(utf-8-strict)', 'utf8'];
 my $expected_x;
 if (${^UNICODE} == 0) {
     $expected_x = $expected;
 } else {
-    $expected_x = $] >= 5.010 ? ['unix', 'perlio', 'utf8', 'encoding(utf-8-strict)', 'utf8']
+    $expected_x = $] >= 5.010 ? [@native_layers, 'utf8', 'encoding(utf-8-strict)', 'utf8']
     : ['stdio', 'utf8', 'encoding(utf-8-strict)', 'utf8'];
 }
 @layers = PerlIO::get_layers($in);

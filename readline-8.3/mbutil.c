@@ -639,7 +639,7 @@ _rl_mb_charcasecmp (const char *s1, mbstate_t *ps1, const char *s2, mbstate_t *p
 {
   int d;
   size_t v1, v2;
-  wchar_t wc1, wc2;
+  WCHAR_T wc1, wc2;
 
   d = MB_CUR_MAX;
   v1 = MBRTOWC(&wc1, s1, d, ps1);

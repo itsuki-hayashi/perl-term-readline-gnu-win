@@ -248,16 +248,31 @@ _win_get_screensize (int *swp, int *shp)
 {
   HANDLE hConOut;
   CONSOLE_SCREEN_BUFFER_INFO scr;
+#if defined (_MSC_VER)
+  int owned;
+#endif
 
+#if defined (_MSC_VER)
+  hConOut = rl_win_output_handle (rl_outstream, &owned);
+#else
   hConOut = GetStdHandle (STD_OUTPUT_HANDLE);
+#endif
   if (hConOut != INVALID_HANDLE_VALUE)
     {
       if (GetConsoleScreenBufferInfo (hConOut, &scr))
 	{
-	  *swp = scr.dwSize.X;
+#if defined (_MSC_VER)
+          *swp = scr.srWindow.Right - scr.srWindow.Left + 1;
+#else
+          *swp = scr.dwSize.X;
+#endif
 	  *shp = scr.srWindow.Bottom - scr.srWindow.Top + 1;
 	}
     }
+#if defined (_MSC_VER)
+  if (owned)
+    CloseHandle (hConOut);
+#endif
 }
 #endif
 
@@ -577,7 +592,11 @@ _rl_init_terminal_io (const char *terminal_name)
   tty = rl_instream ? fileno (rl_instream) : 0;
 
   if (term == 0)
+#if defined (_MSC_VER)
+    term = "win32";
+#else
     term = "dumb";
+#endif
 
   _rl_term_isansi = RL_ANSI_TERM_DEFAULT;
   dumbterm = STREQ (term, "dumb") || STREQ (term, "vt52") || STREQ (term, "adm3a");
