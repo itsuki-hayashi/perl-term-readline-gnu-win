@@ -25,7 +25,8 @@
          "script",
          "win32",
          "patches",
-         "docs"
+         "docs",
+         "xs"
       ],
       "namespace" : [
          "Term::ReadLine::GnuWin32::Pointer"

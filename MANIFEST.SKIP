@@ -4,6 +4,7 @@
 ^(?:Makefile(?:\.old)?|MYMETA\.(?:json|yml)|pm_to_blib|MANIFEST\.bak|\.history_test)$
 ^GnuWin32\.(?:c|xsc|def|exp|lib|obj|pdb|bs)$
 ^GnuWin32_def\.old$
+^xs/GnuWin32\.(?:c|xsc|obj|pdb)$
 ^[^/]+\.(?:tar|tar\.gz|zip)$
 ^[^/]+\.tar\.gz\.sha256$
 ^.*(?:~|\.bak)$

@@ -34,7 +34,6 @@ examples/rlkeymaps
 examples/rlptytest
 examples/rltest
 examples/rlversion
-GnuWin32.xs
 inc/build-native.pl
 inc/compiler-version.c
 inc/GnuWin32/Build.pm
@@ -59,7 +58,6 @@ MANIFEST.SKIP
 META.json
 META.yml
 patches/readline/0001-native-msvc.patch
-ppport.h
 README.md
 REUSE.toml
 script/audit-licenses.pl
@@ -89,7 +87,6 @@ t/utf8.txt
 t/utf8_binary.t
 t/utf8_text.t
 THIRD_PARTY_NOTICES.md
-typemap
 vendor/manifest.json
 vendor/readline/aclocal.m4
 vendor/readline/ansi_stdlib.h
@@ -262,4 +259,7 @@ win32/config.h
 win32/console.c
 win32/dirent.h
 win32/termcap.c
+xs/GnuWin32.xs
+xs/ppport.h
+xs/typemap
 xt/release.t

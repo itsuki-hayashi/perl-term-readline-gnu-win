@@ -23,13 +23,15 @@ WriteMakefile(
     BUILD_REQUIRES => {'ExtUtils::MakeMaker'=>7.78, 'Digest::SHA'=>0, 'JSON::PP'=>0},
     TEST_REQUIRES => {'Test::More'=>1.302, 'File::Temp'=>0},
     PREREQ_PM => {'Term::ReadLine'=>1.17, 'Win32'=>0},
-    XS => {'GnuWin32.xs'=>'GnuWin32.c'},
+    XS => {'xs/GnuWin32.xs'=>'xs/GnuWin32.c'},
+    OBJECT => 'xs/GnuWin32$(OBJ_EXT)',
+    TYPEMAPS => ['xs/typemap'],
     PM => {'lib/Term/ReadLine/GnuWin32.pm'=>'$(INST_LIB)/Term/ReadLine/GnuWin32.pm',
            'lib/Term/ReadLine/GnuWin32/XS.pm'=>'$(INST_LIB)/Term/ReadLine/GnuWin32/XS.pm'},
     EXE_FILES => ['script/perlsh-gnu-win32'],
-    INC => '-I"build/include"', DEFINE => '-DHAVE_STRING_H -DTRG_READLINE_VERSION=0x0803',
+    INC => '-I"xs" -I"build/include"', DEFINE => '-DHAVE_STRING_H -DTRG_READLINE_VERSION=0x0803',
     MYEXTLIB => 'build/native/readline.lib', LIBS => ['-luser32'],
-    clean => {FILES=>'build GnuWin32.c GnuWin32.def GnuWin32.exp GnuWin32.lib GnuWin32_def.old'},
+    clean => {FILES=>'build xs/*.xsc xs/*.obj xs/*.pdb GnuWin32.c GnuWin32.obj GnuWin32.def GnuWin32.exp GnuWin32.lib GnuWin32_def.old'},
     META_MERGE => {
         'meta-spec'=>{version=>2},
         provides=>{
@@ -43,7 +45,7 @@ WriteMakefile(
             repository=>{type=>'git',url=>'https://github.com/itsuki-hayashi/perl-term-readline-gnu-win.git',web=>'https://github.com/itsuki-hayashi/perl-term-readline-gnu-win'},
             bugtracker=>{web=>'https://github.com/itsuki-hayashi/perl-term-readline-gnu-win/issues'},
         },
-        no_index=>{directory=>[qw(vendor inc t xt examples script win32 patches docs)],namespace=>['Term::ReadLine::GnuWin32::Pointer']},
+        no_index=>{directory=>[qw(vendor inc t xt examples script win32 patches docs xs)],namespace=>['Term::ReadLine::GnuWin32::Pointer']},
         x_spdx_expression=>'GPL-3.0-or-later',
         x_support=>{os=>'MSWin32',client=>'Windows 11+',server=>'Windows Server 2025+ (CI)',
             architectures=>[qw(x64 arm64)],compiler=>'Visual C++ 2026 / v145+',crt=>'release shared /MD'},
@@ -62,7 +64,12 @@ sub MY::postamble {
 $(MYEXTLIB): $(NATIVE_INPUTS)
 	$(FULLPERLRUN) "inc/build-native.pl"
 
-GnuWin32$(OBJ_EXT): $(MYEXTLIB)
+xs/GnuWin32.c: xs/GnuWin32.xs
+	$(XSUBPPRUN) $(XSPROTOARG) $(XSUBPPARGS) $(XSUBPP_EXTRA_ARGS) xs/GnuWin32.xs > xs/GnuWin32.xsc
+	$(MV) xs/GnuWin32.xsc xs/GnuWin32.c
+
+xs/GnuWin32$(OBJ_EXT): xs/GnuWin32.c $(MYEXTLIB) xs/ppport.h
+	$(CCCMD) $(CCCDLFLAGS) "-I$(PERL_INC)" $(PASTHRU_DEFINE) $(DEFINE) -Fo"xs/GnuWin32$(OBJ_EXT)" -Fd"xs/GnuWin32.pdb" xs/GnuWin32.c
 
 MAKE
 }

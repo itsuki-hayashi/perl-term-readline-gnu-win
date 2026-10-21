@@ -55,7 +55,7 @@ combined work. The original grants remain applicable to the original portions.
 The new namespace, Windows-only build and packaging changes are this fork's
 work, not an upstream release. Modified files carry dated fork notices.
 
-## Devel::PPPort 3.68 (`ppport.h`)
+## Devel::PPPort 3.68 (`xs/ppport.h`)
 
 The generated portability header is retained unmodified. It credits Marcus
 Holland-Moritz, Paul Marquess and Kenneth Albanowski for the respective version

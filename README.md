@@ -118,6 +118,7 @@ Windows SDK 10.0.26100.0. All 332 tests passed with both the existing
 MSVC Perl and a fresh Perl built by the CI bootstrap. The fresh build also
 passed from a source directory containing spaces. The 24 release checks
 passed, including source-only contents, metadata, POD and vendor hashes.
+The separate `xs/` source layout passed the same 332-test suite.
 ARM64 library cross-compilation passed; native ARM64 runtime tests and
 hosted GitHub Actions runs remain pending. Optional Tk was unavailable.
 

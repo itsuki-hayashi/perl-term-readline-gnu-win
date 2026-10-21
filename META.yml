@@ -31,6 +31,7 @@ no_index:
     - win32
     - patches
     - docs
+    - xs
   namespace:
     - Term::ReadLine::GnuWin32::Pointer
 provides:

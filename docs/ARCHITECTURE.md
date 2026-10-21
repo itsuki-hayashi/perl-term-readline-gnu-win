@@ -3,7 +3,7 @@
 ## Layers
 
 1. `lib/Term/ReadLine/GnuWin32.pm` implements the backend and inherited API.
-2. `GnuWin32.xs`, `typemap`, and private `XS.pm` bind Readline. AutoSplit creates
+2. `xs/GnuWin32.xs`, `xs/typemap`, and private `XS.pm` bind Readline. AutoSplit creates
    installed AutoLoader routines; opaque classes live under `Pointer`.
 3. `win32/` handles consoles, UTF-8/scalar conversion, directory enumeration,
    Unicode filesystem calls, and a bounded VT capability table.
@@ -23,6 +23,13 @@ Readline. The make target verifies vendor hashes, creates `build/readline`,
 applies exact unified hunks, copies headers and builds native objects. The XS
 object depends on that target. Generated files remain in `build/`, `blib/`,
 or conventional MakeMaker output names.
+
+XS sources, their typemap and the bundled `ppport.h` live together in `xs/`.
+MakeMaker explicitly maps each XS source to its generated C file and uses
+`TYPEMAPS` for `xs/typemap`. Generated C, object and compiler debug files also
+live in `xs/`; Git and the release manifest exclude these disposable outputs.
+The MSVC compile rule explicitly selects the object path so the compiler
+does not leave an object file at the project root.
 
 Standard `clean`/`realclean` remove
 generated outputs without modifying the vendor baseline.

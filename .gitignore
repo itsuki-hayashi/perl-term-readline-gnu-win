@@ -42,6 +42,10 @@ Build.bat
 /Term-ReadLine-GnuWin32-*/
 /GnuWin32.c
 /GnuWin32.xsc
+/xs/GnuWin32.c
+/xs/*.xsc
+/xs/*.obj
+/xs/*.pdb
 /GnuWin32.def
 /GnuWin32_def.old
 /*.obj

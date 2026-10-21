@@ -6,6 +6,8 @@ Revision history for Term-ReadLine-GnuWin32
     - Require Windows 11, Perl 5.44, and Visual C++ 2026; target x64/ARM64.
     - Move the fork into independent GnuWin32 packages and pointer classes.
     - Build with standard MakeMaker targets and native Perl build helpers.
+    - Keep XS sources, typemaps, portability headers, and generated C/object
+      files together in xs/; omit generated files from source releases.
     - Preserve pristine Readline sources and apply verified local patches.
     - Include console, Unicode, callback, debugger, and REPL regression tests.
     - Add GPLv3-or-later project licensing and upstream component notices.
