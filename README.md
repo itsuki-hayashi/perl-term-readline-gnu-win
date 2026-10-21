@@ -118,7 +118,9 @@ Windows SDK 10.0.26100.0. All 332 tests passed with both the existing
 MSVC Perl and a fresh Perl built by the CI bootstrap. The fresh build also
 passed from a source directory containing spaces. The 24 release checks
 passed, including source-only contents, metadata, POD and vendor hashes.
-The separate `xs/` source layout passed the same 332-test suite.
+Integer-boundary regression tests bring the suite to 350 tests. The MSVC
+`/W3` build has no warnings from the bundled Readline, Windows port or XS
+sources; Perl 5.44's installed `CORE/inline.h` still emits one C4244 warning.
 ARM64 library cross-compilation passed; native ARM64 runtime tests and
 hosted GitHub Actions runs remain pending. Optional Tk was unavailable.
 
@@ -137,6 +139,13 @@ Unicode editing operates on code points with approximate cell widths;
 font-specific emoji and full grapheme-cluster layout are not guaranteed.
 Readline's globals do not provide concurrent independent sessions.
 GUI/Tk integrations need separate dependencies and validation.
+
+Readline retains its 32-bit `int` API for line indexes and counts. Sizes,
+pointer differences and Perl callback counts use native-width types until
+an API boundary. Out-of-range Perl integer arguments raise exceptions;
+native I/O requests beyond `INT_MAX` return `EOVERFLOW`. Internal Readline
+size overflow fails fast instead of truncating an index. See the
+[integer policy](docs/ARCHITECTURE.md#integer-boundaries).
 
 ## Attribution and licensing
 

@@ -23,6 +23,27 @@ static void basic_tests(void) {
   const char *emoji = "\xf0\x9f\x90\xaa";
   const char *filename = "native-\xe6\x97\xa5\xe6\x9c\xac.history";
   char *result; DIR *d; struct dirent *entry; int found = 0;
+  int fd;
+  _Static_assert(sizeof(size_t) == 8 && sizeof(ptrdiff_t) == 8,
+                 "64-bit sizes and offsets required");
+  _Static_assert(sizeof(int) == 4, "Readline int ABI must remain 32-bit");
+  assert(rl_win_size_to_int(INT_MAX) == INT_MAX);
+  assert(rl_win_diff_to_int(INT_MIN) == INT_MIN);
+  assert(rl_win_diff_to_int(INT_MAX) == INT_MAX);
+  assert(rl_win_mbresult((size_t)-1) == -1);
+  assert(rl_win_mbresult((size_t)-2) == -2);
+  assert(rl_win_mbresult(4) == 4);
+  assert(rl_win_time_to_uint(UINT_MAX) == UINT_MAX);
+  fd = rl_win_open("integer-io.tmp", _O_CREAT | _O_TRUNC | _O_RDWR | _O_BINARY,
+                   _S_IREAD | _S_IWRITE);
+  assert(fd >= 0);
+  assert(lseek(fd, (int64_t)UINT_MAX + 1, SEEK_SET) == (int64_t)UINT_MAX + 1);
+  errno = 0;
+  assert(rl_win_read(fd, encoded, (size_t)INT_MAX + 1) == -1 && errno == EOVERFLOW);
+  errno = 0;
+  assert(rl_win_write(fd, encoded, (size_t)INT_MAX + 1) == -1 && errno == EOVERFLOW);
+  assert(rl_win_ftruncate(fd, 0) == 0);
+  assert(close(fd) == 0 && unlink("integer-io.tmp") == 0);
   assert(rl_win_mbrtoc32(&cp, emoji, 4, &ps) == 4 && cp == 0x1f42a);
   assert(rl_win_mbrtoc32(&cp, emoji, 2, &ps) == (size_t)-2);
   assert(rl_win_mbrtoc32(&cp, emoji + 2, 2, &ps) == 2 && cp == 0x1f42a);

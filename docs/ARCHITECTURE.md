@@ -34,6 +34,27 @@ does not leave an object file at the project root.
 Standard `clean`/`realclean` remove
 generated outputs without modifying the vendor baseline.
 
+## Integer boundaries
+
+MSVC uses LLP64: `int` and `long` remain 32-bit, while `size_t`, `ptrdiff_t`,
+Perl IV/UV and Perl stack counts are 64-bit. The public Readline API and its
+structures retain their upstream `int` fields and callback signatures.
+Replacing those fields wholesale with 64-bit integers would change the ABI.
+
+XS uses native-width sizes/counts and checks integer and string arguments
+before narrowing them for Readline. Conversion failures raise Perl
+exceptions. The Windows descriptor wrappers keep native-width signatures,
+use 64-bit seek/truncation functions, and reject read/write counts beyond
+the CRT's `INT_MAX` limit with `EOVERFLOW` before touching the buffer.
+
+`win32/checked.h` checks the remaining internal Readline conversions,
+preserving signed pointer differences and multibyte error sentinels.
+Unrepresentable internal sizes abort with a diagnostic rather than permit
+index wraparound and memory corruption, following Readline's existing
+fatal-allocation-failure model. This does not add support for multi-gigabyte
+editable lines. Optional POSIX-only locals are declared with their features.
+The source patches live in `patches/readline/`; vendor files remain pristine.
+
 ## Console boundary
 
 Readline sees UTF-8 bytes. Native UTF-16 key events are combined into Unicode

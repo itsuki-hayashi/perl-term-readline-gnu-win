@@ -1,0 +1,1494 @@
+--- a/bind.c
++++ b/bind.c
+@@ -1,3 +1,6 @@
++/* Modified 2026-10-21 by itsuki-hayashi: checked Windows integer conversions.
++ * Modifications copyright (c) 2026 itsuki-hayashi, GPL-3.0-or-later.
++ * Original upstream notices below are retained. */
+ /* bind.c -- key binding and startup file support for the readline library. */
+ 
+ /* Copyright (C) 1987-2024 Free Software Foundation, Inc.
+@@ -965,7 +968,8 @@
+   struct stat finfo;
+   size_t file_size;
+   char *buffer;
+-  int i, file;
++  ssize_t i;
++  int file;
+ 
+   file = open (filename, O_RDONLY, 0666);
+   /* If the open is interrupted, retry once */
+@@ -980,7 +984,7 @@
+       i = errno;
+       if (file >= 0)
+ 	close (file);
+-      errno = i;
++      errno = rl_win_diff_to_int (i);
+       return ((char *)NULL);
+     }
+ 
+@@ -995,12 +999,14 @@
+ #if defined (EFBIG)
+       errno = EFBIG;
+ #else
+-      errno = i;
++      errno = rl_win_diff_to_int (i);
+ #endif
+       return ((char *)NULL);
+     }
+ 
+   /* Read the file into BUFFER. */
++  if (file_size > INT_MAX)
++    { close (file); errno = EOVERFLOW; return ((char *)NULL); }
+   buffer = (char *)xmalloc (file_size + 1);
+   i = read (file, buffer, file_size);
+   close (file);
+@@ -1258,7 +1264,7 @@
+   if (_rl_parsing_conditionalized_out)
+     return 0;
+ 
+-  llen = strlen (args);
++  llen = rl_win_size_to_int (strlen (args));
+ 
+   /* Isolate first argument. */
+   for (i = 0; args[i] && !whitespace (args[i]); i++);
+@@ -1401,7 +1407,7 @@
+       if (i > 0 && i <= llen && args[i-1] == '\0')
+         args[i-1] = ' ';
+       args[llen] = '\0';		/* just in case */
+-      for (i = vlen; whitespace (args[i]); i++)
++      for (i = rl_win_size_to_int (vlen); whitespace (args[i]); i++)
+ 	;
+       if (CMPSTART(args[i]) == 0)
+ 	{
+@@ -1786,7 +1792,7 @@
+       /* Binding macro? */
+       if (*funname == '\'' || *funname == '"')
+ 	{
+-	  j = strlen (funname);
++	  j = rl_win_size_to_int (strlen (funname));
+ 
+ 	  /* Remove the delimiting quotes from each end of FUNNAME. */
+ 	  if (j && funname[j - 1] == *funname)
+--- a/colors.c
++++ b/colors.c
+@@ -1,3 +1,6 @@
++/* Modified 2026-10-21 by itsuki-hayashi: checked Windows integer conversions.
++ * Modifications copyright (c) 2026 itsuki-hayashi, GPL-3.0-or-later.
++ * Original upstream notices below are retained. */
+ /* `dir', `vdir' and `ls' directory listing programs for GNU.
+ 
+    Modified by Chet Ramey for Readline.
+@@ -157,7 +160,10 @@
+ 
+   const char* name;
+   char *filename;
+-  struct stat astat, linkstat;
++  struct stat astat;
++#if defined (HAVE_LSTAT)
++  struct stat linkstat;
++#endif
+   mode_t mode;
+   int linkok;	/* 1 == ok, 0 == dangling symlink, -1 == missing */
+   int stat_ok;
+--- a/complete.c
++++ b/complete.c
+@@ -1,3 +1,6 @@
++/* Modified 2026-10-21 by itsuki-hayashi: checked Windows integer conversions.
++ * Modifications copyright (c) 2026 itsuki-hayashi, GPL-3.0-or-later.
++ * Original upstream notices below are retained. */
+ /* complete.c -- filename completion for readline. */
+ 
+ /* Copyright (C) 1987-2025 Free Software Foundation, Inc.
+@@ -813,7 +816,7 @@
+   size_t clen;
+   WCHAR_T wc;
+ 
+-  left = strlen (string) + 1;
++  left = rl_win_size_to_int (strlen (string) + 1);
+   memset (&ps, 0, sizeof (mbstate_t));
+ #endif
+ 
+@@ -839,7 +842,7 @@
+ 	    break;
+ 	  else
+ 	    {
+-	      pos += clen;
++	      pos = rl_win_diff_to_int ((ptrdiff_t)pos + (ptrdiff_t)(clen));
+ 	      w = WCWIDTH (wc);
+ 	      width += (w >= 0) ? w : 1;
+ 	    }
+@@ -868,7 +871,7 @@
+   int width;
+   WCHAR_T wc;
+ 
+-  print_len = strlen (to_print);
++  print_len = rl_win_size_to_int (strlen (to_print));
+   end = to_print + print_len + 1;
+   memset (&ps, 0, sizeof (mbstate_t));
+ #else
+@@ -1038,8 +1041,8 @@
+ 	  if (rl_directory_completion_hook)
+ 	    (*rl_directory_completion_hook) (&s);
+ 
+-	  slen = strlen (s);
+-	  tlen = strlen (to_print);
++	  slen = rl_win_size_to_int (strlen (s));
++	  tlen = rl_win_size_to_int (strlen (to_print));
+ 	  new_full_pathname = (char *)xmalloc (slen + tlen + 2);
+ 	  strcpy (new_full_pathname, s);
+ 	  if (s[slen - 1] == '/')
+@@ -1319,7 +1322,7 @@
+   char **temp_array;
+ 
+   /* Sort the items. */
+-  i = vector_len (matches);
++  i = rl_win_size_to_int (vector_len (matches));
+ 
+   /* Sort the array without matches[0], since we need it to
+      stay in place no matter what. */
+@@ -1443,7 +1446,7 @@
+ 	      break;
+ 	}
+ 
+-      si = MIN (si1, si2);	/* use shorter of matches of different length */
++      si = rl_win_size_to_int (MIN (si1, si2));	/* use shorter of matches of different length */
+       if (low > si)
+ 	low = si;
+     }
+@@ -1488,7 +1491,7 @@
+ 	  if (rl_sort_completion_matches)
+ 	    qsort (match_list+1, matches, sizeof(char *), (QSFUNC *)_rl_qsort_string_compare);
+ 
+-	  si = strlen (text);
++	  si = rl_win_size_to_int (strlen (text));
+ 	  lx = (si <= low) ? si : low;	/* check shorter of text and matches */
+ 	  /* Try to preserve the case of what the user typed in the presence of
+ 	     multiple matches: check each match for something that matches
+@@ -1606,7 +1609,7 @@
+       /* check again in case of /usr/src/ */
+       temp = rl_filename_completion_desired ? strrchr (t, '/') : 0;
+       common_length = temp ? fnwidth (temp) : fnwidth (t);
+-      sind = temp ? RL_STRLEN (temp) : RL_STRLEN (t);
++      sind = rl_win_size_to_int (temp ? RL_STRLEN (temp) : RL_STRLEN (t));
+       if (common_length > max || sind > max)
+ 	common_length = sind = 0;
+ 
+@@ -1621,7 +1624,7 @@
+       t = printable_part (matches[0]);
+       temp = rl_filename_completion_desired ? strrchr (t, '/') : 0;
+       common_length = temp ? fnwidth (temp) : fnwidth (t);
+-      sind = temp ? RL_STRLEN (temp+1) : RL_STRLEN (t);		/* want portion after final slash */
++      sind = rl_win_size_to_int (temp ? RL_STRLEN (temp+1) : RL_STRLEN (t));		/* want portion after final slash */
+       if (common_length > max || sind > max)
+ 	common_length = sind = 0;
+     }
+@@ -1876,7 +1879,7 @@
+   /* Now insert the match. */
+   if (replacement)
+     {
+-      rlen = strlen (replacement);
++      rlen = rl_win_size_to_int (strlen (replacement));
+       /* Don't double an opening quote character. */
+       if (qc && *qc && start && rl_line_buffer[start - 1] == *qc &&
+ 	    replacement[0] == *qc)
+@@ -1900,7 +1903,7 @@
+ 	    }
+ 	  if (start <= end || *r)
+ 	    _rl_replace_text (r, start, end);
+-	  rl_point = start + strlen (r);
++	  rl_point = rl_win_size_to_int (start + strlen (r));
+ 	}
+       else
+ 	_rl_replace_text (replacement, start, end);
+@@ -2121,7 +2124,7 @@
+   else
+     nontrivial_lcd = matches && strcmp (text, matches[0]) != 0;
+   if (what_to_do == '!' || what_to_do == '@')
+-    tlen = strlen (text);
++    tlen = rl_win_size_to_int (strlen (text));
+ 
+   if (what_to_do != '$')
+     xfree (text);
+@@ -2174,7 +2177,7 @@
+ 	insert_match (matches[0], start, matches[1] ? MULT_MATCH : SINGLE_MATCH, &quote_char);
+       else if (*matches[0])	/* what_to_do != TAB && multiple matches */
+ 	{
+-	  mlen = *matches[0] ? strlen (matches[0]) : 0;
++	  mlen = rl_win_size_to_int (*matches[0] ? strlen (matches[0]) : 0);
+ 	  if (mlen >= tlen)
+ 	    insert_match (matches[0], start, matches[1] ? MULT_MATCH : SINGLE_MATCH, &quote_char);
+ 	}
+@@ -2589,7 +2592,7 @@
+ 	  xfree (filename);
+ 	  filename = temp;
+ 	}
+-      filename_len = strlen (filename);
++      filename_len = rl_win_size_to_int (strlen (filename));
+ 
+       /* Normalize the filename if the application has set a rewrite hook. */
+       if (*filename && rl_completion_rewrite_hook)
+@@ -2599,7 +2602,7 @@
+ 	    {
+ 	      xfree (filename);
+ 	      filename = temp;
+-	      filename_len = strlen (filename);
++	      filename_len = rl_win_size_to_int (strlen (filename));
+ 	    }
+ 	}
+ 
+@@ -2619,12 +2622,12 @@
+   while (directory && (entry = readdir (directory)))
+     {
+       convfn = dentry = entry->d_name;
+-      convlen = dentlen = D_NAMLEN (entry);
++      convlen = dentlen = rl_win_size_to_int (D_NAMLEN (entry));
+ 
+       if (rl_filename_rewrite_hook)
+ 	{
+ 	  convfn = (*rl_filename_rewrite_hook) (dentry, dentlen);
+-	  convlen = (convfn == dentry) ? dentlen : strlen (convfn);
++	  convlen = rl_win_size_to_int ((convfn == dentry) ? dentlen : strlen (convfn));
+ 	}
+ 
+       /* Special case for no filename.  If the user has disabled the
+@@ -2798,7 +2801,7 @@
+ 
+       RL_UNSETSTATE(RL_STATE_COMPLETING);
+ 
+-      match_list_size = vector_len (matches);
++      match_list_size = rl_win_size_to_int (vector_len (matches));
+ 
+       /* matches[0] is lcd if match_list_size > 1, but the circular buffer
+ 	 code below should take care of it. */
+@@ -2933,7 +2936,7 @@
+ 
+       RL_UNSETSTATE(RL_STATE_COMPLETING);
+ 
+-      match_list_size = vector_len (matches);
++      match_list_size = rl_win_size_to_int (vector_len (matches));
+ 
+       if (match_list_size == 0) 
+ 	{
+@@ -2950,7 +2953,7 @@
+       if (*matches[0])
+ 	{
+ 	  insert_match (matches[0], orig_start, matches[1] ? MULT_MATCH : SINGLE_MATCH, &quote_char);
+-	  orig_end = orig_start + strlen (matches[0]);
++	  orig_end = rl_win_size_to_int (orig_start + strlen (matches[0]));
+ 	  completion_changed_buffer = STREQ (orig_text, matches[0]) == 0;
+ 	}
+ 
+--- a/display.c
++++ b/display.c
+@@ -1,3 +1,6 @@
++/* Modified 2026-10-21 by itsuki-hayashi: checked Windows integer conversions.
++ * Modifications copyright (c) 2026 itsuki-hayashi, GPL-3.0-or-later.
++ * Original upstream notices below are retained. */
+ /* display.c -- readline redisplay facility. */
+ 
+ /* Copyright (C) 1987-2025 Free Software Foundation, Inc.
+@@ -365,7 +368,7 @@
+   ms = (((pmt == rl_prompt) ^ (flags & PMT_MULTILINE)) && _rl_show_mode_in_prompt) ? prompt_modestr (&mlen) : 0;
+   if (ms)
+     {
+-      l = strlen (pmt);
++      l = rl_win_size_to_int (strlen (pmt));
+       nprompt = (char *)xmalloc (l + mlen + 1);
+       memcpy (nprompt, ms, mlen);
+       strcpy (nprompt + mlen, pmt);
+@@ -386,7 +389,7 @@
+      be longer than one screen line. */
+   if ((mb_cur_max <= 1 || rl_byte_oriented) && strchr (nprompt, RL_PROMPT_START_IGNORE) == 0)
+     {
+-      l = strlen (nprompt);
++      l = rl_win_size_to_int (strlen (nprompt));
+       if (l < (_rl_screenwidth > 0 ? _rl_screenwidth : 80))
+         {
+ 	  r = (nprompt == pmt) ? savestring (pmt) : nprompt;
+@@ -408,7 +411,7 @@
+         }
+     }
+ 
+-  l = strlen (nprompt);			/* XXX */
++  l = rl_win_size_to_int (strlen (nprompt));			/* XXX */
+   r = ret = (char *)xmalloc (l + 1);
+ 
+   /* Guess at how many screen lines the prompt will take to size the array that
+@@ -447,7 +450,7 @@
+ 	     wrapping the line. */
+ 	  if (can_add_invis)
+ 	    {
+-	      local_prompt_newlines[newlines] = r - ret;
++	      local_prompt_newlines[newlines] = rl_win_diff_to_int (r - ret);
+ 	      /* If we're adding to the number of invisible characters on the
+ 		 first line of the prompt, but we've already set the number of
+ 		 invisible characters on that line, we need to adjust the
+@@ -458,7 +461,7 @@
+ 	      lastinvis = ninvis;
+ 	    }
+ 	  if (p != (igstart + 1))
+-	    last = r - ret - 1;
++	    last = rl_win_diff_to_int (r - ret - 1);
+ 	  continue;
+ 	}
+       else
+@@ -466,7 +469,7 @@
+ #if defined (HANDLE_MULTIBYTE)
+ 	  if (mb_cur_max > 1 && rl_byte_oriented == 0)
+ 	    {
+-	      pind = p - nprompt;
++	      pind = rl_win_diff_to_int (p - nprompt);
+ 	      ind = _rl_find_next_mbchar (nprompt, pind, 1, MB_FIND_NONZERO);
+ 	      l = ind - pind;
+ 	      while (l--)
+@@ -512,13 +515,13 @@
+ #if defined (HANDLE_MULTIBYTE)
+ 		  *r = '\0';	/* need null-termination for strlen */
+ 		  if (mb_cur_max > 1 && rl_byte_oriented == 0)
+-		    new = _rl_find_prev_mbchar (ret, r - ret, MB_FIND_ANY);
++		    new = _rl_find_prev_mbchar (ret, rl_win_diff_to_int (r - ret), MB_FIND_ANY);
+ 		  else
+ #endif
+-		    new = r - ret - (physchars - bound);	/* XXX */
++		    new = rl_win_diff_to_int (r - ret - (physchars - bound));	/* XXX */
+ 		}
+ 	      else
+-	        new = r - ret;
++	        new = rl_win_diff_to_int (r - ret);
+ 	      local_prompt_newlines[++newlines] = new;
+ 	      local_prompt_invis_chars[newlines - 1] = ninvis - lastinvis;
+ 	      lastinvis = ninvis;
+@@ -631,7 +634,7 @@
+ 					       &prompt_invis_chars_first_line,
+ 					       &prompt_physical_chars);
+       local_prompt_prefix = (char *)0;
+-      local_prompt_len = local_prompt ? strlen (local_prompt) : 0;
++      local_prompt_len = rl_win_size_to_int (local_prompt ? strlen (local_prompt) : 0);
+       return (prompt_visible_length);
+     }
+   else
+@@ -653,7 +656,7 @@
+ 				       &prompt_last_invisible,
+ 				       &prompt_invis_chars_first_line,
+ 				       &prompt_physical_chars);
+-      local_prompt_len = local_prompt ? strlen (local_prompt) : 0;
++      local_prompt_len = rl_win_size_to_int (local_prompt ? strlen (local_prompt) : 0);
+       return (prompt_prefix_length);
+     }
+ }
+@@ -669,7 +672,7 @@
+ 
+   minimum_size = DEFAULT_LINE_BUFFER_SIZE;
+   if (minsize < minimum_size)
+-    minsize = minimum_size;
++    minsize = rl_win_size_to_int (minimum_size);
+   if (minsize <= _rl_screenwidth)	/* XXX - for gdb */
+     minsize = _rl_screenwidth + 1;
+   if (line_size >= minsize)
+@@ -691,7 +694,7 @@
+   memset (invisible_line + line_size, 1, delta);
+   memset (inv_face + line_size, FACE_INVALID, delta);
+ 
+-  line_size = newsize;
++  line_size = rl_win_size_to_int (newsize);
+ }
+ 
+ /* Initialize the VISIBLE_LINE and INVISIBLE_LINE arrays, and their associated
+@@ -896,7 +899,7 @@
+   if (rl_display_prompt == rl_prompt || local_prompt)
+     {
+       if (local_prompt_prefix && forced_display)
+-	_rl_output_some_chars (local_prompt_prefix, strlen (local_prompt_prefix));
++	_rl_output_some_chars (local_prompt_prefix, rl_win_size_to_int (strlen (local_prompt_prefix)));
+ 
+       if (local_prompt_len > 0)
+ 	invis_adds (&out, local_prompt, local_prompt_len, cur_face);
+@@ -912,7 +915,7 @@
+       else
+ 	{
+ 	  prompt_this_line++;
+-	  pmtlen = prompt_this_line - rl_display_prompt;	/* temp var */
++	  pmtlen = rl_win_diff_to_int (prompt_this_line - rl_display_prompt);	/* temp var */
+ 	  if (forced_display)
+ 	    {
+ 	      _rl_output_some_chars (rl_display_prompt, pmtlen);
+@@ -923,7 +926,7 @@
+ 	    }
+ 	}
+ 
+-      prompt_physical_chars = pmtlen = strlen (prompt_this_line);	/* XXX */
++      prompt_physical_chars = pmtlen = rl_win_size_to_int (strlen (prompt_this_line));	/* XXX */
+       invis_adds (&out, prompt_this_line, pmtlen, cur_face);
+       invis_nul (&out);
+       wrap_offset = prompt_invis_chars_first_line = 0;
+@@ -1226,7 +1229,7 @@
+ #if defined (HANDLE_MULTIBYTE)
+       if (mb_cur_max > 1 && rl_byte_oriented == 0)
+ 	{
+-	  in += wc_bytes;
++	  in = rl_win_diff_to_int ((ptrdiff_t)in + (ptrdiff_t)(wc_bytes));
+ 	  if (_rl_utf8locale && UTF8_SINGLEBYTE(rl_line_buffer[in]))
+ 	    {
+ 	      wc = (WCHAR_T)rl_line_buffer[in];
+@@ -1461,7 +1464,7 @@
+ 		  _rl_move_vert (linenum);
+ 		  _rl_move_cursor_relative (0, tt, VIS_FACE(linenum));
+ 		  _rl_clear_to_eol
+-		    ((linenum == _rl_vis_botlin) ? strlen (tt) : _rl_screenwidth);
++		    ((linenum == _rl_vis_botlin) ? rl_win_size_to_int (strlen (tt)) : _rl_screenwidth);
+ 		}
+ 	    }
+ 	  _rl_vis_botlin = (short_circuit >= 0) ? short_circuit : inv_botlin;
+@@ -1824,7 +1827,7 @@
+ 	  /* 1. how many screen positions does first char in old consume? */
+ 	  memset (&ps, 0, sizeof (mbstate_t));
+ 	  ret = MBRTOWC (&wc, old, mb_cur_max, &ps);
+-	  oldbytes = ret;
++	  oldbytes = rl_win_mbresult (ret);
+ 	  if (MB_INVALIDCH (ret))
+ 	    {
+ 	      oldwidth = 1;
+@@ -1840,7 +1843,7 @@
+ 	  /* 2. how many screen positions does the first char in new consume? */
+ 	  memset (&ps, 0, sizeof (mbstate_t));
+ 	  ret = MBRTOWC (&wc, new, mb_cur_max, &ps);
+-	  newbytes = ret;
++	  newbytes = rl_win_mbresult (ret);
+ 	  if (MB_INVALIDCH (ret))
+ 	    {
+ 	      newwidth = 1;
+@@ -1872,7 +1875,7 @@
+ 		{
+ 		  t = WCWIDTH (wc);
+ 		  newwidth += (t >= 0) ? t : 1;
+-		  newbytes += ret;
++		  newbytes = rl_win_diff_to_int ((ptrdiff_t)newbytes + (ptrdiff_t)(ret));
+ 		}
+ 	    }
+ 	  /* 4. If the new width is more than the old width, keep going in old
+@@ -1894,7 +1897,7 @@
+ 		{
+ 		  t = WCWIDTH (wc);
+ 		  oldwidth += (t >= 0) ? t : 1;
+-		  oldbytes += ret;
++		  oldbytes = rl_win_diff_to_int ((ptrdiff_t)oldbytes + (ptrdiff_t)(ret));
+ 		}
+ 	    }
+ 	  /* 5. write the first newbytes of new, which takes newwidth.  This is
+@@ -1991,7 +1994,7 @@
+       od = nd = 0;
+       _rl_move_cursor_relative (0, old, old_face);
+ 
+-      bytes_to_insert = ne - nfd;
++      bytes_to_insert = rl_win_diff_to_int (ne - nfd);
+       if (bytes_to_insert < local_prompt_len)	/* ??? */
+ 	goto dumb_update;
+ 
+@@ -2007,7 +2010,7 @@
+ 	{
+ 	  puts_face (new+local_prompt_len, nfdf+local_prompt_len, bytes_to_insert);
+ 	  if (mb_cur_max > 1 && rl_byte_oriented)
+-	    _rl_last_c_pos += _rl_col_width (new, local_prompt_len, ne-new, 1);
++	    _rl_last_c_pos += _rl_col_width (new, local_prompt_len, rl_win_diff_to_int (ne-new), 1);
+ 	  else
+ 	    _rl_last_c_pos += bytes_to_insert;
+ 	}
+@@ -2085,8 +2088,8 @@
+   /* Move to the end of the screen line.  ND and OD are used to keep track
+      of the distance between ne and new and oe and old, respectively, to
+      move a subtraction out of each loop. */
+-  for (od = ofd - old, oe = ofd; od < omax && *oe; oe++, od++);
+-  for (nd = nfd - new, ne = nfd; nd < nmax && *ne; ne++, nd++);
++  for (od = rl_win_diff_to_int (ofd - old), oe = ofd; od < omax && *oe; oe++, od++);
++  for (nd = rl_win_diff_to_int (nfd - new), ne = nfd; nd < nmax && *ne; ne++, nd++);
+ 
+   /* If no difference, continue to next line. */
+   if (ofd == oe && nfd == ne)
+@@ -2102,15 +2105,15 @@
+       /* If the first character in the difference is a zero-width character,
+ 	 assume it's a combining character and back one up so the two base
+ 	 characters no longer compare equivalently. */
+-      t = MBRTOWC (&wc, ofd, mb_cur_max, &ps);
++      t = rl_win_mbresult (MBRTOWC (&wc, ofd, mb_cur_max, &ps));
+ #if 0
+       if (t > 0 && UNICODE_COMBINING_CHAR (wc) && WCWIDTH (wc) == 0)
+ #else
+       if (t > 0 && IS_COMBINING_CHAR (wc))
+ #endif
+ 	{
+-	  old_offset = _rl_find_prev_mbchar (old, ofd - old, MB_FIND_ANY);
+-	  new_offset = _rl_find_prev_mbchar (new, nfd - new, MB_FIND_ANY);
++	  old_offset = _rl_find_prev_mbchar (old, rl_win_diff_to_int (ofd - old), MB_FIND_ANY);
++	  new_offset = _rl_find_prev_mbchar (new, rl_win_diff_to_int (nfd - new), MB_FIND_ANY);
+ 	  ofd = old + old_offset;	/* equal by definition */
+ 	  ofdf = old_face + old_offset;
+ 	  nfd = new + new_offset;
+@@ -2128,9 +2131,9 @@
+      the line. */
+   if (mb_cur_max > 1 && rl_byte_oriented == 0)
+     {
+-      ols = old + _rl_find_prev_mbchar (old, oe - old, MB_FIND_ANY);
++      ols = old + _rl_find_prev_mbchar (old, rl_win_diff_to_int (oe - old), MB_FIND_ANY);
+       olsf = old_face + (ols - old);
+-      nls = new + _rl_find_prev_mbchar (new, ne - new, MB_FIND_ANY);
++      nls = new + _rl_find_prev_mbchar (new, rl_win_diff_to_int (ne - new), MB_FIND_ANY);
+       nlsf = new_face + (nls - new);
+ 
+       while ((ols > ofd) && (nls > nfd))
+@@ -2138,16 +2141,16 @@
+ 	  memset (&ps_old, 0, sizeof (mbstate_t));
+ 	  memset (&ps_new, 0, sizeof (mbstate_t));
+ 
+-	  if (_rl_compare_chars (old, ols - old, &ps_old, new, nls - new, &ps_new) == 0 ||
++	  if (_rl_compare_chars (old, rl_win_diff_to_int (ols - old), &ps_old, new, rl_win_diff_to_int (nls - new), &ps_new) == 0 ||
+ 		*olsf != *nlsf)
+ 	    break;
+ 
+ 	  if (*ols != ' ')
+ 	    wsatend = 0;
+ 
+-	  ols = old + _rl_find_prev_mbchar (old, ols - old, MB_FIND_ANY);
++	  ols = old + _rl_find_prev_mbchar (old, rl_win_diff_to_int (ols - old), MB_FIND_ANY);
+ 	  olsf = old_face + (ols - old);
+-	  nls = new + _rl_find_prev_mbchar (new, nls - new, MB_FIND_ANY);
++	  nls = new + _rl_find_prev_mbchar (new, rl_win_diff_to_int (nls - new), MB_FIND_ANY);
+ 	  nlsf = new_face + (nls - new);
+ 	}
+     }
+@@ -2188,14 +2191,14 @@
+       if (*ols)			/* don't step past the NUL */
+ 	{
+ 	  if (mb_cur_max > 1 && rl_byte_oriented == 0)
+-	    ols = old + _rl_find_next_mbchar (old, ols - old, 1, MB_FIND_ANY);
++	    ols = old + _rl_find_next_mbchar (old, rl_win_diff_to_int (ols - old), 1, MB_FIND_ANY);
+ 	  else
+ 	    ols++;
+ 	}
+       if (*nls)
+ 	{
+ 	  if (mb_cur_max > 1 && rl_byte_oriented == 0)
+-	    nls = new + _rl_find_next_mbchar (new, nls - new, 1, MB_FIND_ANY);
++	    nls = new + _rl_find_next_mbchar (new, rl_win_diff_to_int (nls - new), 1, MB_FIND_ANY);
+ 	  else
+ 	    nls++;
+ 	}
+@@ -2263,8 +2266,8 @@
+   lendiff = local_prompt_len;
+   if (lendiff > nmax)
+     lendiff = nmax;
+-  od = ofd - old;	/* index of first difference in visible line */
+-  nd = nfd - new;	/* nd, od are buffer indexes */
++  od = rl_win_diff_to_int (ofd - old);	/* index of first difference in visible line */
++  nd = rl_win_diff_to_int (nfd - new);	/* nd, od are buffer indexes */
+   if (current_line == 0 && !_rl_horizontal_scroll_mode &&
+       _rl_term_cr && lendiff > prompt_visible_length && _rl_last_c_pos > 0 &&
+       (((od > 0 || nd > 0) && (od <= prompt_last_invisible || nd <= prompt_last_invisible)) ||
+@@ -2315,13 +2318,13 @@
+ 
+ 	  /* Do a dumb update and return */
+ dumb_update:
+-	  temp = ne - nfd;
++	  temp = rl_win_diff_to_int (ne - nfd);
+ 	  if (temp > 0)
+ 	    {
+ 	      puts_face (nfd, nfdf, temp);
+ 	      if (mb_cur_max > 1 && rl_byte_oriented == 0)
+ 		{
+-		  _rl_last_c_pos += _rl_col_width (new, nd, ne - new, 1);
++		  _rl_last_c_pos += _rl_col_width (new, nd, rl_win_diff_to_int (ne - new), 1);
+ 		  /* Need to adjust here based on wrap_offset. Guess that if
+ 		     this is the line containing the last line of the prompt
+ 		     we need to adjust by
+@@ -2402,14 +2405,14 @@
+      lendiff == difference in buffer (bytes)
+      col_lendiff == difference on screen (columns)
+      When not using multibyte characters, these are equal */
+-  lendiff = (nls - nfd) - (ols - ofd);
++  lendiff = rl_win_diff_to_int ((nls - nfd) - (ols - ofd));
+   if (mb_cur_max > 1 && rl_byte_oriented == 0)
+     {
+       int newchars, newwidth, newind;
+       int oldchars, oldwidth, oldind;
+ 
+-      newchars = nls - new;
+-      oldchars = ols - old;
++      newchars = rl_win_diff_to_int (nls - new);
++      oldchars = rl_win_diff_to_int (ols - old);
+ 
+       /* If we can do it, try to adjust nls and ols so that nls-new will
+ 	 contain the entire new prompt string. That way we can use
+@@ -2442,17 +2445,17 @@
+ #endif
+ 	    }
+ 	  newwidth = (newchars == local_prompt_len) ? prompt_physical_chars + wrap_offset
+-	  					    : _rl_col_width (new, 0, nls - new, 1);
++	  					    : _rl_col_width (new, 0, rl_win_diff_to_int (nls - new), 1);
+ 	  /* if we changed nls and ols, we need to recompute lendiff */
+-	  lendiff = (nls - nfd) - (ols - ofd);
++	  lendiff = rl_win_diff_to_int ((nls - nfd) - (ols - ofd));
+ 
+ 	  nlsf = new_face + (nls - new);
+ 	  olsf = old_face + (ols - old);
+ 	}
+       else
+-	newwidth = _rl_col_width (new, nfd - new, nls - new, 1);
+-
+-      oldwidth = _rl_col_width (old, ofd - old, ols - old, 1);
++	newwidth = _rl_col_width (new, rl_win_diff_to_int (nfd - new), rl_win_diff_to_int (nls - new), 1);
++
++      oldwidth = _rl_col_width (old, rl_win_diff_to_int (ofd - old), rl_win_diff_to_int (ols - old), 1);
+ 
+       col_lendiff = newwidth - oldwidth;
+     }
+@@ -2492,14 +2495,14 @@
+      screen columns.  A `dumb' update moves to the spot of first difference
+      and writes TEMP bytes. */
+   /* Insert (diff (len (old), len (new)) ch. */
+-  temp = ne - nfd;
++  temp = rl_win_diff_to_int (ne - nfd);
+   if (mb_cur_max > 1 && rl_byte_oriented == 0)
+-    col_temp = _rl_col_width (new, nfd - new, ne - new, 1);
++    col_temp = _rl_col_width (new, rl_win_diff_to_int (nfd - new), rl_win_diff_to_int (ne - new), 1);
+   else
+     col_temp = temp;
+ 
+   /* how many bytes from the new line buffer to write to the display */
+-  bytes_to_insert = nls - nfd;
++  bytes_to_insert = rl_win_diff_to_int (nls - nfd);
+ 
+   /* col_lendiff > 0 if we are adding characters to the line */
+   if (col_lendiff > 0)	/* XXX - was lendiff */
+@@ -2690,7 +2693,7 @@
+ 		 so we move there with _rl_move_cursor_relative */
+ 	      if (_rl_horizontal_scroll_mode && ((oe-old) > (ne-new)))
+ 		{
+-		  _rl_move_cursor_relative (ne-new, new, new_face);
++		  _rl_move_cursor_relative (rl_win_diff_to_int (ne-new), new, new_face);
+ 		  goto clear_rest_of_line;
+ 		}
+ 	    }
+@@ -2716,9 +2719,9 @@
+ 		}
+ 	    }
+ clear_rest_of_line:
+-	  lendiff = (oe - old) - (ne - new);
++	  lendiff = rl_win_diff_to_int ((oe - old) - (ne - new));
+ 	  if (mb_cur_max > 1 && rl_byte_oriented == 0)
+-	    col_lendiff = _rl_col_width (old, 0, oe - old, 1) - _rl_col_width (new, 0, ne - new, 1);
++	    col_lendiff = _rl_col_width (old, 0, rl_win_diff_to_int (oe - old), 1) - _rl_col_width (new, 0, rl_win_diff_to_int (ne - new), 1);
+ 	  else
+ 	    col_lendiff = lendiff;
+ 
+@@ -2791,7 +2794,7 @@
+ 
+   /* Initialize visible_line and invisible_line to ensure that they can hold
+      the already-displayed prompt. */
+-  prompt_size = strlen (rl_prompt) + 1;
++  prompt_size = rl_win_size_to_int (strlen (rl_prompt) + 1);
+   init_line_structures (prompt_size);
+ 
+   /* Make sure the line structures hold the already-displayed prompt for
+@@ -2805,7 +2808,7 @@
+   if (!prompt_last_line)
+     prompt_last_line = rl_prompt;
+ 
+-  l = strlen (prompt_last_line);
++  l = rl_win_size_to_int (strlen (prompt_last_line));
+   if (MB_CUR_MAX > 1 && rl_byte_oriented == 0)
+     _rl_last_c_pos = _rl_col_width (prompt_last_line, 0, l, 1);	/* XXX */
+   else
+@@ -2924,7 +2927,7 @@
+ 	 offset of DATA in invisible_line */
+       in_invisline = 0;
+       if (data > invisible_line && _rl_inv_botlin < inv_lbsize && data < invisible_line+inv_lbreaks[_rl_inv_botlin+1])
+-	in_invisline = data - invisible_line;
++	in_invisline = rl_win_diff_to_int (data - invisible_line);
+ 
+       /* Use NEW when comparing against the last invisible character in the
+ 	 prompt string, since they're both buffer indices and DPOS is a
+@@ -3175,7 +3178,7 @@
+ 					    &prompt_invis_chars_first_line,
+ 					    &prompt_physical_chars);
+   local_prompt_prefix = (char *)NULL;
+-  local_prompt_len = local_prompt ? strlen (local_prompt) : 0;
++  local_prompt_len = rl_win_size_to_int (local_prompt ? strlen (local_prompt) : 0);
+   (*rl_redisplay_function) ();
+ 
+   return 0;
+@@ -3274,7 +3277,7 @@
+   p = rl_prompt ? strrchr (rl_prompt, '\n') : 0;
+   if (p == 0)
+     {
+-      len = (rl_prompt && *rl_prompt) ? strlen (rl_prompt) : 0;
++      len = rl_win_size_to_int ((rl_prompt && *rl_prompt) ? strlen (rl_prompt) : 0);
+       pmt = (char *)xmalloc (len + 2);
+       if (len)
+ 	strcpy (pmt, rl_prompt);
+@@ -3284,7 +3287,7 @@
+   else
+     {
+       p++;
+-      len = strlen (p);
++      len = rl_win_size_to_int (strlen (p));
+       pmt = (char *)xmalloc (len + 2);
+       if (len)
+ 	strcpy (pmt, p);
+@@ -3498,7 +3501,7 @@
+ 				   &prompt_invis_chars_first_line,
+ 				   &prompt_physical_chars);
+   local_prompt_prefix = (char *)NULL;
+-  local_prompt_len = local_prompt ? strlen (local_prompt) : 0;
++  local_prompt_len = rl_win_size_to_int (local_prompt ? strlen (local_prompt) : 0);
+ 
+   rl_forced_update_display ();
+ 
+@@ -3638,7 +3641,7 @@
+ 	  tmp = 1;
+ 	}
+       else
+-	tmp = mbrlen (str + point, max, &ps);
++	tmp = rl_win_mbresult (mbrlen (str + point, max, &ps));
+       if (MB_INVALIDCH ((size_t)tmp))
+ 	{
+ 	  /* In this case, the bytes are invalid or too short to compose a
+@@ -3673,7 +3676,7 @@
+ 	  wc = (WCHAR_T) str[point];
+ 	}
+       else
+-	tmp = MBRTOWC (&wc, str + point, max, &ps);
++	tmp = rl_win_mbresult (MBRTOWC (&wc, str + point, max, &ps));
+       if (MB_INVALIDCH ((size_t)tmp))
+ 	{
+ 	  /* In this case, the bytes are invalid or too short to compose a
+--- a/histexpand.c
++++ b/histexpand.c
+@@ -1,3 +1,6 @@
++/* Modified 2026-10-21 by itsuki-hayashi: checked Windows integer conversions.
++ * Modifications copyright (c) 2026 itsuki-hayashi, GPL-3.0-or-later.
++ * Original upstream notices below are retained. */
+ /* histexpand.c -- history expansion. */
+ 
+ /* Copyright (C) 1989-2021,2023-2025 Free Software Foundation, Inc.
+@@ -716,7 +719,7 @@
+ 		    if (search_string && *search_string)
+ 		      {
+ 			subst_lhs = savestring (search_string);
+-			subst_lhs_len = strlen (subst_lhs);
++			subst_lhs_len = rl_win_size_to_int (strlen (subst_lhs));
+ 		      }
+ 		    else
+ 		      {
+@@ -745,7 +748,7 @@
+ 		return -1;
+ 	      }
+ 
+-	    l_temp = strlen (temp);
++	    l_temp = rl_win_size_to_int (strlen (temp));
+ 	    /* Ignore impossible cases. */
+ 	    if (subst_lhs_len > l_temp)
+ 	      {
+@@ -802,14 +805,14 @@
+ 			   other match when matching a single character.  Was
+ 			   si += subst_rhs_len previously. */
+ 			si += subst_rhs_len - 1;
+-			l_temp = strlen (temp);
++			l_temp = rl_win_size_to_int (strlen (temp));
+ 			substitute_globally++;
+ 			continue;
+ 		      }
+ 		    else if (subst_bywords)
+ 		      {
+ 			si = we;
+-			l_temp = strlen (temp);
++			l_temp = rl_win_size_to_int (strlen (temp));
+ 			continue;
+ 		      }
+ 		    else
+@@ -853,7 +856,7 @@
+       temp = x;
+     }
+ 
+-  n = strlen (temp);
++  n = rl_win_size_to_int (strlen (temp));
+   if (n >= result_len)
+     result = (char *)xrealloc (result, n + 2);
+   strcpy (result, temp);
+@@ -880,8 +883,8 @@
+ #define ADD_STRING(s) \
+ 	do \
+ 	  { \
+-	    size_t sl = strlen (s); \
+-	    j += sl; \
++	    int sl = rl_win_size_to_int (strlen (s)); \
++	    j = rl_win_diff_to_int ((ptrdiff_t)j + sl); \
+ 	    if (j >= result_len) \
+ 	      { \
+ 		while (j >= result_len) \
+@@ -984,7 +987,7 @@
+ 	  if (string[i])
+ 	    i++;
+ 	  if (i >= l)
+-	    i = l;
++	    i = rl_win_size_to_int (l);
+ 	}
+ 
+       for ( ; string[i]; i++)
+@@ -1057,7 +1060,7 @@
+ 	      hist_string_extract_single_quoted (string, &i, flag);
+ 	      if (i >= l)
+ 		{
+-		  i = l;
++		  i = rl_win_size_to_int (l);
+ 		  break;
+ 		}
+ 	    }
+@@ -1201,7 +1204,7 @@
+ 	      strcpy (temp, string + i);
+ 	      ADD_STRING (temp);
+ 	      xfree (temp);
+-	      i = l;
++	      i = rl_win_size_to_int (l);
+ 	    }
+ 	  else
+ 	    ADD_CHAR (string[i]);
+--- a/histfile.c
++++ b/histfile.c
+@@ -191,9 +191,12 @@
+ history_backupfile (const char *filename)
+ {
+   const char *fn;
+-  char *ret, linkbuf[PATH_MAX+1];
++  char *ret;
++#if defined (HAVE_READLINK)
++  char linkbuf[PATH_MAX+1];
++  ssize_t n;
++#endif
+   size_t len;
+-  ssize_t n;
+ 
+   fn = filename;  
+ #if defined (HAVE_READLINK)
+@@ -219,9 +222,12 @@
+ history_tempfile (const char *filename)
+ {
+   const char *fn;
+-  char *ret, linkbuf[PATH_MAX+1];
++  char *ret;
++#if defined (HAVE_READLINK)
++  char linkbuf[PATH_MAX+1];
++  ssize_t n;
++#endif
+   size_t len;
+-  ssize_t n;
+   int pid;
+ 
+   fn = filename;  
+@@ -272,7 +278,8 @@
+ {
+   register char *line_start, *line_end, *p;
+   char *input, *buffer, *bufend, *last_ts;
+-  int file, current_line, chars_read, has_timestamps, reset_comment_char;
++  ssize_t chars_read;
++  int file, current_line, has_timestamps, reset_comment_char;
+   int skipblanks, default_skipblanks;
+   struct stat finfo;
+   size_t file_size;
+@@ -311,7 +318,7 @@
+       file_size = (size_t)finfo.st_size;
+ 
+       /* check for overflow on very large files */
+-      if (file_size != finfo.st_size || file_size + 1 < file_size)
++      if (file_size != finfo.st_size || file_size + 1 < file_size || file_size > INT_MAX)
+ 	{
+ 	  errno = overflow_errno;
+ 	  goto error_and_exit;
+@@ -360,14 +367,14 @@
+       FREE (buffer);
+ #endif
+ 
+-      return (chars_read);
++      return (rl_win_diff_to_int (chars_read));
+     }
+ 
+   close (file);
+ 
+   /* Set TO to larger than end of file if negative. */
+   if (to < 0)
+-    to = chars_read;
++    to = rl_win_diff_to_int (chars_read);
+ 
+   /* Start at beginning of file, work to end. */
+   bufend = buffer + chars_read;
+@@ -546,7 +553,11 @@
+ history_truncate_file (const char *fname, int lines)
+ {
+   char *buffer, *filename, *tempname, *bp, *bp1;		/* bp1 == bp+1 */
+-  int file, chars_read, rv, orig_lines, exists, r;
++  ssize_t chars_read;
++  int file, rv, orig_lines, exists;
++#if defined (HAVE_CHOWN)
++  int r;
++#endif
+   struct stat finfo, nfinfo;
+   size_t file_size;
+ 
+@@ -589,7 +600,7 @@
+   file_size = (size_t)finfo.st_size;
+ 
+   /* check for overflow on very large files */
+-  if (file_size != finfo.st_size || file_size + 1 < file_size)
++  if (file_size != finfo.st_size || file_size + 1 < file_size || file_size > INT_MAX)
+     {
+       close (file);
+ #if defined (EFBIG)
+--- a/history.c
++++ b/history.c
+@@ -1,3 +1,6 @@
++/* Modified 2026-10-21 by itsuki-hayashi: checked Windows integer conversions.
++ * Modifications copyright (c) 2026 itsuki-hayashi, GPL-3.0-or-later.
++ * Original upstream notices below are retained. */
+ /* history.c -- standalone history library */
+ 
+ /* Copyright (C) 1989-2025 Free Software Foundation, Inc.
+@@ -205,7 +208,7 @@
+   int i, result;
+ 
+   for (i = result = 0; the_history && the_history[i]; i++)
+-    result += HISTENT_BYTES (the_history[i]);
++    result = rl_win_diff_to_int ((ptrdiff_t)result + (ptrdiff_t)(HISTENT_BYTES (the_history[i])));
+ 
+   return (result);
+ }
+--- a/histsearch.c
++++ b/histsearch.c
+@@ -1,3 +1,6 @@
++/* Modified 2026-10-21 by itsuki-hayashi: checked Windows integer conversions.
++ * Modifications copyright (c) 2026 itsuki-hayashi, GPL-3.0-or-later.
++ * Original upstream notices below are retained. */
+ /* histsearch.c -- searching the history list. */
+ 
+ /* Copyright (C) 1989, 1992-2009,2017,2021-2024 Free Software Foundation, Inc.
+@@ -116,7 +119,7 @@
+ 	return (-1);
+ 
+       line = the_history[i]->line;
+-      line_len = line_index = strlen (line);
++      line_len = line_index = rl_win_size_to_int (strlen (line));
+ 
+       /* If STRING is longer than line, no match. */
+       if (patsearch == 0 && (string_len > line_index))
+@@ -164,7 +167,7 @@
+ 	  size_t ll;
+ 
+ 	  ll = (patsearch == 0) ? string_len : 1;
+-	  line_index -= ll;
++	  line_index = rl_win_diff_to_int ((ptrdiff_t)line_index - (ptrdiff_t)(ll));
+ 	  found = 0;
+ 
+ 	  while (line_index >= 0)
+@@ -203,7 +206,7 @@
+ 	  size_t ll;
+ 
+ 	  ll = line_len;
+-	  limit = line_index - string_len + 1;
++	  limit = rl_win_diff_to_int ((ptrdiff_t)line_index - (ptrdiff_t)string_len + 1);
+ 	  line_index = 0;
+ 	  found = 0;
+ 
+@@ -244,11 +247,12 @@
+ int
+ _hs_history_patsearch (const char *string, int listdir, int linedir, int flags)
+ {
++
++#if defined (HAVE_FNMATCH)
+   char *pat;
+   size_t len, start;
+   int ret, unescaped_backslash;
+ 
+-#if defined (HAVE_FNMATCH)
+   /* Assume that the string passed does not have a leading `^' and any
+      anchored search request is captured in FLAGS */
+   len = strlen (string);
+@@ -287,15 +291,15 @@
+       pat[len] = '*';		/* XXX */
+       pat[len+1] = '\0';
+     }
+-#else
+-  pat = string;
+-#endif
+ 
+   ret = history_search_internal (pat, listdir, linedir, flags|PATTERN_SEARCH);
+ 
+   if (pat != string)
+     xfree (pat);
+   return ret;
++#else
++  return history_search_internal (string, listdir, linedir, flags|PATTERN_SEARCH);
++#endif
+ }
+ 	
+ /* Do a non-anchored search for STRING through the history list in direction
+--- a/input.c
++++ b/input.c
+@@ -441,7 +441,10 @@
+ int
+ _rl_nchars_available ()
+ {
+-  int chars_avail, fd, result;
++  int chars_avail;
++#if defined (FIONREAD)
++  int fd, result;
++#endif
+   
+   chars_avail = 0;
+      
+@@ -621,7 +624,7 @@
+       return -1;
+     }
+ 
+-  secs = timeout_duration.tv_sec;
++  secs = rl_win_time_to_uint (timeout_duration.tv_sec);
+   usecs = timeout_duration.tv_usec;
+ 
+ #if defined (RL_TIMEOUT_USE_SIGALRM)
+@@ -672,7 +675,7 @@
+ 
+   if (secs && usecs)
+     {
+-      *secs = timeout_point.tv_sec - current_time.tv_sec;
++      *secs = rl_win_time_to_uint (timeout_point.tv_sec - current_time.tv_sec);
+       *usecs = timeout_point.tv_usec - current_time.tv_usec;
+       if (timeout_point.tv_usec < current_time.tv_usec)
+ 	{
+@@ -892,7 +895,7 @@
+         _rl_timeout_handle ();		/* check the timeout */
+ #endif
+       if (result >= 0)
+-	result = read (fd, &c, sizeof (unsigned char));
++	result = rl_win_diff_to_int (read (fd, &c, sizeof (unsigned char)));
+ 
+       if (result == sizeof (unsigned char))
+ 	return (c);
+--- a/isearch.c
++++ b/isearch.c
+@@ -1,3 +1,6 @@
++/* Modified 2026-10-21 by itsuki-hayashi: checked Windows integer conversions.
++ * Modifications copyright (c) 2026 itsuki-hayashi, GPL-3.0-or-later.
++ * Original upstream notices below are retained. */
+ /* isearch.c - incremental searching */
+ 
+ /* **************************************************************** */
+@@ -254,7 +257,7 @@
+   cxt->direction = (direction >= 0) ? 1 : -1;
+ 
+   cxt->sline = rl_line_buffer;
+-  cxt->sline_len = strlen (cxt->sline);
++  cxt->sline_len = rl_win_size_to_int (strlen (cxt->sline));
+   cxt->sline_index = rl_point;
+ 
+   _rl_iscxt = cxt;		/* save globally */
+@@ -294,7 +297,7 @@
+       if (cxt->last_found_line == cxt->save_line)
+ 	cxt->sline_index = cxt->save_point;
+       else
+-	cxt->sline_index = strlen (rl_line_buffer);
++	cxt->sline_index = rl_win_size_to_int (strlen (rl_line_buffer));
+       rl_mark = cxt->save_mark;
+       rl_deactivate_mark ();
+     }
+@@ -709,11 +712,11 @@
+ 	rl_activate_mark ();
+       if (cxt->search_string_index + pastelen + 1 >= cxt->search_string_size)
+ 	{
+-	  cxt->search_string_size += pastelen + 2;
++	  cxt->search_string_size = rl_win_diff_to_int ((ptrdiff_t)cxt->search_string_size + (ptrdiff_t)(pastelen + 2));
+ 	  cxt->search_string = (char *)xrealloc (cxt->search_string, cxt->search_string_size);
+ 	}
+       memcpy (cxt->search_string + cxt->search_string_index, paste, pastelen);
+-      cxt->search_string_index += pastelen;
++      cxt->search_string_index = rl_win_diff_to_int ((ptrdiff_t)cxt->search_string_index + (ptrdiff_t)(pastelen));
+       cxt->search_string[cxt->search_string_index] = '\0';
+       xfree (paste);
+       break;
+@@ -743,7 +746,7 @@
+     default:
+ #if defined (HANDLE_MULTIBYTE)
+       if (MB_CUR_MAX > 1 && rl_byte_oriented == 0)
+-	wlen = (cxt->mb[0] == 0 || cxt->mb[1] == 0) ? 1 : RL_STRLEN (cxt->mb);
++	wlen = rl_win_size_to_int ((cxt->mb[0] == 0 || cxt->mb[1] == 0) ? 1 : RL_STRLEN (cxt->mb));
+       else
+ #endif
+       wlen = 1;
+@@ -837,7 +840,7 @@
+ 
+ 	  /* We will need these later. */
+ 	  cxt->sline = cxt->lines[cxt->history_pos];
+-	  cxt->sline_len = strlen (cxt->sline);
++	  cxt->sline_len = rl_win_size_to_int (strlen (cxt->sline));
+ 	}
+       while ((cxt->prev_line_found && STREQ (cxt->prev_line_found, cxt->lines[cxt->history_pos])) ||
+ 	     (cxt->search_string_index > cxt->sline_len));
+--- a/kill.c
++++ b/kill.c
+@@ -538,7 +538,7 @@
+       return 1;
+     }
+ 
+-  l = strlen (rl_kill_ring[rl_kill_index]);
++  l = rl_win_size_to_int (strlen (rl_kill_ring[rl_kill_index]));
+   n = rl_point - l;
+   if (n >= 0 && STREQN (rl_line_buffer + n, rl_kill_ring[rl_kill_index], l))
+     {
+@@ -570,7 +570,7 @@
+       return 1;
+     }
+ 
+-  l = strlen (rl_kill_ring[rl_kill_index]);
++  l = rl_win_size_to_int (strlen (rl_kill_ring[rl_kill_index]));
+ #if 1
+   origpoint = rl_point;
+   n = rl_point - l + 1;
+@@ -885,7 +885,7 @@
+       ptr = strchr (data, '\r');
+       if (ptr)
+ 	{
+-	  len = ptr - data;
++	  len = rl_win_diff_to_int (ptr - data);
+ 	  ptr = (char *)xmalloc (len + 1);
+ 	  ptr[len] = '\0';
+ 	  strncpy (ptr, data, len);
+--- a/mbutil.c
++++ b/mbutil.c
+@@ -258,7 +258,7 @@
+       else
+ 	{
+ 	  /* valid bytes */
+-	  point += tmp;
++	  point = rl_win_diff_to_int ((ptrdiff_t)point + (ptrdiff_t)(tmp));
+ 	  if (find_non_zero)
+ 	    {
+ 	      if (WCWIDTH (wc) == 0)
+@@ -277,7 +277,7 @@
+       tmp = MBRTOWC (&wc, string + point, len, &ps);
+       while (MB_NULLWCH (tmp) == 0 && MB_INVALIDCH (tmp) == 0 && WCWIDTH (wc) == 0)
+ 	{
+-	  point += tmp;
++	  point = rl_win_diff_to_int ((ptrdiff_t)point + (ptrdiff_t)(tmp));
+ 	  len -= tmp;
+ 	  tmp = MBRTOWC (&wc, string + point, len, &ps);
+ 	}
+@@ -335,7 +335,7 @@
+ 	{
+ 	  if (find_non_zero)
+ 	    {
+-	      if (_rl_test_nonzero (string, prev, len))
++	      if (_rl_test_nonzero (string, prev, rl_win_size_to_int (len)))
+ 		return (prev);
+ 	      else		/* valid but WCWIDTH (wc) == 0 */
+ 		prev = prev - 1;
+@@ -362,7 +362,7 @@
+     return (_rl_find_prev_utf8char (string, seed, find_non_zero));
+ 
+   memset(&ps, 0, sizeof(mbstate_t));
+-  length = strlen(string);
++  length = rl_win_size_to_int (strlen(string));
+   
+   if (seed < 0)
+     return 0;
+@@ -407,7 +407,7 @@
+ 	    prev = point;  
+ 	}
+ 
+-      point += tmp;
++      point = rl_win_diff_to_int ((ptrdiff_t)point + (ptrdiff_t)(tmp));
+     }
+ 
+   return prev;
+@@ -487,7 +487,7 @@
+ 
+   tmp = 0;
+   pos = 0;
+-  length = strlen(string);
++  length = rl_win_size_to_int (strlen(string));
+   if (point < 0)
+     return -1;
+   if (length < point)
+@@ -513,7 +513,7 @@
+       else if (MB_NULLWCH (tmp))
+ 	pos++;
+       else
+-	pos += tmp;
++	pos = rl_win_diff_to_int ((ptrdiff_t)pos + (ptrdiff_t)(tmp));
+     }
+ 
+   return (pos - point);
+--- a/search.c
++++ b/search.c
+@@ -1,3 +1,6 @@
++/* Modified 2026-10-21 by itsuki-hayashi: checked Windows integer conversions.
++ * Modifications copyright (c) 2026 itsuki-hayashi, GPL-3.0-or-later.
++ * Original upstream notices below are retained. */
+ /* search.c - code for non-incremental searching in emacs and vi modes. */
+ 
+ /* Copyright (C) 1992-2025 Free Software Foundation, Inc.
+@@ -208,7 +211,7 @@
+   if (_rl_enable_active_region && ((flags & SF_PATTERN) == 0) && ind >= 0 && ind < rl_end)
+     {
+       rl_point = ind;
+-      rl_mark = ind + strlen (string);
++      rl_mark = rl_win_size_to_int (ind + strlen (string));
+       if (rl_mark > rl_end)
+ 	rl_mark = rl_end;	/* can't happen? */
+       rl_activate_mark ();
+--- a/shell.c
++++ b/shell.c
+@@ -155,7 +155,9 @@
+ sh_get_home_dir (void)
+ {
+   static char *home_dir = (char *)NULL;
++#if defined (HAVE_GETPWUID)
+   struct passwd *entry;
++#endif
+ 
+   if (home_dir)
+     return (home_dir);
+--- a/signals.c
++++ b/signals.c
+@@ -1,3 +1,6 @@
++/* Modified 2026-10-21 by itsuki-hayashi: checked Windows integer conversions.
++ * Modifications copyright (c) 2026 itsuki-hayashi, GPL-3.0-or-later.
++ * Original upstream notices below are retained. */
+ /* signals.c -- signal handling support for readline. */
+ 
+ /* Copyright (C) 1987-2025 Free Software Foundation, Inc.
+@@ -167,7 +170,9 @@
+ static void
+ _rl_handle_signal (int sig)
+ {
++#if defined (HAVE_POSIX_SIGNALS)
+   int block_sig;
++#endif
+ 
+ #if defined (HAVE_POSIX_SIGNALS)
+   sigset_t set, oset;
+@@ -415,8 +420,10 @@
+ int
+ rl_set_signals (void)
+ {
++#if defined (SIGALRM)
+   sighandler_cxt dummy;
+   SigHandler *oh;
++#endif
+ #if defined (HAVE_POSIX_SIGNALS)
+   static int sigmask_set = 0;
+   static sigset_t bset, oset;
+@@ -521,7 +528,9 @@
+ int
+ rl_clear_signals (void)
+ {
++#if defined (SIGWINCH)
+   sighandler_cxt dummy;
++#endif
+ 
+   if (rl_catch_signals && signals_set_flag == 1)
+     {
+--- a/text.c
++++ b/text.c
+@@ -1,3 +1,6 @@
++/* Modified 2026-10-21 by itsuki-hayashi: checked Windows integer conversions.
++ * Modifications copyright (c) 2026 itsuki-hayashi, GPL-3.0-or-later.
++ * Original upstream notices below are retained. */
+ /* text.c -- text handling commands for readline. */
+ 
+ /* Copyright (C) 1987-2021,2023-2024 Free Software Foundation, Inc.
+@@ -86,9 +89,12 @@
+ rl_insert_text (const char *string)
+ {
+   register int i;
+-  size_t l;
+-
+-  l = (string && *string) ? strlen (string) : 0;
++  size_t length = (string && *string) ? strlen (string) : 0;
++  int l;
++
++  if (rl_end < 0 || length > (size_t)(INT_MAX - rl_end))
++    { errno = EOVERFLOW; return -1; }
++  l = (int)length;
+   if (l == 0)
+     return 0;
+ 
+@@ -113,8 +119,8 @@
+       else
+ 	rl_add_undo (UNDO_INSERT, rl_point, rl_point + l, (char *)NULL);
+     }
+-  rl_point += l;
+-  rl_end += l;
++  rl_point = rl_win_diff_to_int ((ptrdiff_t)rl_point + (ptrdiff_t)(l));
++  rl_end = rl_win_diff_to_int ((ptrdiff_t)rl_end + (ptrdiff_t)(l));
+   rl_line_buffer[rl_end] = '\0';
+   return l;
+ }
+@@ -214,7 +220,7 @@
+ {
+   int len;
+ 
+-  len = strlen (text);
++  len = rl_win_size_to_int (strlen (text));
+   if (len >= rl_line_buffer_len)
+     rl_extend_line_buffer (len);
+   strcpy (rl_line_buffer, text);
+@@ -1393,7 +1399,7 @@
+     rl_insert_text (rl_comment_text);
+   else
+     {
+-      rl_comment_len = strlen (rl_comment_text);
++      rl_comment_len = rl_win_size_to_int (strlen (rl_comment_text));
+       if (STREQN (rl_comment_text, rl_line_buffer, rl_comment_len))
+ 	rl_delete_text (rl_point, rl_point + rl_comment_len);
+       else
+@@ -1552,21 +1558,21 @@
+ 		{
+ 		  memcpy (s, mb, mlen);
+ 		  memmove (s + mlen, s + m, (e - s) - m);
+-		  next -= m - mlen;	/* next char changes */
+-		  end -= m - mlen;	/* end of word changes */
+-		  rl_end -= m - mlen;	/* end of line changes */
++		  next = rl_win_diff_to_int ((ptrdiff_t)next - (ptrdiff_t)(m - mlen));	/* next char changes */
++		  end = rl_win_diff_to_int ((ptrdiff_t)end - (ptrdiff_t)(m - mlen));	/* end of word changes */
++		  rl_end = rl_win_diff_to_int ((ptrdiff_t)rl_end - (ptrdiff_t)(m - mlen));	/* end of line changes */
+ 		  rl_line_buffer[rl_end] = 0;
+ 		}
+ 	      else if (m < mlen)
+ 		{
+-		  rl_extend_line_buffer (rl_end + mlen + (e - s) - m + 2);
++		  rl_extend_line_buffer (rl_win_diff_to_int ((ptrdiff_t)rl_end + (ptrdiff_t)mlen + (e - s) - (ptrdiff_t)m + 2));
+ 		  s = rl_line_buffer + start;	/* have to redo this */
+ 		  e = rl_line_buffer + rl_end;
+ 		  memmove (s + mlen, s + m, (e - s) - m);
+ 		  memcpy (s, mb, mlen);
+-		  next += mlen - m;	/* next char changes */
+-		  end += mlen - m;	/* end of word changes */
+-		  rl_end += mlen - m;	/* end of line changes */
++		  next = rl_win_diff_to_int ((ptrdiff_t)next + (ptrdiff_t)(mlen - m));	/* next char changes */
++		  end = rl_win_diff_to_int ((ptrdiff_t)end + (ptrdiff_t)(mlen - m));	/* end of word changes */
++		  rl_end = rl_win_diff_to_int ((ptrdiff_t)rl_end + (ptrdiff_t)(mlen - m));	/* end of line changes */
+ 		  rl_line_buffer[rl_end] = 0;
+ 		}
+ 	    }
+@@ -2255,7 +2261,7 @@
+     }
+   len = i - 1;
+ 
+-  rl_display_match_list (matches, len, max);
++  rl_display_match_list (matches, rl_win_size_to_int (len), rl_win_size_to_int (max));
+   rl_filename_completion_desired = old;
+ 
+   rl_forced_update_display ();
+--- a/tilde.c
++++ b/tilde.c
+@@ -1,3 +1,6 @@
++/* Modified 2026-10-21 by itsuki-hayashi: checked Windows integer conversions.
++ * Modifications copyright (c) 2026 itsuki-hayashi, GPL-3.0-or-later.
++ * Original upstream notices below are retained. */
+ /* tilde.c -- Tilde expansion code (~/foo := $HOME/foo). */
+ 
+ /* Copyright (C) 1988-2020,2023-2024 Free Software Foundation, Inc.
+@@ -124,7 +127,7 @@
+ 
+   prefixes = tilde_additional_prefixes;
+ 
+-  string_len = strlen (string);
++  string_len = rl_win_size_to_int (strlen (string));
+   *len = 0;
+ 
+   if (*string == '\0' || *string == '~')
+@@ -138,7 +141,7 @@
+ 	    {
+ 	      if (strncmp (string + i, prefixes[j], strlen (prefixes[j])) == 0)
+ 		{
+-		  *len = strlen (prefixes[j]) - 1;
++		  *len = rl_win_size_to_int (strlen (prefixes[j]) - 1);
+ 		  return (i + *len);
+ 		}
+ 	    }
+@@ -231,7 +234,7 @@
+       else
+ 	xfree (tilde_word);	
+ 
+-      len = strlen (expansion);
++      len = rl_win_size_to_int (strlen (expansion));
+ #ifdef __CYGWIN__
+       /* Fix for Cygwin to prevent ~user/xxx from expanding to //xxx when
+ 	 $HOME for `user' is /.  On cygwin, // denotes a network drive. */
+--- a/util.c
++++ b/util.c
+@@ -1,3 +1,6 @@
++/* Modified 2026-10-21 by itsuki-hayashi: checked Windows integer conversions.
++ * Modifications copyright (c) 2026 itsuki-hayashi, GPL-3.0-or-later.
++ * Original upstream notices below are retained. */
+ /* util.c -- readline utility functions */
+ 
+ /* Copyright (C) 1987-2025 Free Software Foundation, Inc.
+@@ -168,7 +171,7 @@
+ {
+   while (len >= rl_line_buffer_len)
+     {
+-      rl_line_buffer_len += DEFAULT_BUFFER_SIZE;
++      rl_line_buffer_len = rl_win_diff_to_int ((ptrdiff_t)rl_line_buffer_len + DEFAULT_BUFFER_SIZE);
+       rl_line_buffer = (char *)xrealloc (rl_line_buffer, rl_line_buffer_len);
+     }
+ 
+@@ -277,7 +280,7 @@
+   size_t l, len;
+ 
+   for (i = 0, l = strlen (s2), len = strlen (s1); (len - i) >= l; i++)
+-    if (_rl_strnicmp (s1 + i, s2, l) == 0)
++    if (_rl_strnicmp (s1 + i, s2, rl_win_size_to_int (l)) == 0)
+       return ((char *) (s1 + i));
+   return ((char *)NULL);
+ }
+@@ -381,7 +384,7 @@
+   int d;
+ 
+   if ((flags & 1) == 0)
+-    return (_rl_strnicmp (s1, s2, n) == 0);
++    return (_rl_strnicmp (s1, s2, rl_win_size_to_int (n)) == 0);
+ 
+   do
+     {
+--- a/vi_mode.c
++++ b/vi_mode.c
+@@ -1,3 +1,6 @@
++/* Modified 2026-10-21 by itsuki-hayashi: checked Windows integer conversions.
++ * Modifications copyright (c) 2026 itsuki-hayashi, GPL-3.0-or-later.
++ * Original upstream notices below are retained. */
+ /* vi_mode.c -- A vi emulation mode for Bash.
+    Derived from code written by Jeff Sparkes (jsparkes@bnr.ca).  */
+ 
+@@ -223,7 +226,7 @@
+ {
+   int nchars;
+ 
+-  nchars = strlen (vi_insert_buffer);
++  nchars = rl_win_size_to_int (strlen (vi_insert_buffer));
+ 
+   rl_begin_undo_group ();
+   while (count--)
+@@ -961,7 +964,7 @@
+       if (wc)
+ 	{
+ 	  p = rl_point;
+-	  mlen = WCRTOMB (mb, wc, &ps);
++	  mlen = rl_win_mbresult (WCRTOMB (mb, wc, &ps));
+ 	  if (mlen >= 0)
+ 	    mb[mlen] = '\0';
+ 	  rl_begin_undo_group ();
+@@ -2260,7 +2263,7 @@
+       xfree (pbuf);
+       return 0;
+     }
+-  r = pblen;
++  r = rl_win_size_to_int (pblen);
+   while (--r >= 0)
+     _rl_unget_char ((unsigned char)pbuf[r]);
+   xfree (pbuf);

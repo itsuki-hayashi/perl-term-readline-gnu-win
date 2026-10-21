@@ -24,6 +24,44 @@ extern "C" {
 #endif
 
 #include <stdio.h>
+#include <limits.h>
+
+/* Perl IV/UV and STRLEN are 64-bit on our targets; Readline's API is int.
+ * Reject out-of-range values instead of silently truncating them. */
+static int
+trg_sv_to_int(SV *value)
+{
+  IV n;
+  SvGETMAGIC(value);
+  n = SvIV_nomg(value);
+  if (SvIsUV(value)) {
+    UV u = SvUV_nomg(value);
+    if (u > INT_MAX)
+      croak("Readline integer argument exceeds INT_MAX");
+    return (int)u;
+  }
+  if (n < INT_MIN || n > INT_MAX)
+    croak("Readline integer argument is outside the int range");
+  return (int)n;
+}
+
+static int
+trg_size_to_int(size_t size)
+{
+  if (size > INT_MAX)
+    croak("Readline size exceeds INT_MAX");
+  return (int)size;
+}
+
+static char *
+trg_sv_to_pv(SV *value)
+{
+  STRLEN size;
+  char *text = SvPV(value, size);
+  if (size >= INT_MAX)
+    croak("Readline string exceeds the supported int size");
+  return text;
+}
 #ifdef __CYGWIN__
 #include <sys/termios.h>
 #endif /* __CYGWIN__ */
@@ -428,7 +466,7 @@ dupstr(CONST char *s)           /* duplicate string */
    * Readline Library routine.
    * Don't make a macro, because the variable 's' is evaluated twice.
    */
-  int len = strlen(s) + 1;
+  size_t len = strlen(s) + 1;
   char *d = xmalloc(len);
   Copy(s, d, len, char);        /* Is Copy() better than strcpy() in XS? */
   return d;
@@ -788,7 +826,7 @@ static int
 voidfunc_wrapper(int type)
 {
   dSP;
-  int count;
+  SSize_t count;
   int ret;
   SV *svret;
 
@@ -803,7 +841,7 @@ voidfunc_wrapper(int type)
     croak("Gnu.xs:voidfunc_wrapper: Internal error\n");
 
   svret = POPs;
-  ret = SvIOK(svret) ? SvIV(svret) : -1;
+  ret = SvIOK(svret) ? trg_sv_to_int(svret) : -1;
   PUTBACK;
   FREETMPS;
   LEAVE;
@@ -815,7 +853,7 @@ static int
 vintfunc_wrapper(int type, int arg)
 {
   dSP;
-  int count;
+  SSize_t count;
   int ret;
   SV *svret;
 
@@ -832,7 +870,7 @@ vintfunc_wrapper(int type, int arg)
     croak("Gnu.xs:vintfunc_wrapper: Internal error\n");
 
   svret = POPs;
-  ret = SvIOK(svret) ? SvIV(svret) : -1;
+  ret = SvIOK(svret) ? trg_sv_to_int(svret) : -1;
   PUTBACK;
   FREETMPS;
   LEAVE;
@@ -845,7 +883,7 @@ static int
 vcpfunc_wrapper(int type, char *text)
 {
   dSP;
-  int count;
+  SSize_t count;
   int ret;
   SV *svret;
 
@@ -867,7 +905,7 @@ vcpfunc_wrapper(int type, char *text)
     croak("Gnu.xs:vcpfunc_wrapper: Internal error\n");
 
   svret = POPs;
-  ret = SvIOK(svret) ? SvIV(svret) : -1;
+  ret = SvIOK(svret) ? trg_sv_to_int(svret) : -1;
   PUTBACK;
   FREETMPS;
   LEAVE;
@@ -881,7 +919,7 @@ static int
 vcppfunc_wrapper(int type, char **arg)
 {
   dSP;
-  int count;
+  SSize_t count;
   SV *sv;
   int ret;
   SV *svret;
@@ -908,7 +946,7 @@ vcppfunc_wrapper(int type, char **arg)
     croak("Gnu.xs:vcppfunc_wrapper: Internal error\n");
 
   svret = POPs;
-  ret = SvIOK(svret) ? SvIV(svret) : -1;
+  ret = SvIOK(svret) ? trg_sv_to_int(svret) : -1;
 
   rstr = SvPV(sv, PL_na);
   if (strcmp(*arg, rstr) != 0) {
@@ -928,7 +966,7 @@ static int
 hook_func_wrapper(int type)
 {
   dSP;
-  int count;
+  SSize_t count;
   int ret;
 
   ENTER;
@@ -941,7 +979,7 @@ hook_func_wrapper(int type)
   if (count != 1)
     croak("Gnu.xs:hook_func_wrapper: Internal error\n");
 
-  ret = POPi;                   /* warns unless integer */
+  ret = trg_sv_to_int(POPs);                   /* warns unless integer */
   PUTBACK;
   FREETMPS;
   LEAVE;
@@ -954,7 +992,7 @@ static int
 intfunc_wrapper(int type, int arg)
 {
   dSP;
-  int count;
+  SSize_t count;
   int ret;
 
   ENTER;
@@ -969,7 +1007,7 @@ intfunc_wrapper(int type, int arg)
   if (count != 1)
     croak("Gnu.xs:intfunc_wrapper: Internal error\n");
 
-  ret = POPi;                   /* warns unless integer */
+  ret = trg_sv_to_int(POPs);                   /* warns unless integer */
   PUTBACK;
   FREETMPS;
   LEAVE;
@@ -983,7 +1021,7 @@ static int
 icpfunc_wrapper(int type, char *text)
 {
   dSP;
-  int count;
+  SSize_t count;
   int ret;
 
   ENTER;
@@ -1004,7 +1042,7 @@ icpfunc_wrapper(int type, char *text)
   if (count != 1)
     croak("Gnu.xs:icpfunc_wrapper: Internal error\n");
 
-  ret = POPi;                   /* warns unless integer */
+  ret = trg_sv_to_int(POPs);                   /* warns unless integer */
   PUTBACK;
   FREETMPS;
   LEAVE;
@@ -1017,7 +1055,7 @@ static int
 icppfunc_wrapper(int type, char **arg)
 {
   dSP;
-  int count;
+  SSize_t count;
   SV *sv;
   int ret;
   char *rstr;
@@ -1042,7 +1080,7 @@ icppfunc_wrapper(int type, char **arg)
   if (count != 1)
     croak("Gnu.xs:icppfunc_wrapper: Internal error\n");
 
-  ret = POPi;
+  ret = trg_sv_to_int(POPs);
 
   rstr = SvPV(sv, PL_na);
   if (strcmp(*arg, rstr) != 0) {
@@ -1061,7 +1099,7 @@ static char *
 cpvfunc_wrapper(int type)
 {
   dSP;
-  int count;
+  SSize_t count;
   char *str;
   SV *svret;
 
@@ -1089,7 +1127,7 @@ static char *
 cpifunc_wrapper(int type, int arg)
 {
   dSP;
-  int count;
+  SSize_t count;
   char *str;
   SV *svret;
 
@@ -1120,7 +1158,7 @@ static char *
 cpcpfunc_wrapper(int type, char *text)
 {
   dSP;
-  int count;
+  SSize_t count;
   char *str;
   SV *svret;
 
@@ -1156,7 +1194,7 @@ static char *
 cpcppfunc_wrapper(int type, char **arg)
 {
   dSP;
-  int count;
+  SSize_t count;
   SV *sv;
   char *str;
   SV *svret;
@@ -1205,7 +1243,7 @@ static int
 icpintfunc_wrapper(int type, char *text, int index)
 {
   dSP;
-  int count;
+  SSize_t count;
   int ret;
 
   ENTER;
@@ -1227,7 +1265,7 @@ icpintfunc_wrapper(int type, char *text, int index)
   if (count != 1)
     croak("Gnu.xs:icpintfunc_wrapper: Internal error\n");
 
-  ret = POPi;                   /* warns unless integer */
+  ret = trg_sv_to_int(POPs);                   /* warns unless integer */
   PUTBACK;
   FREETMPS;
   LEAVE;
@@ -1241,7 +1279,7 @@ static char *
 dequoting_function_wrapper(int type, char *text, int quote_char)
 {
   dSP;
-  int count;
+  SSize_t count;
   SV *replacement;
   char *str;
 
@@ -1302,7 +1340,7 @@ static char *
 completion_entry_function_wrapper(const char *text, int state)
 {
   dSP;
-  int count;
+  SSize_t count;
   SV *match;
   char *str;
 
@@ -1343,7 +1381,7 @@ static char **
 attempted_completion_function_wrapper(char *text, int start, int end)
 {
   dSP;
-  int count;
+  SSize_t count;
   char **matches;
 
   ENTER;
@@ -1370,8 +1408,8 @@ attempted_completion_function_wrapper(char *text, int start, int end)
 
   /* cf. ignore_some_completions_function_wrapper() */
   if (count > 0) {
-    int i;
-    int dopack = -1;
+    SSize_t i;
+    SSize_t dopack = -1;
 
     /*
      * The returned array may contain some undef items.
@@ -1391,7 +1429,7 @@ attempted_completion_function_wrapper(char *text, int start, int end)
     }
     /* pack undef items */
     if (dopack > 0) {           /* don't pack matches[0] */
-      int j = dopack;
+      SSize_t j = dopack;
       for (i = dopack; i < count; i++) {
         if (matches[i])
           matches[j++] = matches[i];
@@ -1431,7 +1469,7 @@ static char *
 filename_quoting_function_wrapper(char *text, int match_type, char *quote_pointer)
 {
   dSP;
-  int count;
+  SSize_t count;
   SV *replacement;
   char *str;
 
@@ -1489,7 +1527,8 @@ static void
 ignore_some_completions_function_wrapper(char **matches)
 {
   dSP;
-  int count, i, only_lcd;
+  SSize_t count, i;
+  int only_lcd;
 
   only_lcd = matches[1] == NULL;
 
@@ -1522,8 +1561,8 @@ ignore_some_completions_function_wrapper(char **matches)
       matches[0] = NULL;
     } /* else only one match */
   } else if (count > 0) {
-    int i;
-    int dopack = -1;
+    SSize_t i;
+    SSize_t dopack = -1;
 
     /*
      * The returned array may contain some undef items.
@@ -1541,7 +1580,7 @@ ignore_some_completions_function_wrapper(char **matches)
     }
     /* pack undef items */
     if (dopack > 0) {           /* don't pack matches[0] */
-      int j = dopack;
+      SSize_t j = dopack;
       for (i = dopack; i < count; i++) {
         if (matches[i])
           matches[j++] = matches[i];
@@ -1674,7 +1713,7 @@ static int
 macro_display_hook_wrapper(const char *keyname, const char *out, int print_readably, const char *prefix)
 {
   dSP;
-  int count;
+  SSize_t count;
   int ret;
   SV *svret;
 
@@ -1707,7 +1746,7 @@ macro_display_hook_wrapper(const char *keyname, const char *out, int print_reada
     croak("Gnu.xs:macro_display_hook_wrapper: Internal error\n");
 
   svret = POPs;
-  ret = SvIOK(svret) ? SvIV(svret) : -1;
+  ret = SvIOK(svret) ? trg_sv_to_int(svret) : -1;
   PUTBACK;
   FREETMPS;
   LEAVE;
@@ -2549,7 +2588,7 @@ rl_display_match_list(SV *pmatches, int plen = -1, int pmax = -1)
     PROTOTYPE: $;$$
     CODE:
         {
-          unsigned int len, max, i;
+          int len, max, i;
           STRLEN l;
           char **matches;
           AV *av_matches;
@@ -2561,16 +2600,17 @@ rl_display_match_list(SV *pmatches, int plen = -1, int pmax = -1)
           }
           av_matches = (AV *)SvRV(ST(0));
           /* index zero contains a possible match and is not counted */
-          if ((len = av_len(av_matches) + 1 - 1) == 0)
+          if (av_len(av_matches) <= 0)
             return;
-          matches = (char **)xmalloc (sizeof(char *) * (len + 2));
+          len = trg_size_to_int((size_t)av_len(av_matches));
+          matches = (char **)xmalloc (sizeof(char *) * ((size_t)len + 2));
           max = 0;
           for (i = 0; i <= len; i++) {
             pvp = av_fetch(av_matches, i, 0);
             if (SvPOKp(*pvp)) {
               matches[i] = dupstr(SvPV(*pvp, l));
               if (l > max)
-                max = l;
+                max = trg_size_to_int(l);
             }
           }
           matches[len + 1] = NULL;
@@ -2652,7 +2692,7 @@ rl_callback_handler_install(CONST char *prompt, SV *lhandler)
     CODE:
         {
           static char *cb_prompt = NULL;
-          int len = strlen(prompt) + 1;
+          size_t len = strlen(prompt) + 1;
 
           /* The value of prompt may be used after return from this routine. */
           if (cb_prompt) {
@@ -2924,8 +2964,9 @@ stifle_history(SV *i)
     PROTOTYPE: $
     CODE:
         {
+          SvGETMAGIC(i);
           if (SvOK(i)) {
-            int max = SvIV(i);
+            int max = trg_sv_to_int(i);
             stifle_history(max);
             RETVAL = max;
           } else {
@@ -3168,16 +3209,16 @@ _rl_store_rl_line_buffer(CONST char *pstr)
              * Old manual did not document this function, but can be
              * used.
              */
-            rl_extend_line_buffer(len + 1);
+            rl_extend_line_buffer(trg_size_to_int(len + 1));
 
             Copy(pstr, rl_line_buffer, len + 1, char);
             /* rl_line_buffer is not NULL here */
             sv_setpv(ST(0), rl_line_buffer);
 
             /* fix rl_end and rl_point */
-            rl_end = len;
+            rl_end = trg_size_to_int(len);
             if (rl_point > len)
-                    rl_point = len;
+                    rl_point = trg_size_to_int(len);
           }
         }
 

@@ -58,6 +58,7 @@ MANIFEST.SKIP
 META.json
 META.yml
 patches/readline/0001-native-msvc.patch
+patches/readline/0002-checked-integer-conversions.patch
 README.md
 REUSE.toml
 script/audit-licenses.pl
@@ -72,6 +73,7 @@ t/10-native.t
 t/11-platform.t
 t/12-vendor.t
 t/13-build-helpers.t
+t/14-integer-boundaries.t
 t/callback.t
 t/comptest/0123
 t/comptest/012345
@@ -253,6 +255,7 @@ vendor/readline/vi_mode.c
 vendor/readline/xfree.c
 vendor/readline/xmalloc.c
 vendor/readline/xmalloc.h
+win32/checked.h
 win32/compat.c
 win32/compat.h
 win32/config.h

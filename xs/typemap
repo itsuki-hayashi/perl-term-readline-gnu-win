@@ -5,8 +5,10 @@
 #	typemap for Term::ReadLine::GnuWin32
 #
 
-const char *		T_PV
-CONST char *		T_PV
+char *                  T_TRG_PV
+const char *		T_TRG_PV
+int                     T_TRG_INT
+CONST char *		T_TRG_PV
 Keymap			T_WIN32_PTROBJ
 Function *		T_WIN32_PTROBJ
 rl_command_func_t *	T_WIN32_PTROBJ
@@ -18,6 +20,12 @@ t_utf8_free		T_XSTR_FREE
 
 ########################################################################
 INPUT
+
+T_TRG_PV
+	$var = trg_sv_to_pv($arg);
+
+T_TRG_INT
+	$var = trg_sv_to_int($arg);
 
 T_WIN32_PTROBJ
 	if (SvROK($arg) && sv_derived_from($arg, \"Term::ReadLine::GnuWin32::Pointer::$ntype\")) {
@@ -37,6 +45,10 @@ T_WIN32_PTRREF
 
 ########################################################################
 OUTPUT
+T_TRG_PV
+	sv_setpv((SV*)$arg, $var);
+T_TRG_INT
+	sv_setiv($arg, (IV)$var);
 T_WIN32_PTROBJ
 	sv_setref_pv($arg, \"Term::ReadLine::GnuWin32::Pointer::$ntype\", (void*)$var);
 T_XSTR

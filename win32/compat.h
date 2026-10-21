@@ -2,6 +2,8 @@
  * SPDX-License-Identifier: Unlicense
  * Historical permissive grant retained; see LICENSES/Unlicense.txt. */
 #ifndef RL_WIN_COMPAT_H
+/* Integer-safety additions copyright (c) 2026 itsuki-hayashi,
+ * licensed GPL-3.0-or-later; original portions retain the grant above. */
 #define RL_WIN_COMPAT_H
 #include <stdio.h>
 #include <stdlib.h>
@@ -18,6 +20,7 @@
 #include <signal.h>
 #include <fcntl.h>
 #include <windows.h>
+#include "checked.h"
 typedef intptr_t ssize_t;
 typedef int uid_t;
 typedef int gid_t;
@@ -25,10 +28,10 @@ typedef int mode_t;
 #define getpid _getpid
 #define isatty _isatty
 #define fileno _fileno
-#define read _read
-#define write _write
+#define read rl_win_read
+#define write rl_win_write
 #define close _close
-#define lseek _lseek
+#define lseek _lseeki64
 #define fstat _fstat64
 #define access _access
 #define getcwd _getcwd
@@ -50,7 +53,9 @@ int rl_win_open(const char *, int, ...);
 FILE *rl_win_fopen(const char *, const char *);
 int rl_win_stat(const char *, struct _stat64 *);
 int rl_win_unlink(const char *);
-int rl_win_ftruncate(int, long);
+int rl_win_ftruncate(int, int64_t);
+ssize_t rl_win_read(int, void *, size_t);
+ssize_t rl_win_write(int, const void *, size_t);
 int wcwidth(uint32_t);
 #define WCHAR_T_BROKEN 1
 #undef MB_CUR_MAX

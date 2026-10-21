@@ -173,7 +173,8 @@
          "xmalloc.h" : "bb1a1618cd56fdf4308026ba87adcdb7bb96e844228618ed8fe9ccbbd0466c6e"
       },
       "patches" : [
-         "patches/readline/0001-native-msvc.patch"
+         "patches/readline/0001-native-msvc.patch",
+         "patches/readline/0002-checked-integer-conversions.patch"
       ],
       "sha256" : "fe5383204467828cd495ee8d1d3c037a7eba1389c22bc6a041f627976f9061cc",
       "url" : "https://ftp.gnu.org/gnu/readline/readline-8.3.tar.gz",

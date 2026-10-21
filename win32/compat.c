@@ -2,6 +2,8 @@
  * SPDX-License-Identifier: Unlicense
  * Historical permissive grant retained; see LICENSES/Unlicense.txt. */
 #include "config.h"
+/* Integer-safety additions copyright (c) 2026 itsuki-hayashi,
+ * licensed GPL-3.0-or-later; original portions retain the grant above. */
 #include "dirent.h"
 #include <stdarg.h>
 #include <errno.h>
@@ -42,7 +44,19 @@ int rl_win_unlink(const char *s) {
   if (!w) return -1;
   r = _wunlink(w); free(w); return r;
 }
-int rl_win_ftruncate(int fd, long size) { return _chsize(fd, size); }
+int rl_win_ftruncate(int fd, int64_t size) {
+  errno_t error = _chsize_s(fd, size);
+  if (error) { errno = error; return -1; }
+  return 0;
+}
+ssize_t rl_win_read(int fd, void *buffer, size_t size) {
+  if (size > INT_MAX) { errno = EOVERFLOW; return -1; }
+  return _read(fd, buffer, (unsigned int)size);
+}
+ssize_t rl_win_write(int fd, const void *buffer, size_t size) {
+  if (size > INT_MAX) { errno = EOVERFLOW; return -1; }
+  return _write(fd, buffer, (unsigned int)size);
+}
 DIR *opendir(const char *s) {
   wchar_t *w = wide(s), *pattern; size_t n; DIR *d;
   if (!w) return NULL;

@@ -10,6 +10,8 @@ Revision history for Term-ReadLine-GnuWin32
       files together in xs/; omit generated files from source releases.
     - Preserve pristine Readline sources and apply verified local patches.
     - Include console, Unicode, callback, debugger, and REPL regression tests.
+    - Check 64-bit sizes and Perl integers at Readline's int API boundaries;
+      preserve multibyte error sentinels and use 64-bit file offsets.
     - Add GPLv3-or-later project licensing and upstream component notices.
 
 The original module history is retained in docs/UPSTREAM_CHANGES.
