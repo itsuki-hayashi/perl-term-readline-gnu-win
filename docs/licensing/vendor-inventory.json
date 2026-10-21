@@ -1,0 +1,5164 @@
+{
+   "CHANGELOG" : {
+      "note" : "Retained upstream per-file notices and component-level COPYING apply; evidence is not an automatic license classification",
+      "notice_evidence" : [],
+      "notice_source" : "vendor/readline/CHANGELOG",
+      "sha256" : "5cbf8363088902fd29e753dfe96bfe9b493b502484c294573fcf3410dc2cbde3"
+   },
+   "CHANGES" : {
+      "note" : "Retained upstream per-file notices and component-level COPYING apply; evidence is not an automatic license classification",
+      "notice_evidence" : [],
+      "notice_source" : "vendor/readline/CHANGES",
+      "sha256" : "f74dff0f05bb20311c53287b02866f343e69cd8bf9d4e58230e3f8d31e2dd7d9"
+   },
+   "COPYING" : {
+      "note" : "Retained upstream per-file notices and component-level COPYING apply; evidence is not an automatic license classification",
+      "notice_evidence" : [
+         {
+            "line" : 1,
+            "text" : "                    GNU GENERAL PUBLIC LICENSE"
+         },
+         {
+            "line" : 4,
+            "text" : " Copyright (C) 2007 Free Software Foundation, Inc. <http://fsf.org/>"
+         },
+         {
+            "line" : 6,
+            "text" : " of this license document, but changing it is not allowed."
+         },
+         {
+            "line" : 10,
+            "text" : "  The GNU General Public License is a free, copyleft license for"
+         },
+         {
+            "line" : 13,
+            "text" : "  The licenses for most software and other practical works are designed"
+         },
+         {
+            "line" : 15,
+            "text" : "the GNU General Public License is intended to guarantee your freedom to"
+         },
+         {
+            "line" : 18,
+            "text" : "GNU General Public License for most of our software; it applies also to"
+         },
+         {
+            "line" : 19,
+            "text" : "any other work released this way by its authors.  You can apply it to"
+         },
+         {
+            "line" : 23,
+            "text" : "price.  Our General Public Licenses are designed to make sure that you"
+         },
+         {
+            "line" : 41,
+            "text" : "(1) assert copyright on the software, and (2) offer you this License"
+         },
+         {
+            "line" : 42,
+            "text" : "giving you legal permission to copy, distribute and/or modify it."
+         },
+         {
+            "line" : 44,
+            "text" : "  For the developers' and authors' protection, the GPL clearly explains"
+         },
+         {
+            "line" : 45,
+            "text" : "that there is no warranty for this free software.  For both users' and"
+         },
+         {
+            "line" : 46,
+            "text" : "authors' sake, the GPL requires that modified versions be marked as"
+         },
+         {
+            "line" : 48,
+            "text" : "authors of previous versions."
+         },
+         {
+            "line" : 75,
+            "text" : "  \"This License\" refers to version 3 of the GNU General Public License."
+         },
+         {
+            "line" : 77,
+            "text" : "  \"Copyright\" also means copyright-like laws that apply to other kinds of"
+         },
+         {
+            "line" : 80,
+            "text" : "  \"The Program\" refers to any copyrightable work licensed under this"
+         },
+         {
+            "line" : 81,
+            "text" : "License.  Each licensee is addressed as \"you\".  \"Licensees\" and"
+         },
+         {
+            "line" : 85,
+            "text" : "in a fashion requiring copyright permission, other than the making of an"
+         },
+         {
+            "line" : 93,
+            "text" : "permission, would make you directly or secondarily liable for"
+         },
+         {
+            "line" : 94,
+            "text" : "infringement under applicable copyright law, except executing it on a"
+         },
+         {
+            "line" : 105,
+            "text" : "feature that (1) displays an appropriate copyright notice, and (2)"
+         },
+         {
+            "line" : 106,
+            "text" : "tells the user that there is no warranty for the work (except to the"
+         },
+         {
+            "line" : 107,
+            "text" : "extent that warranties are provided), that licensees may convey the"
+         },
+         {
+            "line" : 108,
+            "text" : "work under this License, and how to view a copy of this License.  If"
+         },
+         {
+            "line" : 154,
+            "text" : "  2. Basic Permissions."
+         },
+         {
+            "line" : 156,
+            "text" : "  All rights granted under this License are granted for the term of"
+         },
+         {
+            "line" : 157,
+            "text" : "copyright on the Program, and are irrevocable provided the stated"
+         },
+         {
+            "line" : 158,
+            "text" : "conditions are met.  This License explicitly affirms your unlimited"
+         }
+      ],
+      "notice_source" : "vendor/readline/COPYING",
+      "sha256" : "8ceb4b9ee5adedde47b31e975c1d90c73ad27b6b165a1dcd80c7c545eb65b903"
+   },
+   "INSTALL" : {
+      "note" : "Retained upstream per-file notices and component-level COPYING apply; evidence is not an automatic license classification",
+      "notice_evidence" : [],
+      "notice_source" : "vendor/readline/INSTALL",
+      "sha256" : "c0b93d8533fbf743e24f93b7f6bc26ba1a4e5e292117289a891e728454af2fb5"
+   },
+   "MANIFEST" : {
+      "note" : "Retained upstream per-file notices and component-level COPYING apply; evidence is not an automatic license classification",
+      "notice_evidence" : [],
+      "notice_source" : "vendor/readline/MANIFEST",
+      "sha256" : "f0070f9715f78996081e26570a8ac81c2556003225aa3e2e1dd00ed98560c081"
+   },
+   "Makefile.in" : {
+      "note" : "Retained upstream per-file notices and component-level COPYING apply; evidence is not an automatic license classification",
+      "notice_evidence" : [
+         {
+            "line" : 3,
+            "text" : "# Copyright (C) 1994-2024 Free Software Foundation, Inc."
+         },
+         {
+            "line" : 6,
+            "text" : "#   it under the terms of the GNU General Public License as published by"
+         },
+         {
+            "line" : 7,
+            "text" : "#   the Free Software Foundation, either version 3 of the License, or"
+         },
+         {
+            "line" : 11,
+            "text" : "#   but WITHOUT ANY WARRANTY; without even the implied warranty of"
+         },
+         {
+            "line" : 13,
+            "text" : "#   GNU General Public License for more details."
+         },
+         {
+            "line" : 15,
+            "text" : "#   You should have received a copy of the GNU General Public License"
+         },
+         {
+            "line" : 16,
+            "text" : "#   along with this program.  If not, see <http://www.gnu.org/licenses/>."
+         }
+      ],
+      "notice_source" : "vendor/readline/Makefile.in",
+      "sha256" : "31cdab4ae443288d33e6a19b7b9c4e859dc7b05bbb4e6bd625e3a875dbad06d7"
+   },
+   "NEWS" : {
+      "note" : "Retained upstream per-file notices and component-level COPYING apply; evidence is not an automatic license classification",
+      "notice_evidence" : [],
+      "notice_source" : "vendor/readline/NEWS",
+      "sha256" : "ab2f6bfd7a96d62e320c241e8800c2282c666fbce63b2753b8e71f2348f212de"
+   },
+   "README" : {
+      "note" : "Retained upstream per-file notices and component-level COPYING apply; evidence is not an automatic license classification",
+      "notice_evidence" : [
+         {
+            "line" : 19,
+            "text" : "the [GNU] General Public License as published by the Free Software"
+         },
+         {
+            "line" : 20,
+            "text" : "Foundation, version 3 of the License.  For more information, see the"
+         }
+      ],
+      "notice_source" : "vendor/readline/README",
+      "sha256" : "c66390595e51c1ab99aeac37ee9cd5f7cd652e1ee5da86dea7682f769205e57c"
+   },
+   "USAGE" : {
+      "note" : "Retained upstream per-file notices and component-level COPYING apply; evidence is not an automatic license classification",
+      "notice_evidence" : [],
+      "notice_source" : "vendor/readline/USAGE",
+      "sha256" : "0759c74d61889b687f33cb03899630d8ecc09c5ebe7cedd2dd2e17eeef193f93"
+   },
+   "aclocal.m4" : {
+      "note" : "Retained upstream per-file notices and component-level COPYING apply; evidence is not an automatic license classification",
+      "notice_evidence" : [
+         {
+            "line" : 6,
+            "text" : "dnl Copyright (C) 1987-2025 Free Software Foundation, Inc."
+         }
+      ],
+      "notice_source" : "vendor/readline/aclocal.m4",
+      "sha256" : "e67a8ff710a1af49d57c3196ae5d516f3739867a4904799f6f79f13c72a54c03"
+   },
+   "ansi_stdlib.h" : {
+      "note" : "Retained upstream per-file notices and component-level COPYING apply; evidence is not an automatic license classification",
+      "notice_evidence" : [
+         {
+            "line" : 5,
+            "text" : "/* Copyright (C) 1993,2023 Free Software Foundation, Inc."
+         },
+         {
+            "line" : 10,
+            "text" : "   it under the terms of the GNU General Public License as published by"
+         },
+         {
+            "line" : 11,
+            "text" : "   the Free Software Foundation, either version 3 of the License, or"
+         },
+         {
+            "line" : 15,
+            "text" : "   but WITHOUT ANY WARRANTY; without even the implied warranty of"
+         },
+         {
+            "line" : 17,
+            "text" : "   GNU General Public License for more details."
+         },
+         {
+            "line" : 19,
+            "text" : "   You should have received a copy of the GNU General Public License"
+         },
+         {
+            "line" : 20,
+            "text" : "   along with Bash.  If not, see <http://www.gnu.org/licenses/>."
+         }
+      ],
+      "notice_source" : "vendor/readline/ansi_stdlib.h",
+      "sha256" : "d71ec4c8dbca7ec5f0adedd3ae9c527beacdae29e49fa9086ef7325e2aaf68ad"
+   },
+   "bind.c" : {
+      "note" : "Retained upstream per-file notices and component-level COPYING apply; evidence is not an automatic license classification",
+      "notice_evidence" : [
+         {
+            "line" : 3,
+            "text" : "/* Copyright (C) 1987-2024 Free Software Foundation, Inc."
+         },
+         {
+            "line" : 9,
+            "text" : "   it under the terms of the GNU General Public License as published by"
+         },
+         {
+            "line" : 10,
+            "text" : "   the Free Software Foundation, either version 3 of the License, or"
+         },
+         {
+            "line" : 14,
+            "text" : "   but WITHOUT ANY WARRANTY; without even the implied warranty of"
+         },
+         {
+            "line" : 16,
+            "text" : "   GNU General Public License for more details."
+         },
+         {
+            "line" : 18,
+            "text" : "   You should have received a copy of the GNU General Public License"
+         },
+         {
+            "line" : 19,
+            "text" : "   along with Readline.  If not, see <http://www.gnu.org/licenses/>."
+         }
+      ],
+      "notice_source" : "vendor/readline/bind.c",
+      "sha256" : "29ba334b17435beebe8df110fec88e6fde17f803b4fcdf5e1ba971a4492aa5ab"
+   },
+   "callback.c" : {
+      "note" : "Retained upstream per-file notices and component-level COPYING apply; evidence is not an automatic license classification",
+      "notice_evidence" : [
+         {
+            "line" : 3,
+            "text" : "/* Copyright (C) 1987-2024 Free Software Foundation, Inc."
+         },
+         {
+            "line" : 9,
+            "text" : "   it under the terms of the GNU General Public License as published by"
+         },
+         {
+            "line" : 10,
+            "text" : "   the Free Software Foundation, either version 3 of the License, or"
+         },
+         {
+            "line" : 14,
+            "text" : "   but WITHOUT ANY WARRANTY; without even the implied warranty of"
+         },
+         {
+            "line" : 16,
+            "text" : "   GNU General Public License for more details."
+         },
+         {
+            "line" : 18,
+            "text" : "   You should have received a copy of the GNU General Public License"
+         },
+         {
+            "line" : 19,
+            "text" : "   along with Readline.  If not, see <http://www.gnu.org/licenses/>."
+         }
+      ],
+      "notice_source" : "vendor/readline/callback.c",
+      "sha256" : "9423757413b71990cffbf83dd80dc8fe37c892d06d90442ec08eb081dc569e2f"
+   },
+   "chardefs.h" : {
+      "note" : "Retained upstream per-file notices and component-level COPYING apply; evidence is not an automatic license classification",
+      "notice_evidence" : [
+         {
+            "line" : 3,
+            "text" : "/* Copyright (C) 1994-2021 Free Software Foundation, Inc."
+         },
+         {
+            "line" : 9,
+            "text" : "   it under the terms of the GNU General Public License as published by"
+         },
+         {
+            "line" : 10,
+            "text" : "   the Free Software Foundation, either version 3 of the License, or"
+         },
+         {
+            "line" : 14,
+            "text" : "   but WITHOUT ANY WARRANTY; without even the implied warranty of"
+         },
+         {
+            "line" : 16,
+            "text" : "   GNU General Public License for more details."
+         },
+         {
+            "line" : 18,
+            "text" : "   You should have received a copy of the GNU General Public License"
+         },
+         {
+            "line" : 19,
+            "text" : "   along with Readline.  If not, see <http://www.gnu.org/licenses/>."
+         }
+      ],
+      "notice_source" : "vendor/readline/chardefs.h",
+      "sha256" : "9ba24bdf97311a56b49494aa17072965cae628390d648e207622f4068da960ff"
+   },
+   "colors.c" : {
+      "note" : "Retained upstream per-file notices and component-level COPYING apply; evidence is not an automatic license classification",
+      "notice_evidence" : [
+         {
+            "line" : 5,
+            "text" : "   Copyright (C) 1985, 1988, 1990-1991, 1995-2021, 2023"
+         },
+         {
+            "line" : 9,
+            "text" : "   it under the terms of the GNU General Public License as published by"
+         },
+         {
+            "line" : 10,
+            "text" : "   the Free Software Foundation, either version 3 of the License, or"
+         },
+         {
+            "line" : 14,
+            "text" : "   but WITHOUT ANY WARRANTY; without even the implied warranty of"
+         },
+         {
+            "line" : 16,
+            "text" : "   GNU General Public License for more details."
+         },
+         {
+            "line" : 18,
+            "text" : "   You should have received a copy of the GNU General Public License"
+         },
+         {
+            "line" : 19,
+            "text" : "   along with this program.  If not, see <http://www.gnu.org/licenses/>.  */"
+         }
+      ],
+      "notice_source" : "vendor/readline/colors.c",
+      "sha256" : "32ed2dcb418d8a788af87d375f9748bee04a5c1c4c69fc9ceace3e80cd1263fe"
+   },
+   "colors.h" : {
+      "note" : "Retained upstream per-file notices and component-level COPYING apply; evidence is not an automatic license classification",
+      "notice_evidence" : [
+         {
+            "line" : 5,
+            "text" : "   Copyright (C) 1985, 1988, 1990-1991, 1995-2010, 2012, 2015"
+         },
+         {
+            "line" : 9,
+            "text" : "   it under the terms of the GNU General Public License as published by"
+         },
+         {
+            "line" : 10,
+            "text" : "   the Free Software Foundation, either version 3 of the License, or"
+         },
+         {
+            "line" : 14,
+            "text" : "   but WITHOUT ANY WARRANTY; without even the implied warranty of"
+         },
+         {
+            "line" : 16,
+            "text" : "   GNU General Public License for more details."
+         },
+         {
+            "line" : 18,
+            "text" : "   You should have received a copy of the GNU General Public License"
+         },
+         {
+            "line" : 19,
+            "text" : "   along with this program.  If not, see <http://www.gnu.org/licenses/>.  */"
+         }
+      ],
+      "notice_source" : "vendor/readline/colors.h",
+      "sha256" : "74ea8d310d1b4a559ff9c42f96ee246c13675005d36f35e4652a3b2fc3600936"
+   },
+   "compat.c" : {
+      "note" : "Retained upstream per-file notices and component-level COPYING apply; evidence is not an automatic license classification",
+      "notice_evidence" : [
+         {
+            "line" : 3,
+            "text" : "/* Copyright (C) 2000-2021 Free Software Foundation, Inc."
+         },
+         {
+            "line" : 9,
+            "text" : "   it under the terms of the GNU General Public License as published by"
+         },
+         {
+            "line" : 10,
+            "text" : "   the Free Software Foundation, either version 3 of the License, or"
+         },
+         {
+            "line" : 14,
+            "text" : "   but WITHOUT ANY WARRANTY; without even the implied warranty of"
+         },
+         {
+            "line" : 16,
+            "text" : "   GNU General Public License for more details."
+         },
+         {
+            "line" : 18,
+            "text" : "   You should have received a copy of the GNU General Public License"
+         },
+         {
+            "line" : 19,
+            "text" : "   along with Readline.  If not, see <http://www.gnu.org/licenses/>."
+         }
+      ],
+      "notice_source" : "vendor/readline/compat.c",
+      "sha256" : "411767e69b3f1599ba632bb77a65278a5a6398d5e5f3ce3a5b9e653dc6d35eee"
+   },
+   "complete.c" : {
+      "note" : "Retained upstream per-file notices and component-level COPYING apply; evidence is not an automatic license classification",
+      "notice_evidence" : [
+         {
+            "line" : 3,
+            "text" : "/* Copyright (C) 1987-2025 Free Software Foundation, Inc."
+         },
+         {
+            "line" : 9,
+            "text" : "   it under the terms of the GNU General Public License as published by"
+         },
+         {
+            "line" : 10,
+            "text" : "   the Free Software Foundation, either version 3 of the License, or"
+         },
+         {
+            "line" : 14,
+            "text" : "   but WITHOUT ANY WARRANTY; without even the implied warranty of"
+         },
+         {
+            "line" : 16,
+            "text" : "   GNU General Public License for more details."
+         },
+         {
+            "line" : 18,
+            "text" : "   You should have received a copy of the GNU General Public License"
+         },
+         {
+            "line" : 19,
+            "text" : "   along with Readline.  If not, see <http://www.gnu.org/licenses/>."
+         }
+      ],
+      "notice_source" : "vendor/readline/complete.c",
+      "sha256" : "3fbc27ab518acda456764a00ba27cc1f66692b1525a5565c70b3cc81af400415"
+   },
+   "config.h.in" : {
+      "note" : "Retained upstream per-file notices and component-level COPYING apply; evidence is not an automatic license classification",
+      "notice_evidence" : [
+         {
+            "line" : 3,
+            "text" : "/* Copyright (C) 1994-2024 Free Software Foundation, Inc."
+         },
+         {
+            "line" : 6,
+            "text" : "   it under the terms of the GNU General Public License as published by"
+         },
+         {
+            "line" : 7,
+            "text" : "   the Free Software Foundation, either version 3 of the License, or"
+         },
+         {
+            "line" : 11,
+            "text" : "   but WITHOUT ANY WARRANTY; without even the implied warranty of"
+         },
+         {
+            "line" : 13,
+            "text" : "   GNU General Public License for more details."
+         },
+         {
+            "line" : 15,
+            "text" : "   You should have received a copy of the GNU General Public License"
+         },
+         {
+            "line" : 16,
+            "text" : "   along with this program.  If not, see <http://www.gnu.org/licenses/>."
+         }
+      ],
+      "notice_source" : "vendor/readline/config.h.in",
+      "sha256" : "598c2c3897ecb818230ee8b8140d3610f4ded326bdda3c116ad5f5689647c357"
+   },
+   "configure" : {
+      "note" : "Retained upstream per-file notices and component-level COPYING apply; evidence is not an automatic license classification",
+      "notice_evidence" : [
+         {
+            "line" : 9,
+            "text" : "# Copyright (C) 1992-1996, 1998-2017, 2020-2023 Free Software Foundation,"
+         },
+         {
+            "line" : 14,
+            "text" : "# gives unlimited permission to copy, distribute and modify it."
+         },
+         {
+            "line" : 1489,
+            "text" : "Copyright (C) 2023 Free Software Foundation, Inc."
+         },
+         {
+            "line" : 1491,
+            "text" : "gives unlimited permission to copy, distribute and modify it."
+         },
+         {
+            "line" : 8661,
+            "text" : "Copyright (C) 2023 Free Software Foundation, Inc."
+         },
+         {
+            "line" : 8663,
+            "text" : "gives unlimited permission to copy, distribute and modify it.\""
+         }
+      ],
+      "notice_source" : "vendor/readline/configure",
+      "sha256" : "a31ab0c060e23df1d2c88ca2ba96eb44f1a030835dd8eea068756f1c87aba7af"
+   },
+   "configure.ac" : {
+      "note" : "Retained upstream per-file notices and component-level COPYING apply; evidence is not an automatic license classification",
+      "notice_evidence" : [
+         {
+            "line" : 8,
+            "text" : "# Copyright (C) 1987-2024 Free Software Foundation, Inc."
+         },
+         {
+            "line" : 11,
+            "text" : "#   it under the terms of the GNU General Public License as published by"
+         },
+         {
+            "line" : 12,
+            "text" : "#   the Free Software Foundation, either version 3 of the License, or"
+         },
+         {
+            "line" : 16,
+            "text" : "#   but WITHOUT ANY WARRANTY; without even the implied warranty of"
+         },
+         {
+            "line" : 18,
+            "text" : "#   GNU General Public License for more details."
+         },
+         {
+            "line" : 20,
+            "text" : "#   You should have received a copy of the GNU General Public License"
+         },
+         {
+            "line" : 21,
+            "text" : "#   along with this program.  If not, see <http://www.gnu.org/licenses/>."
+         }
+      ],
+      "notice_source" : "vendor/readline/configure.ac",
+      "sha256" : "3ef2a94f543adda44f2946de3ebfcd4b26195857b506d14106b186d8d8068cc2"
+   },
+   "display.c" : {
+      "note" : "Retained upstream per-file notices and component-level COPYING apply; evidence is not an automatic license classification",
+      "notice_evidence" : [
+         {
+            "line" : 3,
+            "text" : "/* Copyright (C) 1987-2025 Free Software Foundation, Inc."
+         },
+         {
+            "line" : 9,
+            "text" : "   it under the terms of the GNU General Public License as published by"
+         },
+         {
+            "line" : 10,
+            "text" : "   the Free Software Foundation, either version 3 of the License, or"
+         },
+         {
+            "line" : 14,
+            "text" : "   but WITHOUT ANY WARRANTY; without even the implied warranty of"
+         },
+         {
+            "line" : 16,
+            "text" : "   GNU General Public License for more details."
+         },
+         {
+            "line" : 18,
+            "text" : "   You should have received a copy of the GNU General Public License"
+         },
+         {
+            "line" : 19,
+            "text" : "   along with Readline.  If not, see <http://www.gnu.org/licenses/>."
+         }
+      ],
+      "notice_source" : "vendor/readline/display.c",
+      "sha256" : "cf775ea85f801f452551959b9158aa07d0617abc643b18a6ee64335438a16a2f"
+   },
+   "doc/Makefile.in" : {
+      "note" : "Retained upstream per-file notices and component-level COPYING apply; evidence is not an automatic license classification",
+      "notice_evidence" : [
+         {
+            "line" : 4,
+            "text" : "# Copyright (C) 1996-2024 Free Software Foundation, Inc."
+         },
+         {
+            "line" : 7,
+            "text" : "#   it under the terms of the GNU General Public License as published by"
+         },
+         {
+            "line" : 8,
+            "text" : "#   the Free Software Foundation, either version 3 of the License, or"
+         },
+         {
+            "line" : 12,
+            "text" : "#   but WITHOUT ANY WARRANTY; without even the implied warranty of"
+         },
+         {
+            "line" : 14,
+            "text" : "#   GNU General Public License for more details."
+         },
+         {
+            "line" : 16,
+            "text" : "#   You should have received a copy of the GNU General Public License"
+         },
+         {
+            "line" : 17,
+            "text" : "#   along with this program.  If not, see <http://www.gnu.org/licenses/>."
+         }
+      ],
+      "notice_source" : "vendor/readline/doc/Makefile.in",
+      "sha256" : "f8d1f83c412c41b36fe849bf28b1396d1a40a4b5cd46b273acc0a0c3b20b02fa"
+   },
+   "doc/fdl.texi" : {
+      "note" : "Retained upstream per-file notices and component-level COPYING apply; evidence is not an automatic license classification",
+      "notice_evidence" : [
+         {
+            "line" : 1,
+            "text" : "@c The GNU Free Documentation License."
+         },
+         {
+            "line" : 8,
+            "text" : "Copyright @copyright{} 2000, 2001, 2002, 2007, 2008 Free Software Foundation, Inc."
+         },
+         {
+            "line" : 12,
+            "text" : "of this license document, but changing it is not allowed."
+         },
+         {
+            "line" : 19,
+            "text" : "The purpose of this License is to make a manual, textbook, or other"
+         },
+         {
+            "line" : 23,
+            "text" : "Secondarily, this License preserves for the author and publisher a way"
+         },
+         {
+            "line" : 27,
+            "text" : "This License is a kind of ``copyleft'', which means that derivative"
+         },
+         {
+            "line" : 29,
+            "text" : "complements the GNU General Public License, which is a copyleft"
+         },
+         {
+            "line" : 30,
+            "text" : "license designed for free software."
+         },
+         {
+            "line" : 32,
+            "text" : "We have designed this License in order to use it for manuals for free"
+         },
+         {
+            "line" : 35,
+            "text" : "software does.  But this License is not limited to software manuals;"
+         },
+         {
+            "line" : 37,
+            "text" : "whether it is published as a printed book.  We recommend this License"
+         },
+         {
+            "line" : 43,
+            "text" : "This License applies to any manual or other work, in any medium, that"
+         },
+         {
+            "line" : 44,
+            "text" : "contains a notice placed by the copyright holder saying it can be"
+         },
+         {
+            "line" : 45,
+            "text" : "distributed under the terms of this License.  Such a notice grants a"
+         },
+         {
+            "line" : 46,
+            "text" : "world-wide, royalty-free license, unlimited in duration, to use that"
+         },
+         {
+            "line" : 49,
+            "text" : "licensee, and is addressed as ``you''.  You accept the license if you"
+         },
+         {
+            "line" : 50,
+            "text" : "copy, modify or distribute the work in a way requiring permission"
+         },
+         {
+            "line" : 51,
+            "text" : "under copyright law."
+         },
+         {
+            "line" : 59,
+            "text" : "publishers or authors of the Document to the Document's overall"
+         },
+         {
+            "line" : 70,
+            "text" : "that says that the Document is released under this License.  If a"
+         },
+         {
+            "line" : 78,
+            "text" : "the Document is released under this License.  A Front-Cover Text may"
+         },
+         {
+            "line" : 109,
+            "text" : "this License requires to appear in the title page.  For works in"
+         },
+         {
+            "line" : 125,
+            "text" : "The Document may include Warranty Disclaimers next to the notice which"
+         },
+         {
+            "line" : 126,
+            "text" : "states that this License applies to the Document.  These Warranty"
+         },
+         {
+            "line" : 128,
+            "text" : "License, but only as regards disclaiming warranties: any other"
+         },
+         {
+            "line" : 129,
+            "text" : "implication that these Warranty Disclaimers may have is void and has"
+         },
+         {
+            "line" : 130,
+            "text" : "no effect on the meaning of this License."
+         },
+         {
+            "line" : 136,
+            "text" : "commercially or noncommercially, provided that this License, the"
+         },
+         {
+            "line" : 137,
+            "text" : "copyright notices, and the license notice saying this License applies"
+         },
+         {
+            "line" : 139,
+            "text" : "conditions whatsoever to those of this License.  You may not use"
+         }
+      ],
+      "notice_source" : "vendor/readline/doc/fdl.texi",
+      "sha256" : "a7e43ea88ee8fc4722d38482fd1a14c12bfbe2f0512d61980c810627b19cdce5"
+   },
+   "doc/history.0" : {
+      "note" : "Retained upstream per-file notices and component-level COPYING apply; evidence is not an automatic license classification",
+      "notice_evidence" : [
+         {
+            "line" : 7,
+            "text" : "       The GNU History Library is Copyright (C) 1989-2025 by the Free Software"
+         }
+      ],
+      "notice_source" : "vendor/readline/doc/history.0",
+      "sha256" : "59fd05e8e2f1d729f2c94d6fde78a602640ba5fc56663634143b29e368bd0732"
+   },
+   "doc/history.3" : {
+      "note" : "Retained upstream per-file notices and component-level COPYING apply; evidence is not an automatic license classification",
+      "notice_evidence" : [
+         {
+            "line" : 81,
+            "text" : ".SH COPYRIGHT"
+         },
+         {
+            "line" : 82,
+            "text" : ".if t The GNU History Library is Copyright \\(co 1989-2025 by the Free Software Foundation, Inc."
+         },
+         {
+            "line" : 83,
+            "text" : ".if n The GNU History Library is Copyright (C) 1989-2025 by the Free Software Foundation, Inc."
+         },
+         {
+            "line" : 770,
+            "text" : ".SH AUTHORS"
+         }
+      ],
+      "notice_source" : "vendor/readline/doc/history.3",
+      "sha256" : "49625c9f34dbedc1b4881fe36f10459849cc9b39a479d067e191a470b0ce8a94"
+   },
+   "doc/history.dvi" : {
+      "note" : "Generated documentation: consult retained master source and original embedded notices",
+      "notice_source" : "vendor/readline/doc/history.texi",
+      "sha256" : "c1fe54feb3547c8486a74aac0a2384ef728bcdc556365ad3e4a34ddbcba2cc9a"
+   },
+   "doc/history.html" : {
+      "note" : "Retained upstream per-file notices and component-level COPYING apply; evidence is not an automatic license classification",
+      "notice_evidence" : [
+         {
+            "line" : 11,
+            "text" : "Copyright © 1988-2025 Free Software Foundation, Inc."
+         },
+         {
+            "line" : 13,
+            "text" : "Permission is granted to copy, distribute and/or modify this document"
+         },
+         {
+            "line" : 14,
+            "text" : "under the terms of the GNU Free Documentation License, Version 1.3 or"
+         },
+         {
+            "line" : 17,
+            "text" : "A copy of the license is included in the section entitled"
+         },
+         {
+            "line" : 18,
+            "text" : "\"GNU Free Documentation License\"."
+         },
+         {
+            "line" : 110,
+            "text" : "  <li><a id=\"toc-GNU-Free-Documentation-License-1\" href=\"#GNU-Free-Documentation-License\">Appendix A GNU Free Documentation License</a></li>"
+         },
+         {
+            "line" : 449,
+            "text" : "Next: <a href=\"#GNU-Free-Documentation-License\" accesskey=\"n\" rel=\"next\">GNU Free Documentation License</a>, Previous: <a href=\"#Using-History-Interactively\" accesskey=\"p\" rel=\"prev\">Using History Interactively</a>, Up: <a href=\"#Top\" accesskey=\"u\" rel=\"up\">GNU History Library</a> &nbsp; [<a href=\"#SEC_Contents\" title=\"Table of contents\" rel=\"contents\">Contents</a>][<a href=\"#Concept-Index\" title=\"Index\" rel=\"index\">Index</a>]</p>"
+         },
+         {
+            "line" : 1184,
+            "text" : "<div class=\"appendix-level-extent\" id=\"GNU-Free-Documentation-License\">"
+         },
+         {
+            "line" : 1189,
+            "text" : "<h2 class=\"appendix\" id=\"GNU-Free-Documentation-License-1\"><span>Appendix A GNU Free Documentation License<a class=\"copiable-link\" href=\"#GNU-Free-Documentation-License-1\"> &para;</a></span></h2>"
+         },
+         {
+            "line" : 1195,
+            "text" : "<pre class=\"display-preformatted\">Copyright &copy; 2000, 2001, 2002, 2007, 2008 Free Software Foundation, Inc."
+         },
+         {
+            "line" : 1199,
+            "text" : "of this license document, but changing it is not allowed."
+         },
+         {
+            "line" : 1205,
+            "text" : "<p>The purpose of this License is to make a manual, textbook, or other"
+         },
+         {
+            "line" : 1209,
+            "text" : "Secondarily, this License preserves for the author and publisher a way"
+         },
+         {
+            "line" : 1213,
+            "text" : "<p>This License is a kind of &ldquo;copyleft&rdquo;, which means that derivative"
+         },
+         {
+            "line" : 1215,
+            "text" : "complements the GNU General Public License, which is a copyleft"
+         },
+         {
+            "line" : 1216,
+            "text" : "license designed for free software."
+         },
+         {
+            "line" : 1218,
+            "text" : "<p>We have designed this License in order to use it for manuals for free"
+         },
+         {
+            "line" : 1221,
+            "text" : "software does.  But this License is not limited to software manuals;"
+         },
+         {
+            "line" : 1223,
+            "text" : "whether it is published as a printed book.  We recommend this License"
+         },
+         {
+            "line" : 1228,
+            "text" : "<p>This License applies to any manual or other work, in any medium, that"
+         },
+         {
+            "line" : 1229,
+            "text" : "contains a notice placed by the copyright holder saying it can be"
+         },
+         {
+            "line" : 1230,
+            "text" : "distributed under the terms of this License.  Such a notice grants a"
+         },
+         {
+            "line" : 1231,
+            "text" : "world-wide, royalty-free license, unlimited in duration, to use that"
+         },
+         {
+            "line" : 1234,
+            "text" : "licensee, and is addressed as &ldquo;you&rdquo;.  You accept the license if you"
+         },
+         {
+            "line" : 1235,
+            "text" : "copy, modify or distribute the work in a way requiring permission"
+         },
+         {
+            "line" : 1236,
+            "text" : "under copyright law."
+         },
+         {
+            "line" : 1244,
+            "text" : "publishers or authors of the Document to the Document&rsquo;s overall"
+         },
+         {
+            "line" : 1255,
+            "text" : "that says that the Document is released under this License.  If a"
+         },
+         {
+            "line" : 1263,
+            "text" : "the Document is released under this License.  A Front-Cover Text may"
+         },
+         {
+            "line" : 1294,
+            "text" : "this License requires to appear in the title page.  For works in"
+         }
+      ],
+      "notice_source" : "vendor/readline/doc/history.html",
+      "sha256" : "2eec7a7084f73aec15e6e1ad103e6c3ca36ab384bb6cb55123a3c08e858aa08c"
+   },
+   "doc/history.info" : {
+      "note" : "Binary upstream material retained verbatim; consult component notices",
+      "notice_source" : "vendor/readline/doc/history.info",
+      "sha256" : "f547b3c8547ee4092941f088ccbb1301eb40a509bca39708f8dca87627563b69"
+   },
+   "doc/history.pdf" : {
+      "note" : "Generated documentation: consult retained master source and original embedded notices",
+      "notice_source" : "vendor/readline/doc/history.texi",
+      "sha256" : "ee67653a77467fc6619468d4cde0c0acefcadc535dbae363e97b34827e185934"
+   },
+   "doc/history.ps" : {
+      "note" : "Generated documentation: consult retained master source and original embedded notices",
+      "notice_source" : "vendor/readline/doc/history.texi",
+      "sha256" : "11a929ee5279d03d840e79f51c41b999b60f2261606e48c51b3a703ef55fae1c"
+   },
+   "doc/history.texi" : {
+      "note" : "Retained upstream per-file notices and component-level COPYING apply; evidence is not an automatic license classification",
+      "notice_evidence" : [
+         {
+            "line" : 15,
+            "text" : "Copyright @copyright{} 1988--2025 Free Software Foundation, Inc."
+         },
+         {
+            "line" : 18,
+            "text" : "Permission is granted to copy, distribute and/or modify this document"
+         },
+         {
+            "line" : 19,
+            "text" : "under the terms of the GNU Free Documentation License, Version 1.3 or"
+         },
+         {
+            "line" : 22,
+            "text" : "A copy of the license is included in the section entitled"
+         },
+         {
+            "line" : 23,
+            "text" : "``GNU Free Documentation License''."
+         },
+         {
+            "line" : 37,
+            "text" : "@author Chet Ramey, Case Western Reserve University"
+         },
+         {
+            "line" : 38,
+            "text" : "@author Brian Fox, Free Software Foundation"
+         },
+         {
+            "line" : 60,
+            "text" : "* GNU Free Documentation License::\tLicense for copying this manual."
+         },
+         {
+            "line" : 72,
+            "text" : "@node GNU Free Documentation License"
+         },
+         {
+            "line" : 73,
+            "text" : "@appendix GNU Free Documentation License"
+         }
+      ],
+      "notice_source" : "vendor/readline/doc/history.texi",
+      "sha256" : "90edcd892a36e349953b703f756ae1116d4cad48bab8e860868197850006f4c0"
+   },
+   "doc/history_3.pdf" : {
+      "note" : "Generated documentation: consult retained master source and original embedded notices",
+      "notice_source" : "vendor/readline/doc/history.texi",
+      "sha256" : "f0b14c7f293e0c1fd3d6aae9d8f4f5a4a2b994905e67161f3384aee9cb9580f3"
+   },
+   "doc/history_3.ps" : {
+      "note" : "Generated documentation: consult retained master source and original embedded notices",
+      "notice_source" : "vendor/readline/doc/history.texi",
+      "sha256" : "158c00a42b6597cbae8f2ebc8a6c3b6452385254e84302f071eab9ff8e06b18c"
+   },
+   "doc/hstech.texi" : {
+      "note" : "Retained upstream per-file notices and component-level COPYING apply; evidence is not an automatic license classification",
+      "notice_evidence" : [
+         {
+            "line" : 4,
+            "text" : "Copyright (C) 1988-2025 Free Software Foundation, Inc."
+         },
+         {
+            "line" : 5,
+            "text" : "Authored by Brian Fox and Chet Ramey."
+         },
+         {
+            "line" : 7,
+            "text" : "Permission is granted to make and distribute verbatim copies of this manual"
+         },
+         {
+            "line" : 8,
+            "text" : "provided the copyright notice and this permission notice are preserved on"
+         },
+         {
+            "line" : 11,
+            "text" : "Permission is granted to process this file through Tex and print the"
+         },
+         {
+            "line" : 12,
+            "text" : "results, provided the printed document carries copying permission notice"
+         },
+         {
+            "line" : 16,
+            "text" : "Permission is granted to copy and distribute modified versions of this"
+         },
+         {
+            "line" : 18,
+            "text" : "GNU Copyright statement is available to the distributee, and provided that"
+         },
+         {
+            "line" : 20,
+            "text" : "permission notice identical to this one."
+         },
+         {
+            "line" : 22,
+            "text" : "Permission is granted to copy and distribute translations of this manual"
+         }
+      ],
+      "notice_source" : "vendor/readline/doc/hstech.texi",
+      "sha256" : "7d89c6523a6ecad2d5ee2a8ff5356a3cc14bed5618adef6f4ebc814eddd4d05f"
+   },
+   "doc/hsuser.texi" : {
+      "note" : "Retained upstream per-file notices and component-level COPYING apply; evidence is not an automatic license classification",
+      "notice_evidence" : [
+         {
+            "line" : 4,
+            "text" : "Copyright (C) 1988--2025 Free Software Foundation, Inc."
+         },
+         {
+            "line" : 5,
+            "text" : "Authored by Brian Fox and Chet Ramey."
+         },
+         {
+            "line" : 7,
+            "text" : "Permission is granted to make and distribute verbatim copies of this manual"
+         },
+         {
+            "line" : 8,
+            "text" : "provided the copyright notice and this permission notice are preserved on"
+         },
+         {
+            "line" : 11,
+            "text" : "Permission is granted to process this file through Tex and print the"
+         },
+         {
+            "line" : 12,
+            "text" : "results, provided the printed document carries copying permission notice"
+         },
+         {
+            "line" : 16,
+            "text" : "Permission is granted to copy and distribute modified versions of this"
+         },
+         {
+            "line" : 18,
+            "text" : "GNU Copyright statement is available to the distributee, and provided that"
+         },
+         {
+            "line" : 20,
+            "text" : "permission notice identical to this one."
+         },
+         {
+            "line" : 22,
+            "text" : "Permission is granted to copy and distribute translations of this manual"
+         }
+      ],
+      "notice_source" : "vendor/readline/doc/hsuser.texi",
+      "sha256" : "dc98de5bd1fb8e440dbdae418024d4c3a3181aee6984197fe74153dc977ba197"
+   },
+   "doc/readline.0" : {
+      "note" : "Retained upstream per-file notices and component-level COPYING apply; evidence is not an automatic license classification",
+      "notice_evidence" : [
+         {
+            "line" : 15,
+            "text" : "       Readline is Copyright (C) 1989-2025 Free Software Foundation,  Inc."
+         }
+      ],
+      "notice_source" : "vendor/readline/doc/readline.0",
+      "sha256" : "75b87d19b8878c9d485d714ee367765488ba5f5a3578f5949df6d5474120f45e"
+   },
+   "doc/readline.3" : {
+      "note" : "Retained upstream per-file notices and component-level COPYING apply; evidence is not an automatic license classification",
+      "notice_evidence" : [
+         {
+            "line" : 62,
+            "text" : ".SH COPYRIGHT"
+         },
+         {
+            "line" : 63,
+            "text" : ".if n Readline is Copyright (C) 1989\\-2025 Free Software Foundation,  Inc."
+         },
+         {
+            "line" : 64,
+            "text" : ".if t Readline is Copyright \\(co 1989\\-2025 Free Software Foundation, Inc."
+         },
+         {
+            "line" : 1856,
+            "text" : ".SH AUTHORS"
+         }
+      ],
+      "notice_source" : "vendor/readline/doc/readline.3",
+      "sha256" : "2254c883f9d0af108d93a20ddae98363f82885d2ab36f08b34d76ae6eaec22bc"
+   },
+   "doc/readline.dvi" : {
+      "note" : "Generated documentation: consult retained master source and original embedded notices",
+      "notice_source" : "vendor/readline/doc/rlman.texi",
+      "sha256" : "4396f0a9f6bb8ff1cd862a7146125b913b604f69564b79a4358865ca762d5c29"
+   },
+   "doc/readline.html" : {
+      "note" : "Retained upstream per-file notices and component-level COPYING apply; evidence is not an automatic license classification",
+      "notice_evidence" : [
+         {
+            "line" : 11,
+            "text" : "Copyright © 1988-2025 Free Software Foundation, Inc."
+         },
+         {
+            "line" : 13,
+            "text" : "Permission is granted to copy, distribute and/or modify this document"
+         },
+         {
+            "line" : 14,
+            "text" : "under the terms of the GNU Free Documentation License, Version 1.3 or"
+         },
+         {
+            "line" : 17,
+            "text" : "A copy of the license is included in the section entitled"
+         },
+         {
+            "line" : 18,
+            "text" : "\"GNU Free Documentation License\"."
+         },
+         {
+            "line" : 155,
+            "text" : "  <li><a id=\"toc-GNU-Free-Documentation-License-1\" href=\"#GNU-Free-Documentation-License\">Appendix A GNU Free Documentation License</a></li>"
+         },
+         {
+            "line" : 2274,
+            "text" : "Next: <a href=\"#GNU-Free-Documentation-License\" accesskey=\"n\" rel=\"next\">GNU Free Documentation License</a>, Previous: <a href=\"#Command-Line-Editing\" accesskey=\"p\" rel=\"prev\">Command Line Editing</a>, Up: <a href=\"#Top\" accesskey=\"u\" rel=\"up\">GNU Readline Library</a> &nbsp; [<a href=\"#SEC_Contents\" title=\"Table of contents\" rel=\"contents\">Contents</a>][<a href=\"#Concept-Index\" title=\"Index\" rel=\"index\">Index</a>]</p>"
+         },
+         {
+            "line" : 5647,
+            "text" : "<div class=\"appendix-level-extent\" id=\"GNU-Free-Documentation-License\">"
+         },
+         {
+            "line" : 5652,
+            "text" : "<h2 class=\"appendix\" id=\"GNU-Free-Documentation-License-1\"><span>Appendix A GNU Free Documentation License<a class=\"copiable-link\" href=\"#GNU-Free-Documentation-License-1\"> &para;</a></span></h2>"
+         },
+         {
+            "line" : 5658,
+            "text" : "<pre class=\"display-preformatted\">Copyright &copy; 2000, 2001, 2002, 2007, 2008 Free Software Foundation, Inc."
+         },
+         {
+            "line" : 5662,
+            "text" : "of this license document, but changing it is not allowed."
+         },
+         {
+            "line" : 5668,
+            "text" : "<p>The purpose of this License is to make a manual, textbook, or other"
+         },
+         {
+            "line" : 5672,
+            "text" : "Secondarily, this License preserves for the author and publisher a way"
+         },
+         {
+            "line" : 5676,
+            "text" : "<p>This License is a kind of &ldquo;copyleft&rdquo;, which means that derivative"
+         },
+         {
+            "line" : 5678,
+            "text" : "complements the GNU General Public License, which is a copyleft"
+         },
+         {
+            "line" : 5679,
+            "text" : "license designed for free software."
+         },
+         {
+            "line" : 5681,
+            "text" : "<p>We have designed this License in order to use it for manuals for free"
+         },
+         {
+            "line" : 5684,
+            "text" : "software does.  But this License is not limited to software manuals;"
+         },
+         {
+            "line" : 5686,
+            "text" : "whether it is published as a printed book.  We recommend this License"
+         },
+         {
+            "line" : 5691,
+            "text" : "<p>This License applies to any manual or other work, in any medium, that"
+         },
+         {
+            "line" : 5692,
+            "text" : "contains a notice placed by the copyright holder saying it can be"
+         },
+         {
+            "line" : 5693,
+            "text" : "distributed under the terms of this License.  Such a notice grants a"
+         },
+         {
+            "line" : 5694,
+            "text" : "world-wide, royalty-free license, unlimited in duration, to use that"
+         },
+         {
+            "line" : 5697,
+            "text" : "licensee, and is addressed as &ldquo;you&rdquo;.  You accept the license if you"
+         },
+         {
+            "line" : 5698,
+            "text" : "copy, modify or distribute the work in a way requiring permission"
+         },
+         {
+            "line" : 5699,
+            "text" : "under copyright law."
+         },
+         {
+            "line" : 5707,
+            "text" : "publishers or authors of the Document to the Document&rsquo;s overall"
+         },
+         {
+            "line" : 5718,
+            "text" : "that says that the Document is released under this License.  If a"
+         },
+         {
+            "line" : 5726,
+            "text" : "the Document is released under this License.  A Front-Cover Text may"
+         },
+         {
+            "line" : 5757,
+            "text" : "this License requires to appear in the title page.  For works in"
+         }
+      ],
+      "notice_source" : "vendor/readline/doc/readline.html",
+      "sha256" : "44f209944f7f1166589f2d417bb0904034ecac69db05eeeffc5f4b79a908af31"
+   },
+   "doc/readline.info" : {
+      "note" : "Binary upstream material retained verbatim; consult component notices",
+      "notice_source" : "vendor/readline/doc/readline.info",
+      "sha256" : "500c11a34c367045aa1a37f3f1add3efe00d72386cf1ae911a781e5472a3a0fb"
+   },
+   "doc/readline.pdf" : {
+      "note" : "Generated documentation: consult retained master source and original embedded notices",
+      "notice_source" : "vendor/readline/doc/rlman.texi",
+      "sha256" : "b5ee43e692e9349ff47892f304bf1ae91cff6f80e50677718d486500ab6ec48f"
+   },
+   "doc/readline.ps" : {
+      "note" : "Generated documentation: consult retained master source and original embedded notices",
+      "notice_source" : "vendor/readline/doc/rlman.texi",
+      "sha256" : "80e2dda4686330f5e974fb43449abb2af87190c02c29fd746657dacdfe86f5d9"
+   },
+   "doc/readline_3.pdf" : {
+      "note" : "Generated documentation: consult retained master source and original embedded notices",
+      "notice_source" : "vendor/readline/doc/rlman.texi",
+      "sha256" : "1977cc8a2158969e3576c2463c350f420aa7ab962b35f82263fb882bba9b41d6"
+   },
+   "doc/readline_3.ps" : {
+      "note" : "Generated documentation: consult retained master source and original embedded notices",
+      "notice_source" : "vendor/readline/doc/rlman.texi",
+      "sha256" : "75a9411cb0f369292d662d2926db08ad5b47dfddace560aaba1aa1c7f1eaaff2"
+   },
+   "doc/rlman.texi" : {
+      "note" : "Retained upstream per-file notices and component-level COPYING apply; evidence is not an automatic license classification",
+      "notice_evidence" : [
+         {
+            "line" : 16,
+            "text" : "Copyright @copyright{} 1988--2025 Free Software Foundation, Inc."
+         },
+         {
+            "line" : 19,
+            "text" : "Permission is granted to copy, distribute and/or modify this document"
+         },
+         {
+            "line" : 20,
+            "text" : "under the terms of the GNU Free Documentation License, Version 1.3 or"
+         },
+         {
+            "line" : 23,
+            "text" : "A copy of the license is included in the section entitled"
+         },
+         {
+            "line" : 24,
+            "text" : "``GNU Free Documentation License''."
+         },
+         {
+            "line" : 38,
+            "text" : "@author Chet Ramey, Case Western Reserve University"
+         },
+         {
+            "line" : 39,
+            "text" : "@author Brian Fox, Free Software Foundation"
+         },
+         {
+            "line" : 61,
+            "text" : "* GNU Free Documentation License::\tLicense for copying this manual."
+         },
+         {
+            "line" : 71,
+            "text" : "@node GNU Free Documentation License"
+         },
+         {
+            "line" : 72,
+            "text" : "@appendix GNU Free Documentation License"
+         }
+      ],
+      "notice_source" : "vendor/readline/doc/rlman.texi",
+      "sha256" : "f8f467c61f7c3970ec618695bbbe45c9d80a73fb76b45a4e5ae65ea8c7b7a31f"
+   },
+   "doc/rltech.texi" : {
+      "note" : "Retained upstream per-file notices and component-level COPYING apply; evidence is not an automatic license classification",
+      "notice_evidence" : [
+         {
+            "line" : 10,
+            "text" : "Copyright (C) 1988--2025 Free Software Foundation, Inc."
+         },
+         {
+            "line" : 12,
+            "text" : "Permission is granted to make and distribute verbatim copies of"
+         },
+         {
+            "line" : 13,
+            "text" : "this manual provided the copyright notice and this permission notice"
+         },
+         {
+            "line" : 17,
+            "text" : "Permission is granted to process this file through TeX and print the"
+         },
+         {
+            "line" : 18,
+            "text" : "results, provided the printed document carries copying permission"
+         },
+         {
+            "line" : 23,
+            "text" : "Permission is granted to copy and distribute modified versions of this"
+         },
+         {
+            "line" : 25,
+            "text" : "resulting derived work is distributed under the terms of a permission"
+         },
+         {
+            "line" : 28,
+            "text" : "Permission is granted to copy and distribute translations of this manual"
+         },
+         {
+            "line" : 30,
+            "text" : "except that this permission notice may be stated in a translation approved"
+         }
+      ],
+      "notice_source" : "vendor/readline/doc/rltech.texi",
+      "sha256" : "8d97586226cb88d67064553254253e7305abdec0ffc81f915cfa7ddc9c85c418"
+   },
+   "doc/rluser.texi" : {
+      "note" : "Retained upstream per-file notices and component-level COPYING apply; evidence is not an automatic license classification",
+      "notice_evidence" : [
+         {
+            "line" : 14,
+            "text" : "Copyright (C) 1988--2025 Free Software Foundation, Inc."
+         },
+         {
+            "line" : 16,
+            "text" : "Authored by Brian Fox and Chet Ramey."
+         },
+         {
+            "line" : 18,
+            "text" : "Permission is granted to process this file through Tex and print the"
+         },
+         {
+            "line" : 19,
+            "text" : "results, provided the printed document carries copying permission notice"
+         },
+         {
+            "line" : 23,
+            "text" : "Permission is granted to make and distribute verbatim copies of this manual"
+         },
+         {
+            "line" : 24,
+            "text" : "provided the copyright notice and this permission notice are preserved on"
+         },
+         {
+            "line" : 27,
+            "text" : "Permission is granted to copy and distribute modified versions of this"
+         },
+         {
+            "line" : 29,
+            "text" : "GNU Copyright statement is available to the distributee, and provided that"
+         },
+         {
+            "line" : 31,
+            "text" : "permission notice identical to this one."
+         },
+         {
+            "line" : 33,
+            "text" : "Permission is granted to copy and distribute translations of this manual"
+         }
+      ],
+      "notice_source" : "vendor/readline/doc/rluser.texi",
+      "sha256" : "cd1d3ebe616ccb1e284cb2213343cadccb209fca2251286b56e90bbd7d122992"
+   },
+   "doc/rluserman.dvi" : {
+      "note" : "Generated documentation: consult retained master source and original embedded notices",
+      "notice_source" : "vendor/readline/doc/rluserman.texi",
+      "sha256" : "3a770de93992753ac42a81295d850cd774fe5c645f9da3abefa6042b4baa663e"
+   },
+   "doc/rluserman.html" : {
+      "note" : "Retained upstream per-file notices and component-level COPYING apply; evidence is not an automatic license classification",
+      "notice_evidence" : [
+         {
+            "line" : 11,
+            "text" : "Copyright © 1988-2025 Free Software Foundation, Inc."
+         },
+         {
+            "line" : 13,
+            "text" : "Permission is granted to copy, distribute and/or modify this document"
+         },
+         {
+            "line" : 14,
+            "text" : "under the terms of the GNU Free Documentation License, Version 1.3 or"
+         },
+         {
+            "line" : 17,
+            "text" : "A copy of the license is included in the section entitled"
+         },
+         {
+            "line" : 18,
+            "text" : "\"GNU Free Documentation License\"."
+         },
+         {
+            "line" : 113,
+            "text" : "  <li><a id=\"toc-GNU-Free-Documentation-License-1\" href=\"#GNU-Free-Documentation-License\">Appendix A GNU Free Documentation License</a></li>"
+         },
+         {
+            "line" : 121,
+            "text" : "Next: <a href=\"#GNU-Free-Documentation-License\" accesskey=\"n\" rel=\"next\">GNU Free Documentation License</a>, Previous: <a href=\"#Top\" accesskey=\"p\" rel=\"prev\">GNU Readline Library</a>, Up: <a href=\"#Top\" accesskey=\"u\" rel=\"up\">GNU Readline Library</a> &nbsp; [<a href=\"#SEC_Contents\" title=\"Table of contents\" rel=\"contents\">Contents</a>]</p>"
+         },
+         {
+            "line" : 2226,
+            "text" : "<div class=\"appendix-level-extent\" id=\"GNU-Free-Documentation-License\">"
+         },
+         {
+            "line" : 2231,
+            "text" : "<h2 class=\"appendix\" id=\"GNU-Free-Documentation-License-1\"><span>Appendix A GNU Free Documentation License<a class=\"copiable-link\" href=\"#GNU-Free-Documentation-License-1\"> &para;</a></span></h2>"
+         },
+         {
+            "line" : 2237,
+            "text" : "<pre class=\"display-preformatted\">Copyright &copy; 2000, 2001, 2002, 2007, 2008 Free Software Foundation, Inc."
+         },
+         {
+            "line" : 2241,
+            "text" : "of this license document, but changing it is not allowed."
+         },
+         {
+            "line" : 2247,
+            "text" : "<p>The purpose of this License is to make a manual, textbook, or other"
+         },
+         {
+            "line" : 2251,
+            "text" : "Secondarily, this License preserves for the author and publisher a way"
+         },
+         {
+            "line" : 2255,
+            "text" : "<p>This License is a kind of &ldquo;copyleft&rdquo;, which means that derivative"
+         },
+         {
+            "line" : 2257,
+            "text" : "complements the GNU General Public License, which is a copyleft"
+         },
+         {
+            "line" : 2258,
+            "text" : "license designed for free software."
+         },
+         {
+            "line" : 2260,
+            "text" : "<p>We have designed this License in order to use it for manuals for free"
+         },
+         {
+            "line" : 2263,
+            "text" : "software does.  But this License is not limited to software manuals;"
+         },
+         {
+            "line" : 2265,
+            "text" : "whether it is published as a printed book.  We recommend this License"
+         },
+         {
+            "line" : 2270,
+            "text" : "<p>This License applies to any manual or other work, in any medium, that"
+         },
+         {
+            "line" : 2271,
+            "text" : "contains a notice placed by the copyright holder saying it can be"
+         },
+         {
+            "line" : 2272,
+            "text" : "distributed under the terms of this License.  Such a notice grants a"
+         },
+         {
+            "line" : 2273,
+            "text" : "world-wide, royalty-free license, unlimited in duration, to use that"
+         },
+         {
+            "line" : 2276,
+            "text" : "licensee, and is addressed as &ldquo;you&rdquo;.  You accept the license if you"
+         },
+         {
+            "line" : 2277,
+            "text" : "copy, modify or distribute the work in a way requiring permission"
+         },
+         {
+            "line" : 2278,
+            "text" : "under copyright law."
+         },
+         {
+            "line" : 2286,
+            "text" : "publishers or authors of the Document to the Document&rsquo;s overall"
+         },
+         {
+            "line" : 2297,
+            "text" : "that says that the Document is released under this License.  If a"
+         },
+         {
+            "line" : 2305,
+            "text" : "the Document is released under this License.  A Front-Cover Text may"
+         },
+         {
+            "line" : 2336,
+            "text" : "this License requires to appear in the title page.  For works in"
+         }
+      ],
+      "notice_source" : "vendor/readline/doc/rluserman.html",
+      "sha256" : "11bace2423451564da95cb4e0d2ef1be5f1759f6d6d8e7737bfdaceb6f11c26b"
+   },
+   "doc/rluserman.info" : {
+      "note" : "Retained upstream per-file notices and component-level COPYING apply; evidence is not an automatic license classification",
+      "notice_evidence" : [
+         {
+            "line" : 9,
+            "text" : "   Copyright © 1988-2025 Free Software Foundation, Inc."
+         },
+         {
+            "line" : 11,
+            "text" : "     Permission is granted to copy, distribute and/or modify this"
+         },
+         {
+            "line" : 12,
+            "text" : "     document under the terms of the GNU Free Documentation License,"
+         },
+         {
+            "line" : 15,
+            "text" : "     no Back-Cover Texts.  A copy of the license is included in the"
+         },
+         {
+            "line" : 16,
+            "text" : "     section entitled \"GNU Free Documentation License\"."
+         },
+         {
+            "line" : 37,
+            "text" : "* GNU Free Documentation License::\tLicense for copying this manual."
+         },
+         {
+            "line" : 40,
+            "text" : "File: rluserman.info,  Node: Command Line Editing,  Next: GNU Free Documentation License,  Prev: Top,  Up: Top"
+         },
+         {
+            "line" : 1661,
+            "text" : "File: rluserman.info,  Node: GNU Free Documentation License,  Prev: Command Line Editing,  Up: Top"
+         },
+         {
+            "line" : 1663,
+            "text" : "Appendix A GNU Free Documentation License"
+         },
+         {
+            "line" : 1668,
+            "text" : "     Copyright © 2000, 2001, 2002, 2007, 2008 Free Software Foundation, Inc."
+         },
+         {
+            "line" : 1672,
+            "text" : "     of this license document, but changing it is not allowed."
+         },
+         {
+            "line" : 1676,
+            "text" : "     The purpose of this License is to make a manual, textbook, or other"
+         },
+         {
+            "line" : 1680,
+            "text" : "     noncommercially.  Secondarily, this License preserves for the"
+         },
+         {
+            "line" : 1681,
+            "text" : "     author and publisher a way to get credit for their work, while not"
+         },
+         {
+            "line" : 1684,
+            "text" : "     This License is a kind of \"copyleft\", which means that derivative"
+         },
+         {
+            "line" : 1686,
+            "text" : "     It complements the GNU General Public License, which is a copyleft"
+         },
+         {
+            "line" : 1687,
+            "text" : "     license designed for free software."
+         },
+         {
+            "line" : 1689,
+            "text" : "     We have designed this License in order to use it for manuals for"
+         },
+         {
+            "line" : 1692,
+            "text" : "     that the software does.  But this License is not limited to"
+         },
+         {
+            "line" : 1695,
+            "text" : "     recommend this License principally for works whose purpose is"
+         },
+         {
+            "line" : 1700,
+            "text" : "     This License applies to any manual or other work, in any medium,"
+         },
+         {
+            "line" : 1701,
+            "text" : "     that contains a notice placed by the copyright holder saying it can"
+         },
+         {
+            "line" : 1702,
+            "text" : "     be distributed under the terms of this License.  Such a notice"
+         },
+         {
+            "line" : 1703,
+            "text" : "     grants a world-wide, royalty-free license, unlimited in duration,"
+         },
+         {
+            "line" : 1706,
+            "text" : "     of the public is a licensee, and is addressed as \"you\".  You accept"
+         },
+         {
+            "line" : 1707,
+            "text" : "     the license if you copy, modify or distribute the work in a way"
+         },
+         {
+            "line" : 1708,
+            "text" : "     requiring permission under copyright law."
+         },
+         {
+            "line" : 1716,
+            "text" : "     publishers or authors of the Document to the Document's overall"
+         },
+         {
+            "line" : 1727,
+            "text" : "     notice that says that the Document is released under this License."
+         },
+         {
+            "line" : 1735,
+            "text" : "     that says that the Document is released under this License.  A"
+         }
+      ],
+      "notice_source" : "vendor/readline/doc/rluserman.info",
+      "sha256" : "aff0a840a4a1e52912abf0890e063259f69a4550cbfc800b605f4a5bc4bf637b"
+   },
+   "doc/rluserman.pdf" : {
+      "note" : "Generated documentation: consult retained master source and original embedded notices",
+      "notice_source" : "vendor/readline/doc/rluserman.texi",
+      "sha256" : "10482a201affd7e4c9014b86d1cb6c673932a5a7687914b944cb8c3a8efb20a1"
+   },
+   "doc/rluserman.ps" : {
+      "note" : "Generated documentation: consult retained master source and original embedded notices",
+      "notice_source" : "vendor/readline/doc/rluserman.texi",
+      "sha256" : "64a3ad3d15c92474a52c4f1a702a721c236128af066f7fab8b1c8e1f1cdadf56"
+   },
+   "doc/rluserman.texi" : {
+      "note" : "Retained upstream per-file notices and component-level COPYING apply; evidence is not an automatic license classification",
+      "notice_evidence" : [
+         {
+            "line" : 15,
+            "text" : "Copyright @copyright{} 1988--2025 Free Software Foundation, Inc."
+         },
+         {
+            "line" : 18,
+            "text" : "Permission is granted to copy, distribute and/or modify this document"
+         },
+         {
+            "line" : 19,
+            "text" : "under the terms of the GNU Free Documentation License, Version 1.3 or"
+         },
+         {
+            "line" : 22,
+            "text" : "A copy of the license is included in the section entitled"
+         },
+         {
+            "line" : 23,
+            "text" : "``GNU Free Documentation License''."
+         },
+         {
+            "line" : 37,
+            "text" : "@author Chet Ramey, Case Western Reserve University"
+         },
+         {
+            "line" : 38,
+            "text" : "@author Brian Fox, Free Software Foundation"
+         },
+         {
+            "line" : 59,
+            "text" : "* GNU Free Documentation License::\tLicense for copying this manual."
+         },
+         {
+            "line" : 65,
+            "text" : "@node GNU Free Documentation License"
+         },
+         {
+            "line" : 66,
+            "text" : "@appendix GNU Free Documentation License"
+         }
+      ],
+      "notice_source" : "vendor/readline/doc/rluserman.texi",
+      "sha256" : "48e3252b0e98a5cbafeb0c48c934ff5e1ea699f97f1ba2aaecbc9c6c1c5a86ee"
+   },
+   "doc/texi2dvi" : {
+      "note" : "Retained upstream per-file notices and component-level COPYING apply; evidence is not an automatic license classification",
+      "notice_evidence" : [
+         {
+            "line" : 4,
+            "text" : "# Copyright 1992-2019 Free Software Foundation, Inc."
+         },
+         {
+            "line" : 7,
+            "text" : "# it under the terms of the GNU General Public License as published by"
+         },
+         {
+            "line" : 8,
+            "text" : "# the Free Software Foundation; either version 3 of the License,"
+         },
+         {
+            "line" : 12,
+            "text" : "# but WITHOUT ANY WARRANTY; without even the implied warranty of"
+         },
+         {
+            "line" : 14,
+            "text" : "# GNU General Public License for more details."
+         },
+         {
+            "line" : 16,
+            "text" : "# You should have received a copy of the GNU General Public License"
+         },
+         {
+            "line" : 17,
+            "text" : "# along with this program.  If not, see <http://www.gnu.org/licenses/>."
+         },
+         {
+            "line" : 203,
+            "text" : "Copyright (C) 2019 Free Software Foundation, Inc."
+         },
+         {
+            "line" : 204,
+            "text" : "License GPLv3+: GNU GPL version 3 or later <http://gnu.org/licenses/gpl.html>"
+         },
+         {
+            "line" : 206,
+            "text" : "There is NO WARRANTY, to the extent permitted by law."
+         }
+      ],
+      "notice_source" : "vendor/readline/doc/texi2dvi",
+      "sha256" : "0f0a456c939940453e30668f23f5dbf9151d56088117ef03eec817d3e229f29d"
+   },
+   "doc/texi2html" : {
+      "note" : "Retained upstream per-file notices and component-level COPYING apply; evidence is not an automatic license classification",
+      "notice_evidence" : [
+         {
+            "line" : 8,
+            "text" : "#    Copyright (C) 1999, 2000  Free Software Foundation, Inc."
+         },
+         {
+            "line" : 11,
+            "text" : "#   it under the terms of the GNU General Public License as published by"
+         },
+         {
+            "line" : 12,
+            "text" : "#   the Free Software Foundation, either version 3 of the License, or"
+         },
+         {
+            "line" : 16,
+            "text" : "#   but WITHOUT ANY WARRANTY; without even the implied warranty of"
+         },
+         {
+            "line" : 18,
+            "text" : "#   GNU General Public License for more details."
+         },
+         {
+            "line" : 20,
+            "text" : "#   You should have received a copy of the GNU General Public License"
+         },
+         {
+            "line" : 21,
+            "text" : "#   along with this program.  If not, see <http://www.gnu.org/licenses/>."
+         },
+         {
+            "line" : 45,
+            "text" : "# Authors:  "
+         },
+         {
+            "line" : 46,
+            "text" : "$T2H_AUTHORS = <<EOT;"
+         },
+         {
+            "line" : 47,
+            "text" : "Written by: Lionel Cons <Lionel.Cons\\@cern.ch> (original author)"
+         },
+         {
+            "line" : 180,
+            "text" : "# if set, ISO8879 characters are used for special symbols (like copyright, etc)"
+         },
+         {
+            "line" : 186,
+            "text" : " verbose => 'if set, ISO8879 characters are used for special symbols (like copyright, etc)',"
+         },
+         {
+            "line" : 691,
+            "text" : "# $T2H_THISDOC{author}    -- author as set by @author"
+         },
+         {
+            "line" : 750,
+            "text" : "# author and overview is printed"
+         },
+         {
+            "line" : 783,
+            "text" : "    # print fulltitle, subtitle, author, Overview"
+         },
+         {
+            "line" : 789,
+            "text" : "    print $fh \"$T2H_THISDOC{author}\\n\" if $T2H_THISDOC{author};"
+         },
+         {
+            "line" : 920,
+            "text" : "$T2H_AUTHORS "
+         },
+         {
+            "line" : 1501,
+            "text" : "# Author:"
+         },
+         {
+            "line" : 1863,
+            "text" : "\t       'copyright', '(C)',"
+         },
+         {
+            "line" : 2406,
+            "text" : "foreach ('_author', '_title', '_subtitle',"
+         },
+         {
+            "line" : 2440,
+            "text" : "    $things_map{'copyright'} = \"&copy;\";"
+         },
+         {
+            "line" : 3687,
+            "text" : "\t    $value{'_author'}   .= Unprotect_texi($1).\"\\n\", next if /^\\@author\\s+(.*)$/;"
+         },
+         {
+            "line" : 4473,
+            "text" : "$T2H_THISDOC{author} = $value{'_author'};"
+         }
+      ],
+      "notice_source" : "vendor/readline/doc/texi2html",
+      "sha256" : "bd7286e7ce2cfeecf10b8ebc1f527ea28b2d17477f5cf18263379686b678bfea"
+   },
+   "doc/texinfo.tex" : {
+      "note" : "Retained upstream per-file notices and component-level COPYING apply; evidence is not an automatic license classification",
+      "notice_evidence" : [
+         {
+            "line" : 8,
+            "text" : "% Copyright 1985, 1986, 1988, 1990, 1991, 1992, 1993, 1994, 1995,"
+         },
+         {
+            "line" : 14,
+            "text" : "% modify it under the terms of the GNU General Public License as"
+         },
+         {
+            "line" : 16,
+            "text" : "% License, or (at your option) any later version."
+         },
+         {
+            "line" : 19,
+            "text" : "% useful, but WITHOUT ANY WARRANTY; without even the implied warranty"
+         },
+         {
+            "line" : 21,
+            "text" : "% General Public License for more details."
+         },
+         {
+            "line" : 23,
+            "text" : "% You should have received a copy of the GNU General Public License"
+         },
+         {
+            "line" : 24,
+            "text" : "% along with this program.  If not, see <http://www.gnu.org/licenses/>."
+         },
+         {
+            "line" : 28,
+            "text" : "% restriction. This Exception is an additional permission under section 7"
+         },
+         {
+            "line" : 29,
+            "text" : "% of the GNU General Public License, version 3 (\"GPLv3\")."
+         },
+         {
+            "line" : 3251,
+            "text" : "% Adapted from the plain.tex definition of \\copyright."
+         },
+         {
+            "line" : 3284,
+            "text" : "\\newif\\ifseenauthor"
+         },
+         {
+            "line" : 3389,
+            "text" : "% @author should come last, but may come many times."
+         },
+         {
+            "line" : 3392,
+            "text" : "\\parseargdef\\author{%"
+         },
+         {
+            "line" : 3395,
+            "text" : "    \\def\\quotationauthor{#1}% printed in \\Equotation."
+         },
+         {
+            "line" : 3398,
+            "text" : "    \\ifseenauthor\\else \\vskip 0pt plus 1filll \\seenauthortrue \\fi"
+         },
+         {
+            "line" : 4564,
+            "text" : "  \\definedummyword\\copyright"
+         },
+         {
+            "line" : 4786,
+            "text" : "  \\def\\copyright{copyright}%"
+         },
+         {
+            "line" : 5269,
+            "text" : "      % This allows, e.g., \"Appendix H  GNU Free Documentation License\" to"
+         },
+         {
+            "line" : 6963,
+            "text" : "  \\ifx\\quotationauthor\\thisisundefined\\else"
+         },
+         {
+            "line" : 6965,
+            "text" : "    \\leftline{\\kern 2\\leftskip \\sl ---\\quotationauthor}%"
+         },
+         {
+            "line" : 9499,
+            "text" : "  \\gdef^^a9{\\copyright}"
+         },
+         {
+            "line" : 9717,
+            "text" : "% permission from Frank Mittelbach and the LaTeX team."
+         },
+         {
+            "line" : 9874,
+            "text" : "  \\DeclareUnicodeCharacter{00A9}{\\copyright}"
+         }
+      ],
+      "notice_source" : "vendor/readline/doc/texinfo.tex",
+      "sha256" : "3eacfb921698df52d73d669082fd54b209ce9f24360bae1e36ab65c91514f578"
+   },
+   "doc/version.texi" : {
+      "note" : "Retained upstream per-file notices and component-level COPYING apply; evidence is not an automatic license classification",
+      "notice_evidence" : [
+         {
+            "line" : 2,
+            "text" : "Copyright (C) 1988-2025 Free Software Foundation, Inc. "
+         }
+      ],
+      "notice_source" : "vendor/readline/doc/version.texi",
+      "sha256" : "79e67c9c152f9d23bea5cb765f8d3a6789e4ac6a2f3815b1a0d52ac7c7b7d9a6"
+   },
+   "emacs_keymap.c" : {
+      "note" : "Retained upstream per-file notices and component-level COPYING apply; evidence is not an automatic license classification",
+      "notice_evidence" : [
+         {
+            "line" : 3,
+            "text" : "/* Copyright (C) 1987-2017 Free Software Foundation, Inc."
+         },
+         {
+            "line" : 9,
+            "text" : "   it under the terms of the GNU General Public License as published by"
+         },
+         {
+            "line" : 10,
+            "text" : "   the Free Software Foundation, either version 3 of the License, or"
+         },
+         {
+            "line" : 14,
+            "text" : "   but WITHOUT ANY WARRANTY; without even the implied warranty of"
+         },
+         {
+            "line" : 16,
+            "text" : "   GNU General Public License for more details."
+         },
+         {
+            "line" : 18,
+            "text" : "   You should have received a copy of the GNU General Public License"
+         },
+         {
+            "line" : 19,
+            "text" : "   along with Readline.  If not, see <http://www.gnu.org/licenses/>."
+         },
+         {
+            "line" : 225,
+            "text" : "  { ISFUNC, rl_insert },\t/* Copyright sign */"
+         }
+      ],
+      "notice_source" : "vendor/readline/emacs_keymap.c",
+      "sha256" : "63297150b652485d9c573c940e2469d496779895caed8b6d78605e679af0a106"
+   },
+   "examples/Inputrc" : {
+      "note" : "Retained upstream per-file notices and component-level COPYING apply; evidence is not an automatic license classification",
+      "notice_evidence" : [
+         {
+            "line" : 7,
+            "text" : "#   Copyright (C) 1989-2009 Free Software Foundation, Inc."
+         },
+         {
+            "line" : 10,
+            "text" : "#   it under the terms of the GNU General Public License as published by"
+         },
+         {
+            "line" : 11,
+            "text" : "#   the Free Software Foundation, either version 3 of the License, or"
+         },
+         {
+            "line" : 15,
+            "text" : "#   but WITHOUT ANY WARRANTY; without even the implied warranty of"
+         },
+         {
+            "line" : 17,
+            "text" : "#   GNU General Public License for more details."
+         },
+         {
+            "line" : 19,
+            "text" : "#   You should have received a copy of the GNU General Public License"
+         },
+         {
+            "line" : 20,
+            "text" : "#   along with this program.  If not, see <http://www.gnu.org/licenses/>."
+         }
+      ],
+      "notice_source" : "vendor/readline/examples/Inputrc",
+      "sha256" : "91b802c04ca1e0c2f8966814c696ca980ea2c633f943c806078729a919da454c"
+   },
+   "examples/Makefile.in" : {
+      "note" : "Retained upstream per-file notices and component-level COPYING apply; evidence is not an automatic license classification",
+      "notice_evidence" : [
+         {
+            "line" : 4,
+            "text" : "# Copyright (C) 1994,2008,2009 Free Software Foundation, Inc."
+         },
+         {
+            "line" : 7,
+            "text" : "#   it under the terms of the GNU General Public License as published by"
+         },
+         {
+            "line" : 8,
+            "text" : "#   the Free Software Foundation, either version 3 of the License, or"
+         },
+         {
+            "line" : 12,
+            "text" : "#   but WITHOUT ANY WARRANTY; without even the implied warranty of"
+         },
+         {
+            "line" : 14,
+            "text" : "#   GNU General Public License for more details."
+         },
+         {
+            "line" : 16,
+            "text" : "#   You should have received a copy of the GNU General Public License"
+         },
+         {
+            "line" : 17,
+            "text" : "#   along with this program.  If not, see <http://www.gnu.org/licenses/>."
+         }
+      ],
+      "notice_source" : "vendor/readline/examples/Makefile.in",
+      "sha256" : "4953981a62d4b9e9d42ec43c70290ddd13d46281767c27f7e5df6e5d103f4054"
+   },
+   "examples/autoconf/BASH_CHECK_LIB_TERMCAP" : {
+      "note" : "Retained upstream per-file notices and component-level COPYING apply; evidence is not an automatic license classification",
+      "notice_evidence" : [],
+      "notice_source" : "vendor/readline/examples/autoconf/BASH_CHECK_LIB_TERMCAP",
+      "sha256" : "4b7a373ab7ec222d3b608229f6f239c727ae86d1644462918d99c95da8ac1874"
+   },
+   "examples/autoconf/RL_LIB_READLINE_VERSION" : {
+      "note" : "Retained upstream per-file notices and component-level COPYING apply; evidence is not an automatic license classification",
+      "notice_evidence" : [],
+      "notice_source" : "vendor/readline/examples/autoconf/RL_LIB_READLINE_VERSION",
+      "sha256" : "c98d5a414d70677832740d5a6198b1a3a3beee4c3e203f386a184fc79802e5ea"
+   },
+   "examples/autoconf/wi_LIB_READLINE" : {
+      "note" : "Retained upstream per-file notices and component-level COPYING apply; evidence is not an automatic license classification",
+      "notice_evidence" : [],
+      "notice_source" : "vendor/readline/examples/autoconf/wi_LIB_READLINE",
+      "sha256" : "ce21062f053d9910859f75c6854cea772fb3ba78e6e6e6ceb07adcfce5159547"
+   },
+   "examples/excallback.c" : {
+      "note" : "Retained upstream per-file notices and component-level COPYING apply; evidence is not an automatic license classification",
+      "notice_evidence" : [
+         {
+            "line" : 36,
+            "text" : "Copyright (C) 1999 Jeff Solomon"
+         }
+      ],
+      "notice_source" : "vendor/readline/examples/excallback.c",
+      "sha256" : "583e40cbdf2990190776a59cdca9267a8eb46bb20719cfd46f9f9db2e88f4b7c"
+   },
+   "examples/fileman.c" : {
+      "note" : "Retained upstream per-file notices and component-level COPYING apply; evidence is not an automatic license classification",
+      "notice_evidence" : [
+         {
+            "line" : 3,
+            "text" : "/* Copyright (C) 1987-2009,2023 Free Software Foundation, Inc."
+         },
+         {
+            "line" : 9,
+            "text" : "   it under the terms of the GNU General Public License as published by"
+         },
+         {
+            "line" : 10,
+            "text" : "   the Free Software Foundation, either version 3 of the License, or"
+         },
+         {
+            "line" : 14,
+            "text" : "   but WITHOUT ANY WARRANTY; without even the implied warranty of"
+         },
+         {
+            "line" : 16,
+            "text" : "   GNU General Public License for more details."
+         },
+         {
+            "line" : 18,
+            "text" : "   You should have received a copy of the GNU General Public License"
+         },
+         {
+            "line" : 19,
+            "text" : "   along with Readline.  If not, see <http://www.gnu.org/licenses/>."
+         }
+      ],
+      "notice_source" : "vendor/readline/examples/fileman.c",
+      "sha256" : "9f765983085f5b1a86bacf9a5ae2b954dbb3f834484395c593727b29998cb823"
+   },
+   "examples/hist_erasedups.c" : {
+      "note" : "Retained upstream per-file notices and component-level COPYING apply; evidence is not an automatic license classification",
+      "notice_evidence" : [
+         {
+            "line" : 3,
+            "text" : "/* Copyright (C) 2011,2023 Free Software Foundation, Inc."
+         },
+         {
+            "line" : 9,
+            "text" : "   it under the terms of the GNU General Public License as published by"
+         },
+         {
+            "line" : 10,
+            "text" : "   the Free Software Foundation, either version 3 of the License, or"
+         },
+         {
+            "line" : 14,
+            "text" : "   but WITHOUT ANY WARRANTY; without even the implied warranty of"
+         },
+         {
+            "line" : 16,
+            "text" : "   GNU General Public License for more details."
+         },
+         {
+            "line" : 18,
+            "text" : "   You should have received a copy of the GNU General Public License"
+         },
+         {
+            "line" : 19,
+            "text" : "   along with Readline.  If not, see <http://www.gnu.org/licenses/>."
+         }
+      ],
+      "notice_source" : "vendor/readline/examples/hist_erasedups.c",
+      "sha256" : "20192a1c172ea1bf1f1a67c3670097566d57086aca9f70ecb9bd5857d554826d"
+   },
+   "examples/hist_purgecmd.c" : {
+      "note" : "Retained upstream per-file notices and component-level COPYING apply; evidence is not an automatic license classification",
+      "notice_evidence" : [
+         {
+            "line" : 4,
+            "text" : "/* Copyright (C) 2011,2023 Free Software Foundation, Inc."
+         },
+         {
+            "line" : 10,
+            "text" : "   it under the terms of the GNU General Public License as published by"
+         },
+         {
+            "line" : 11,
+            "text" : "   the Free Software Foundation, either version 3 of the License, or"
+         },
+         {
+            "line" : 15,
+            "text" : "   but WITHOUT ANY WARRANTY; without even the implied warranty of"
+         },
+         {
+            "line" : 17,
+            "text" : "   GNU General Public License for more details."
+         },
+         {
+            "line" : 19,
+            "text" : "   You should have received a copy of the GNU General Public License"
+         },
+         {
+            "line" : 20,
+            "text" : "   along with Readline.  If not, see <http://www.gnu.org/licenses/>."
+         }
+      ],
+      "notice_source" : "vendor/readline/examples/hist_purgecmd.c",
+      "sha256" : "c0444e7ebf139812f23595eddbe05fb00a9a68307c69fec373bac72d8182563b"
+   },
+   "examples/histexamp.c" : {
+      "note" : "Retained upstream per-file notices and component-level COPYING apply; evidence is not an automatic license classification",
+      "notice_evidence" : [
+         {
+            "line" : 3,
+            "text" : "/* Copyright (C) 1987-2009 Free Software Foundation, Inc."
+         },
+         {
+            "line" : 9,
+            "text" : "   it under the terms of the GNU General Public License as published by"
+         },
+         {
+            "line" : 10,
+            "text" : "   the Free Software Foundation, either version 3 of the License, or"
+         },
+         {
+            "line" : 14,
+            "text" : "   but WITHOUT ANY WARRANTY; without even the implied warranty of"
+         },
+         {
+            "line" : 16,
+            "text" : "   GNU General Public License for more details."
+         },
+         {
+            "line" : 18,
+            "text" : "   You should have received a copy of the GNU General Public License"
+         },
+         {
+            "line" : 19,
+            "text" : "   along with Readline.  If not, see <http://www.gnu.org/licenses/>."
+         }
+      ],
+      "notice_source" : "vendor/readline/examples/histexamp.c",
+      "sha256" : "074455ed23590fd0eb4dd0c7d058b96fb83391fdba8d00e4f091675a1311c1c8"
+   },
+   "examples/manexamp.c" : {
+      "note" : "Retained upstream per-file notices and component-level COPYING apply; evidence is not an automatic license classification",
+      "notice_evidence" : [
+         {
+            "line" : 3,
+            "text" : "/* Copyright (C) 1987-2009,2023 Free Software Foundation, Inc."
+         },
+         {
+            "line" : 9,
+            "text" : "   it under the terms of the GNU General Public License as published by"
+         },
+         {
+            "line" : 10,
+            "text" : "   the Free Software Foundation, either version 3 of the License, or"
+         },
+         {
+            "line" : 14,
+            "text" : "   but WITHOUT ANY WARRANTY; without even the implied warranty of"
+         },
+         {
+            "line" : 16,
+            "text" : "   GNU General Public License for more details."
+         },
+         {
+            "line" : 18,
+            "text" : "   You should have received a copy of the GNU General Public License"
+         },
+         {
+            "line" : 19,
+            "text" : "   along with Readline.  If not, see <http://www.gnu.org/licenses/>."
+         }
+      ],
+      "notice_source" : "vendor/readline/examples/manexamp.c",
+      "sha256" : "29e099b54928ab2cb42d50553d2e28cf2db9b3dc9cc91337960981e2d2e06367"
+   },
+   "examples/readlinebuf.h" : {
+      "note" : "Retained upstream per-file notices and component-level COPYING apply; evidence is not an automatic license classification",
+      "notice_evidence" : [
+         {
+            "line" : 4,
+            "text" : " * $Author: vyzo $"
+         },
+         {
+            "line" : 10,
+            "text" : " * it under the terms of the GNU General Public License as published by"
+         },
+         {
+            "line" : 11,
+            "text" : " * the Free Software Foundation; either version 2  of the License, or"
+         },
+         {
+            "line" : 15,
+            "text" : " * but WITHOUT ANY WARRANTY; without even the implied warranty of"
+         },
+         {
+            "line" : 17,
+            "text" : " * General Public License for more details."
+         },
+         {
+            "line" : 20,
+            "text" : " * License along with this program; if not, write to the Free"
+         }
+      ],
+      "notice_source" : "vendor/readline/examples/readlinebuf.h",
+      "sha256" : "60555101e6fb08f64ce2b19971574ca899593e0506542d3d57be08049d7846ca"
+   },
+   "examples/rl-callbacktest.c" : {
+      "note" : "Retained upstream per-file notices and component-level COPYING apply; evidence is not an automatic license classification",
+      "notice_evidence" : [],
+      "notice_source" : "vendor/readline/examples/rl-callbacktest.c",
+      "sha256" : "9a07023c8fdd7386042b4b3aa669b4a9e45f9423880a66d671707a75ece7a581"
+   },
+   "examples/rl-callbacktest2.c" : {
+      "note" : "Retained upstream per-file notices and component-level COPYING apply; evidence is not an automatic license classification",
+      "notice_evidence" : [],
+      "notice_source" : "vendor/readline/examples/rl-callbacktest2.c",
+      "sha256" : "cc3a89607fd03874e71058417c875d03adc2a6aab4b8426e5879289f5abeb162"
+   },
+   "examples/rl-callbacktest3.c" : {
+      "note" : "Retained upstream per-file notices and component-level COPYING apply; evidence is not an automatic license classification",
+      "notice_evidence" : [],
+      "notice_source" : "vendor/readline/examples/rl-callbacktest3.c",
+      "sha256" : "15ff6f13edbe49bb3a8cc3a14190e986facd181222333f873a71a9f0c18c54af"
+   },
+   "examples/rl-fgets.c" : {
+      "note" : "Retained upstream per-file notices and component-level COPYING apply; evidence is not an automatic license classification",
+      "notice_evidence" : [
+         {
+            "line" : 24,
+            "text" : "  AUTHOR:       Harold Levy              VERSION:  1.0"
+         },
+         {
+            "line" : 99,
+            "text" : "  Copyright (C)�2003-2004 Harold Levy."
+         },
+         {
+            "line" : 102,
+            "text" : "  terms of the GNU General Public License as published by the Free Software"
+         },
+         {
+            "line" : 105,
+            "text" : "  The GNU General Public License is often shipped with GNU software, and is"
+         },
+         {
+            "line" : 106,
+            "text" : "  generally kept in a file called COPYING or LICENSE.  If you do not have a"
+         },
+         {
+            "line" : 107,
+            "text" : "  copy of the license, write to the Free Software Foundation, 59 Temple Place,"
+         },
+         {
+            "line" : 111,
+            "text" : "  ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or FITNESS"
+         },
+         {
+            "line" : 112,
+            "text" : "  FOR A PARTICULAR PURPOSE.  See the GNU General Public License for more"
+         }
+      ],
+      "notice_source" : "vendor/readline/examples/rl-fgets.c",
+      "sha256" : "980c3460e4626b7806e7abe0e53d92620ff353e1dc9be1b332f91fc82c35fa7b"
+   },
+   "examples/rl-test-timeout" : {
+      "note" : "Retained upstream per-file notices and component-level COPYING apply; evidence is not an automatic license classification",
+      "notice_evidence" : [],
+      "notice_source" : "vendor/readline/examples/rl-test-timeout",
+      "sha256" : "a5ed77206b2f5353d6b1325252e67cc92f1a0f036b3a9f22381239ecf04a94f3"
+   },
+   "examples/rl-timeout.c" : {
+      "note" : "Retained upstream per-file notices and component-level COPYING apply; evidence is not an automatic license classification",
+      "notice_evidence" : [
+         {
+            "line" : 3,
+            "text" : "/* Copyright (C) 2021 Free Software Foundation, Inc."
+         },
+         {
+            "line" : 9,
+            "text" : "   it under the terms of the GNU General Public License as published by"
+         },
+         {
+            "line" : 10,
+            "text" : "   the Free Software Foundation, either version 3 of the License, or"
+         },
+         {
+            "line" : 14,
+            "text" : "   but WITHOUT ANY WARRANTY; without even the implied warranty of"
+         },
+         {
+            "line" : 16,
+            "text" : "   GNU General Public License for more details."
+         },
+         {
+            "line" : 18,
+            "text" : "   You should have received a copy of the GNU General Public License"
+         },
+         {
+            "line" : 19,
+            "text" : "   along with readline.  If not, see <http://www.gnu.org/licenses/>."
+         }
+      ],
+      "notice_source" : "vendor/readline/examples/rl-timeout.c",
+      "sha256" : "9e479b92e800b1b11b5194ec0272bd26d857fce51c88943e700158641875b8a8"
+   },
+   "examples/rl.c" : {
+      "note" : "Retained upstream per-file notices and component-level COPYING apply; evidence is not an automatic license classification",
+      "notice_evidence" : [
+         {
+            "line" : 8,
+            "text" : "/* Copyright (C) 1987-2023 Free Software Foundation, Inc."
+         },
+         {
+            "line" : 14,
+            "text" : "   it under the terms of the GNU General Public License as published by"
+         },
+         {
+            "line" : 15,
+            "text" : "   the Free Software Foundation, either version 3 of the License, or"
+         },
+         {
+            "line" : 19,
+            "text" : "   but WITHOUT ANY WARRANTY; without even the implied warranty of"
+         },
+         {
+            "line" : 21,
+            "text" : "   GNU General Public License for more details."
+         },
+         {
+            "line" : 23,
+            "text" : "   You should have received a copy of the GNU General Public License"
+         },
+         {
+            "line" : 24,
+            "text" : "   along with Readline.  If not, see <http://www.gnu.org/licenses/>."
+         }
+      ],
+      "notice_source" : "vendor/readline/examples/rl.c",
+      "sha256" : "aec244574a07e72bdbfdc5d5ef1a98f304497a7b68079a954607d3a019996cab"
+   },
+   "examples/rlbasic.c" : {
+      "note" : "Retained upstream per-file notices and component-level COPYING apply; evidence is not an automatic license classification",
+      "notice_evidence" : [],
+      "notice_source" : "vendor/readline/examples/rlbasic.c",
+      "sha256" : "6474e618baf6dd874050ec10b88552ba2ecb17bba431258a1319d61fb5019701"
+   },
+   "examples/rlcat.c" : {
+      "note" : "Retained upstream per-file notices and component-level COPYING apply; evidence is not an automatic license classification",
+      "notice_evidence" : [
+         {
+            "line" : 7,
+            "text" : "/* Copyright (C) 1987-2009,2023 Free Software Foundation, Inc."
+         },
+         {
+            "line" : 13,
+            "text" : "   it under the terms of the GNU General Public License as published by"
+         },
+         {
+            "line" : 14,
+            "text" : "   the Free Software Foundation, either version 3 of the License, or"
+         },
+         {
+            "line" : 18,
+            "text" : "   but WITHOUT ANY WARRANTY; without even the implied warranty of"
+         },
+         {
+            "line" : 20,
+            "text" : "   GNU General Public License for more details."
+         },
+         {
+            "line" : 22,
+            "text" : "   You should have received a copy of the GNU General Public License"
+         },
+         {
+            "line" : 23,
+            "text" : "   along with Readline.  If not, see <http://www.gnu.org/licenses/>."
+         }
+      ],
+      "notice_source" : "vendor/readline/examples/rlcat.c",
+      "sha256" : "7cb48e18f6b912aca1c978481f55fd5bd3b102ff64d8ee7d935b2fa4a737b469"
+   },
+   "examples/rlevent.c" : {
+      "note" : "Retained upstream per-file notices and component-level COPYING apply; evidence is not an automatic license classification",
+      "notice_evidence" : [
+         {
+            "line" : 8,
+            "text" : "/* Copyright (C) 1987-2009 Free Software Foundation, Inc."
+         },
+         {
+            "line" : 14,
+            "text" : "   it under the terms of the GNU General Public License as published by"
+         },
+         {
+            "line" : 15,
+            "text" : "   the Free Software Foundation, either version 3 of the License, or"
+         },
+         {
+            "line" : 19,
+            "text" : "   but WITHOUT ANY WARRANTY; without even the implied warranty of"
+         },
+         {
+            "line" : 21,
+            "text" : "   GNU General Public License for more details."
+         },
+         {
+            "line" : 23,
+            "text" : "   You should have received a copy of the GNU General Public License"
+         },
+         {
+            "line" : 24,
+            "text" : "   along with Readline.  If not, see <http://www.gnu.org/licenses/>."
+         }
+      ],
+      "notice_source" : "vendor/readline/examples/rlevent.c",
+      "sha256" : "5c7974a830002c05dafe53137312807c61d79454b4e863b78f503588b1c4686b"
+   },
+   "examples/rlfe/ChangeLog" : {
+      "note" : "Retained upstream per-file notices and component-level COPYING apply; evidence is not an automatic license classification",
+      "notice_evidence" : [],
+      "notice_source" : "vendor/readline/examples/rlfe/ChangeLog",
+      "sha256" : "fe8c63f3fd4bbd675a4176beca46e404cec42fb3a8d919c49bb9f4eb5004155b"
+   },
+   "examples/rlfe/Makefile.in" : {
+      "note" : "Retained upstream per-file notices and component-level COPYING apply; evidence is not an automatic license classification",
+      "notice_evidence" : [],
+      "notice_source" : "vendor/readline/examples/rlfe/Makefile.in",
+      "sha256" : "244e328a273c05eb937d3cb4cadbdd0cd9c16cda3da98d9d0bc68c54c4065746"
+   },
+   "examples/rlfe/README" : {
+      "note" : "Retained upstream per-file notices and component-level COPYING apply; evidence is not an automatic license classification",
+      "notice_evidence" : [
+         {
+            "line" : 72,
+            "text" : "AUTHOR"
+         },
+         {
+            "line" : 76,
+            "text" : "LICENSE"
+         }
+      ],
+      "notice_source" : "vendor/readline/examples/rlfe/README",
+      "sha256" : "a4fd9567df297b224f5ebe6011d9322a4af77828ef53f8b83e516db7209061b3"
+   },
+   "examples/rlfe/config.h.in" : {
+      "note" : "Retained upstream per-file notices and component-level COPYING apply; evidence is not an automatic license classification",
+      "notice_evidence" : [
+         {
+            "line" : 1,
+            "text" : "/* Copyright 2004 Per Bothner <per@bothner.com>"
+         },
+         {
+            "line" : 3,
+            "text" : " * Copyright (c) 1993-2000"
+         },
+         {
+            "line" : 6,
+            "text" : " * Copyright (c) 1987 Oliver Laumann"
+         },
+         {
+            "line" : 9,
+            "text" : " * it under the terms of the GNU General Public License as published by"
+         },
+         {
+            "line" : 14,
+            "text" : " * but WITHOUT ANY WARRANTY; without even the implied warranty of"
+         },
+         {
+            "line" : 16,
+            "text" : " * GNU General Public License for more details."
+         },
+         {
+            "line" : 18,
+            "text" : " * You should have received a copy of the GNU General Public License"
+         }
+      ],
+      "notice_source" : "vendor/readline/examples/rlfe/config.h.in",
+      "sha256" : "969614b21f265fac1f606be6b896073ab1edbc6b54ad53e002e4335ddf9ae2c2"
+   },
+   "examples/rlfe/configure" : {
+      "note" : "Retained upstream per-file notices and component-level COPYING apply; evidence is not an automatic license classification",
+      "notice_evidence" : [
+         {
+            "line" : 6,
+            "text" : "# Copyright (C) 1992-1996, 1998-2017, 2020-2023 Free Software Foundation,"
+         },
+         {
+            "line" : 11,
+            "text" : "# gives unlimited permission to copy, distribute and modify it."
+         },
+         {
+            "line" : 1412,
+            "text" : "Copyright (C) 2023 Free Software Foundation, Inc."
+         },
+         {
+            "line" : 1414,
+            "text" : "gives unlimited permission to copy, distribute and modify it."
+         },
+         {
+            "line" : 4765,
+            "text" : "{ printf \"%s\\n\" \"$as_me:${as_lineno-$LINENO}: checking default tty permissions/group\" >&5"
+         },
+         {
+            "line" : 4766,
+            "text" : "printf %s \"checking default tty permissions/group... \" >&6; }"
+         },
+         {
+            "line" : 5699,
+            "text" : "Copyright (C) 2023 Free Software Foundation, Inc."
+         },
+         {
+            "line" : 5701,
+            "text" : "gives unlimited permission to copy, distribute and modify it.\""
+         }
+      ],
+      "notice_source" : "vendor/readline/examples/rlfe/configure",
+      "sha256" : "ebd6d398aad7f4f86f6c3b0f6681bca950b39378005dae127d70801ae8f2e003"
+   },
+   "examples/rlfe/configure.ac" : {
+      "note" : "Retained upstream per-file notices and component-level COPYING apply; evidence is not an automatic license classification",
+      "notice_evidence" : [
+         {
+            "line" : 372,
+            "text" : "AC_MSG_CHECKING(default tty permissions/group)"
+         }
+      ],
+      "notice_source" : "vendor/readline/examples/rlfe/configure.ac",
+      "sha256" : "734fbb4400c103009012079009b61424be58bf61c01915d0ee91f81da1fed3e2"
+   },
+   "examples/rlfe/extern.h" : {
+      "note" : "Retained upstream per-file notices and component-level COPYING apply; evidence is not an automatic license classification",
+      "notice_evidence" : [
+         {
+            "line" : 1,
+            "text" : "/* Copyright (c) 1993-2002"
+         },
+         {
+            "line" : 4,
+            "text" : " * Copyright (c) 1987 Oliver Laumann"
+         },
+         {
+            "line" : 7,
+            "text" : " * it under the terms of the GNU General Public License as published by"
+         },
+         {
+            "line" : 12,
+            "text" : " * but WITHOUT ANY WARRANTY; without even the implied warranty of"
+         },
+         {
+            "line" : 14,
+            "text" : " * GNU General Public License for more details."
+         },
+         {
+            "line" : 16,
+            "text" : " * You should have received a copy of the GNU General Public License"
+         }
+      ],
+      "notice_source" : "vendor/readline/examples/rlfe/extern.h",
+      "sha256" : "e7fa90b67d736914c58031357d5b9b4dca563453cdd903360152bf5ab60a2081"
+   },
+   "examples/rlfe/os.h" : {
+      "note" : "Retained upstream per-file notices and component-level COPYING apply; evidence is not an automatic license classification",
+      "notice_evidence" : [
+         {
+            "line" : 1,
+            "text" : "/* Copyright (c) 1993-2002"
+         },
+         {
+            "line" : 4,
+            "text" : " * Copyright (c) 1987 Oliver Laumann"
+         },
+         {
+            "line" : 7,
+            "text" : " * it under the terms of the GNU General Public License as published by"
+         },
+         {
+            "line" : 12,
+            "text" : " * but WITHOUT ANY WARRANTY; without even the implied warranty of"
+         },
+         {
+            "line" : 14,
+            "text" : " * GNU General Public License for more details."
+         },
+         {
+            "line" : 16,
+            "text" : " * You should have received a copy of the GNU General Public License"
+         }
+      ],
+      "notice_source" : "vendor/readline/examples/rlfe/os.h",
+      "sha256" : "e92fc7160816d835a35a929830c0d15dc139cf69bd0c70ad16f1389d3ad84d5c"
+   },
+   "examples/rlfe/pty.c" : {
+      "note" : "Retained upstream per-file notices and component-level COPYING apply; evidence is not an automatic license classification",
+      "notice_evidence" : [
+         {
+            "line" : 1,
+            "text" : "/* Copyright (c) 1993-2002"
+         },
+         {
+            "line" : 4,
+            "text" : " * Copyright (c) 1987 Oliver Laumann"
+         },
+         {
+            "line" : 7,
+            "text" : " * it under the terms of the GNU General Public License as published by"
+         },
+         {
+            "line" : 12,
+            "text" : " * but WITHOUT ANY WARRANTY; without even the implied warranty of"
+         },
+         {
+            "line" : 14,
+            "text" : " * GNU General Public License for more details."
+         },
+         {
+            "line" : 16,
+            "text" : " * You should have received a copy of the GNU General Public License"
+         }
+      ],
+      "notice_source" : "vendor/readline/examples/rlfe/pty.c",
+      "sha256" : "9ef00752aed10dff0e5ca1cc4d84ef4b08a9ed999ac78d299899da873554c893"
+   },
+   "examples/rlfe/rlfe.c" : {
+      "note" : "Retained upstream per-file notices and component-level COPYING apply; evidence is not an automatic license classification",
+      "notice_evidence" : [
+         {
+            "line" : 3,
+            "text" : " * Copyright (C) 2004, 1999  Per Bothner"
+         },
+         {
+            "line" : 6,
+            "text" : " * modify it under the terms of the GNU General Public License as published"
+         },
+         {
+            "line" : 192,
+            "text" : "    * This will only work if the process has root permissions."
+         }
+      ],
+      "notice_source" : "vendor/readline/examples/rlfe/rlfe.c",
+      "sha256" : "a7378671bd62d3a27f6cc19cdc19147d865f5f1b48931f5b3f984bd63d666058"
+   },
+   "examples/rlfe/screen.h" : {
+      "note" : "Retained upstream per-file notices and component-level COPYING apply; evidence is not an automatic license classification",
+      "notice_evidence" : [],
+      "notice_source" : "vendor/readline/examples/rlfe/screen.h",
+      "sha256" : "6b944f756f25ee34050f244e1ebde99edac9ef56d50d62ae50cbd33b708a1096"
+   },
+   "examples/rlkeymaps.c" : {
+      "note" : "Retained upstream per-file notices and component-level COPYING apply; evidence is not an automatic license classification",
+      "notice_evidence" : [],
+      "notice_source" : "vendor/readline/examples/rlkeymaps.c",
+      "sha256" : "954b2c61167f7d52e07ea68f23ea9123a2a70e52b502181ddec791c77071600c"
+   },
+   "examples/rlptytest.c" : {
+      "note" : "Retained upstream per-file notices and component-level COPYING apply; evidence is not an automatic license classification",
+      "notice_evidence" : [
+         {
+            "line" : 5,
+            "text" : " * Author: Bob Rossi <bob@brasko.net>"
+         }
+      ],
+      "notice_source" : "vendor/readline/examples/rlptytest.c",
+      "sha256" : "24b2cd7d4e4903589e0479eaf4f7df5e7d3845e8d7283cd0aa84b5aa41d25471"
+   },
+   "examples/rltest.c" : {
+      "note" : "Retained upstream per-file notices and component-level COPYING apply; evidence is not an automatic license classification",
+      "notice_evidence" : [
+         {
+            "line" : 7,
+            "text" : "/* Copyright (C) 1987-2009,2023 Free Software Foundation, Inc."
+         },
+         {
+            "line" : 13,
+            "text" : "   it under the terms of the GNU General Public License as published by"
+         },
+         {
+            "line" : 14,
+            "text" : "   the Free Software Foundation, either version 3 of the License, or"
+         },
+         {
+            "line" : 18,
+            "text" : "   but WITHOUT ANY WARRANTY; without even the implied warranty of"
+         },
+         {
+            "line" : 20,
+            "text" : "   GNU General Public License for more details."
+         },
+         {
+            "line" : 22,
+            "text" : "   You should have received a copy of the GNU General Public License"
+         },
+         {
+            "line" : 23,
+            "text" : "   along with Readline.  If not, see <http://www.gnu.org/licenses/>."
+         }
+      ],
+      "notice_source" : "vendor/readline/examples/rltest.c",
+      "sha256" : "0a35b0c9466f849f2d1dd03ea795936e81385b716bab30b4c0aa4642ccaac87e"
+   },
+   "examples/rlversion.c" : {
+      "note" : "Retained upstream per-file notices and component-level COPYING apply; evidence is not an automatic license classification",
+      "notice_evidence" : [
+         {
+            "line" : 5,
+            "text" : "/* Copyright (C) 1987-2009 Free Software Foundation, Inc."
+         },
+         {
+            "line" : 11,
+            "text" : "   it under the terms of the GNU General Public License as published by"
+         },
+         {
+            "line" : 12,
+            "text" : "   the Free Software Foundation, either version 3 of the License, or"
+         },
+         {
+            "line" : 16,
+            "text" : "   but WITHOUT ANY WARRANTY; without even the implied warranty of"
+         },
+         {
+            "line" : 18,
+            "text" : "   GNU General Public License for more details."
+         },
+         {
+            "line" : 20,
+            "text" : "   You should have received a copy of the GNU General Public License"
+         },
+         {
+            "line" : 21,
+            "text" : "   along with Readline.  If not, see <http://www.gnu.org/licenses/>."
+         }
+      ],
+      "notice_source" : "vendor/readline/examples/rlversion.c",
+      "sha256" : "a69a5d20adec803b5006b93e5fbb0c32e1b5bfabfc733cc8eb3e525754d06f86"
+   },
+   "examples/rlwrap-0.46.1.tar.gz" : {
+      "note" : "Binary upstream material retained verbatim; consult component notices",
+      "notice_source" : "vendor/readline/examples/rlwrap-0.46.1.tar.gz",
+      "sha256" : "9f944262bbab8e617e397713b3ef6c74cf172a08167635b8a7fc4a3e24c60eaf"
+   },
+   "funmap.c" : {
+      "note" : "Retained upstream per-file notices and component-level COPYING apply; evidence is not an automatic license classification",
+      "notice_evidence" : [
+         {
+            "line" : 3,
+            "text" : "/* Copyright (C) 1987-2024 Free Software Foundation, Inc."
+         },
+         {
+            "line" : 9,
+            "text" : "   it under the terms of the GNU General Public License as published by"
+         },
+         {
+            "line" : 10,
+            "text" : "   the Free Software Foundation, either version 3 of the License, or"
+         },
+         {
+            "line" : 14,
+            "text" : "   but WITHOUT ANY WARRANTY; without even the implied warranty of"
+         },
+         {
+            "line" : 16,
+            "text" : "   GNU General Public License for more details."
+         },
+         {
+            "line" : 18,
+            "text" : "   You should have received a copy of the GNU General Public License"
+         },
+         {
+            "line" : 19,
+            "text" : "   along with Readline.  If not, see <http://www.gnu.org/licenses/>."
+         }
+      ],
+      "notice_source" : "vendor/readline/funmap.c",
+      "sha256" : "06825d59a6af086385b8c7894d04318d2b35de35e3387b9dbefb179e11ec152c"
+   },
+   "gettimeofday.c" : {
+      "note" : "Retained upstream per-file notices and component-level COPYING apply; evidence is not an automatic license classification",
+      "notice_evidence" : [
+         {
+            "line" : 3,
+            "text" : "   Copyright (C) 2001-2003, 2005-2007, 2009-2025 Free Software Foundation, Inc."
+         },
+         {
+            "line" : 6,
+            "text" : "   it under the terms of the GNU Lesser General Public License as"
+         },
+         {
+            "line" : 8,
+            "text" : "   License, or (at your option) any later version."
+         },
+         {
+            "line" : 11,
+            "text" : "   but WITHOUT ANY WARRANTY; without even the implied warranty of"
+         },
+         {
+            "line" : 13,
+            "text" : "   GNU Lesser General Public License for more details."
+         },
+         {
+            "line" : 15,
+            "text" : "   You should have received a copy of the GNU Lesser General Public License"
+         },
+         {
+            "line" : 16,
+            "text" : "   along with this program.  If not, see <https://www.gnu.org/licenses/>.  */"
+         }
+      ],
+      "notice_source" : "vendor/readline/gettimeofday.c",
+      "sha256" : "9892ef0d74653dd93b273464feb40b2add0faec2edbc798e2ac9ba8ad1a48628"
+   },
+   "histexpand.c" : {
+      "note" : "Retained upstream per-file notices and component-level COPYING apply; evidence is not an automatic license classification",
+      "notice_evidence" : [
+         {
+            "line" : 3,
+            "text" : "/* Copyright (C) 1989-2021,2023-2025 Free Software Foundation, Inc."
+         },
+         {
+            "line" : 9,
+            "text" : "   it under the terms of the GNU General Public License as published by"
+         },
+         {
+            "line" : 10,
+            "text" : "   the Free Software Foundation, either version 3 of the License, or"
+         },
+         {
+            "line" : 14,
+            "text" : "   but WITHOUT ANY WARRANTY; without even the implied warranty of"
+         },
+         {
+            "line" : 16,
+            "text" : "   GNU General Public License for more details."
+         },
+         {
+            "line" : 18,
+            "text" : "   You should have received a copy of the GNU General Public License"
+         },
+         {
+            "line" : 19,
+            "text" : "   along with History.  If not, see <http://www.gnu.org/licenses/>."
+         }
+      ],
+      "notice_source" : "vendor/readline/histexpand.c",
+      "sha256" : "514c593c87b31a1def251d42aa80f19295472920af321854f192ed944a115798"
+   },
+   "histfile.c" : {
+      "note" : "Retained upstream per-file notices and component-level COPYING apply; evidence is not an automatic license classification",
+      "notice_evidence" : [
+         {
+            "line" : 3,
+            "text" : "/* Copyright (C) 1989-2019,2023-2025 Free Software Foundation, Inc."
+         },
+         {
+            "line" : 9,
+            "text" : "   it under the terms of the GNU General Public License as published by"
+         },
+         {
+            "line" : 10,
+            "text" : "   the Free Software Foundation, either version 3 of the License, or"
+         },
+         {
+            "line" : 14,
+            "text" : "   but WITHOUT ANY WARRANTY; without even the implied warranty of"
+         },
+         {
+            "line" : 16,
+            "text" : "   GNU General Public License for more details."
+         },
+         {
+            "line" : 18,
+            "text" : "   You should have received a copy of the GNU General Public License"
+         },
+         {
+            "line" : 19,
+            "text" : "   along with History.  If not, see <http://www.gnu.org/licenses/>."
+         }
+      ],
+      "notice_source" : "vendor/readline/histfile.c",
+      "sha256" : "86321754a2b8ae12ebee9cf848339372a92ec4f0685ec0cbac0ac8c2f40d0b9b"
+   },
+   "histlib.h" : {
+      "note" : "Retained upstream per-file notices and component-level COPYING apply; evidence is not an automatic license classification",
+      "notice_evidence" : [
+         {
+            "line" : 3,
+            "text" : "/* Copyright (C) 1989-2009,2021-2023 Free Software Foundation, Inc."
+         },
+         {
+            "line" : 9,
+            "text" : "   it under the terms of the GNU General Public License as published by"
+         },
+         {
+            "line" : 10,
+            "text" : "   the Free Software Foundation, either version 3 of the License, or"
+         },
+         {
+            "line" : 14,
+            "text" : "   but WITHOUT ANY WARRANTY; without even the implied warranty of"
+         },
+         {
+            "line" : 16,
+            "text" : "   GNU General Public License for more details."
+         },
+         {
+            "line" : 18,
+            "text" : "   You should have received a copy of the GNU General Public License"
+         },
+         {
+            "line" : 19,
+            "text" : "   along with History.  If not, see <http://www.gnu.org/licenses/>."
+         }
+      ],
+      "notice_source" : "vendor/readline/histlib.h",
+      "sha256" : "132211a75a43be7e189095e7566f21e93944d472de138a13625d592032ba08aa"
+   },
+   "history.c" : {
+      "note" : "Retained upstream per-file notices and component-level COPYING apply; evidence is not an automatic license classification",
+      "notice_evidence" : [
+         {
+            "line" : 3,
+            "text" : "/* Copyright (C) 1989-2025 Free Software Foundation, Inc."
+         },
+         {
+            "line" : 9,
+            "text" : "   it under the terms of the GNU General Public License as published by"
+         },
+         {
+            "line" : 10,
+            "text" : "   the Free Software Foundation, either version 3 of the License, or"
+         },
+         {
+            "line" : 14,
+            "text" : "   but WITHOUT ANY WARRANTY; without even the implied warranty of"
+         },
+         {
+            "line" : 16,
+            "text" : "   GNU General Public License for more details."
+         },
+         {
+            "line" : 18,
+            "text" : "   You should have received a copy of the GNU General Public License"
+         },
+         {
+            "line" : 19,
+            "text" : "   along with History.  If not, see <http://www.gnu.org/licenses/>."
+         }
+      ],
+      "notice_source" : "vendor/readline/history.c",
+      "sha256" : "8931c3fa1d083a890d90abb922b5a8c551b913175c140ed54b7e7840696aa491"
+   },
+   "history.h" : {
+      "note" : "Retained upstream per-file notices and component-level COPYING apply; evidence is not an automatic license classification",
+      "notice_evidence" : [
+         {
+            "line" : 3,
+            "text" : "/* Copyright (C) 1989-2023 Free Software Foundation, Inc."
+         },
+         {
+            "line" : 9,
+            "text" : "   it under the terms of the GNU General Public License as published by"
+         },
+         {
+            "line" : 10,
+            "text" : "   the Free Software Foundation, either version 3 of the License, or"
+         },
+         {
+            "line" : 14,
+            "text" : "   but WITHOUT ANY WARRANTY; without even the implied warranty of"
+         },
+         {
+            "line" : 16,
+            "text" : "   GNU General Public License for more details."
+         },
+         {
+            "line" : 18,
+            "text" : "   You should have received a copy of the GNU General Public License"
+         },
+         {
+            "line" : 19,
+            "text" : "   along with History.  If not, see <http://www.gnu.org/licenses/>."
+         }
+      ],
+      "notice_source" : "vendor/readline/history.h",
+      "sha256" : "5b8762c1086f62ed54567e258a72183b384534f57453d07f57085a03187a270a"
+   },
+   "history.pc.in" : {
+      "note" : "Retained upstream per-file notices and component-level COPYING apply; evidence is not an automatic license classification",
+      "notice_evidence" : [],
+      "notice_source" : "vendor/readline/history.pc.in",
+      "sha256" : "1d9d95e6ccdd38c51cad62991e115c7b310ceb873f5fe4b01042398eacabde0b"
+   },
+   "histsearch.c" : {
+      "note" : "Retained upstream per-file notices and component-level COPYING apply; evidence is not an automatic license classification",
+      "notice_evidence" : [
+         {
+            "line" : 3,
+            "text" : "/* Copyright (C) 1989, 1992-2009,2017,2021-2024 Free Software Foundation, Inc."
+         },
+         {
+            "line" : 9,
+            "text" : "   it under the terms of the GNU General Public License as published by"
+         },
+         {
+            "line" : 10,
+            "text" : "   the Free Software Foundation, either version 3 of the License, or"
+         },
+         {
+            "line" : 14,
+            "text" : "   but WITHOUT ANY WARRANTY; without even the implied warranty of"
+         },
+         {
+            "line" : 16,
+            "text" : "   GNU General Public License for more details."
+         },
+         {
+            "line" : 18,
+            "text" : "   You should have received a copy of the GNU General Public License"
+         },
+         {
+            "line" : 19,
+            "text" : "   along with History.  If not, see <http://www.gnu.org/licenses/>."
+         }
+      ],
+      "notice_source" : "vendor/readline/histsearch.c",
+      "sha256" : "23342c5bbe08683b7c71e3e5d2ca340f91a14855f7d88293c9906e0f93619e8f"
+   },
+   "input.c" : {
+      "note" : "Retained upstream per-file notices and component-level COPYING apply; evidence is not an automatic license classification",
+      "notice_evidence" : [
+         {
+            "line" : 3,
+            "text" : "/* Copyright (C) 1994-2025 Free Software Foundation, Inc."
+         },
+         {
+            "line" : 9,
+            "text" : "   it under the terms of the GNU General Public License as published by"
+         },
+         {
+            "line" : 10,
+            "text" : "   the Free Software Foundation, either version 3 of the License, or"
+         },
+         {
+            "line" : 14,
+            "text" : "   but WITHOUT ANY WARRANTY; without even the implied warranty of"
+         },
+         {
+            "line" : 16,
+            "text" : "   GNU General Public License for more details."
+         },
+         {
+            "line" : 18,
+            "text" : "   You should have received a copy of the GNU General Public License"
+         },
+         {
+            "line" : 19,
+            "text" : "   along with Readline.  If not, see <http://www.gnu.org/licenses/>."
+         }
+      ],
+      "notice_source" : "vendor/readline/input.c",
+      "sha256" : "28bfd8157409584cfb110f6056fb28d77eafc8d4e47188763eab6077795bdf68"
+   },
+   "isearch.c" : {
+      "note" : "Retained upstream per-file notices and component-level COPYING apply; evidence is not an automatic license classification",
+      "notice_evidence" : [
+         {
+            "line" : 9,
+            "text" : "/* Copyright (C) 1987-2021,2023,2025 Free Software Foundation, Inc."
+         },
+         {
+            "line" : 15,
+            "text" : "   it under the terms of the GNU General Public License as published by"
+         },
+         {
+            "line" : 16,
+            "text" : "   the Free Software Foundation, either version 3 of the License, or"
+         },
+         {
+            "line" : 20,
+            "text" : "   but WITHOUT ANY WARRANTY; without even the implied warranty of"
+         },
+         {
+            "line" : 22,
+            "text" : "   GNU General Public License for more details."
+         },
+         {
+            "line" : 24,
+            "text" : "   You should have received a copy of the GNU General Public License"
+         },
+         {
+            "line" : 25,
+            "text" : "   along with Readline.  If not, see <http://www.gnu.org/licenses/>."
+         }
+      ],
+      "notice_source" : "vendor/readline/isearch.c",
+      "sha256" : "f265ffa4799888275261e7c4502fa8d67d712995e6bb6121587f604257babbd2"
+   },
+   "keymaps.c" : {
+      "note" : "Retained upstream per-file notices and component-level COPYING apply; evidence is not an automatic license classification",
+      "notice_evidence" : [
+         {
+            "line" : 3,
+            "text" : "/* Copyright (C) 1988,1989-2009,2017 Free Software Foundation, Inc."
+         },
+         {
+            "line" : 9,
+            "text" : "   it under the terms of the GNU General Public License as published by"
+         },
+         {
+            "line" : 10,
+            "text" : "   the Free Software Foundation, either version 3 of the License, or"
+         },
+         {
+            "line" : 14,
+            "text" : "   but WITHOUT ANY WARRANTY; without even the implied warranty of"
+         },
+         {
+            "line" : 16,
+            "text" : "   GNU General Public License for more details."
+         },
+         {
+            "line" : 18,
+            "text" : "   You should have received a copy of the GNU General Public License"
+         },
+         {
+            "line" : 19,
+            "text" : "   along with Readline.  If not, see <http://www.gnu.org/licenses/>."
+         }
+      ],
+      "notice_source" : "vendor/readline/keymaps.c",
+      "sha256" : "0d341e14cb6b2f5408de53c9aacf5f4a032d914260a084af6f375289288c3dff"
+   },
+   "keymaps.h" : {
+      "note" : "Retained upstream per-file notices and component-level COPYING apply; evidence is not an automatic license classification",
+      "notice_evidence" : [
+         {
+            "line" : 3,
+            "text" : "/* Copyright (C) 1987, 1989, 1992-2021 Free Software Foundation, Inc."
+         },
+         {
+            "line" : 9,
+            "text" : "   it under the terms of the GNU General Public License as published by"
+         },
+         {
+            "line" : 10,
+            "text" : "   the Free Software Foundation, either version 3 of the License, or"
+         },
+         {
+            "line" : 14,
+            "text" : "   but WITHOUT ANY WARRANTY; without even the implied warranty of"
+         },
+         {
+            "line" : 16,
+            "text" : "   GNU General Public License for more details."
+         },
+         {
+            "line" : 18,
+            "text" : "   You should have received a copy of the GNU General Public License"
+         },
+         {
+            "line" : 19,
+            "text" : "   along with Readline.  If not, see <http://www.gnu.org/licenses/>."
+         }
+      ],
+      "notice_source" : "vendor/readline/keymaps.h",
+      "sha256" : "4c42c3c5d2bb3aba10c7e7f27dd79841f30857fde61c6c85bf67f4f2ac1befc4"
+   },
+   "kill.c" : {
+      "note" : "Retained upstream per-file notices and component-level COPYING apply; evidence is not an automatic license classification",
+      "notice_evidence" : [
+         {
+            "line" : 3,
+            "text" : "/* Copyright (C) 1994-2024 Free Software Foundation, Inc."
+         },
+         {
+            "line" : 9,
+            "text" : "   it under the terms of the GNU General Public License as published by"
+         },
+         {
+            "line" : 10,
+            "text" : "   the Free Software Foundation, either version 3 of the License, or"
+         },
+         {
+            "line" : 14,
+            "text" : "   but WITHOUT ANY WARRANTY; without even the implied warranty of"
+         },
+         {
+            "line" : 16,
+            "text" : "   GNU General Public License for more details."
+         },
+         {
+            "line" : 18,
+            "text" : "   You should have received a copy of the GNU General Public License"
+         },
+         {
+            "line" : 19,
+            "text" : "   along with Readline.  If not, see <http://www.gnu.org/licenses/>."
+         }
+      ],
+      "notice_source" : "vendor/readline/kill.c",
+      "sha256" : "404368c6146d4e72f7b1877d79dae960734d4b8e1cba1a12e8912baa59e9b569"
+   },
+   "m4/codeset.m4" : {
+      "note" : "Retained upstream per-file notices and component-level COPYING apply; evidence is not an automatic license classification",
+      "notice_evidence" : [
+         {
+            "line" : 2,
+            "text" : "dnl Copyright (C) 2000-2002, 2006, 2008-2014, 2016, 2019-2022 Free Software"
+         },
+         {
+            "line" : 5,
+            "text" : "dnl gives unlimited permission to copy and/or distribute it,"
+         }
+      ],
+      "notice_source" : "vendor/readline/m4/codeset.m4",
+      "sha256" : "9d1e9769b926dd55c599003b070a7dfd13922fd2b0e05d0d889dc76cf825f12a"
+   },
+   "macro.c" : {
+      "note" : "Retained upstream per-file notices and component-level COPYING apply; evidence is not an automatic license classification",
+      "notice_evidence" : [
+         {
+            "line" : 3,
+            "text" : "/* Copyright (C) 1994-2009,2017 Free Software Foundation, Inc."
+         },
+         {
+            "line" : 9,
+            "text" : "   it under the terms of the GNU General Public License as published by"
+         },
+         {
+            "line" : 10,
+            "text" : "   the Free Software Foundation, either version 3 of the License, or"
+         },
+         {
+            "line" : 14,
+            "text" : "   but WITHOUT ANY WARRANTY; without even the implied warranty of"
+         },
+         {
+            "line" : 16,
+            "text" : "   GNU General Public License for more details."
+         },
+         {
+            "line" : 18,
+            "text" : "   You should have received a copy of the GNU General Public License"
+         },
+         {
+            "line" : 19,
+            "text" : "   along with Readline.  If not, see <http://www.gnu.org/licenses/>."
+         }
+      ],
+      "notice_source" : "vendor/readline/macro.c",
+      "sha256" : "6b39729c12a12555e6b6bfd1c9d8d834928f4a0e604774d6af010db20ec03150"
+   },
+   "mbutil.c" : {
+      "note" : "Retained upstream per-file notices and component-level COPYING apply; evidence is not an automatic license classification",
+      "notice_evidence" : [
+         {
+            "line" : 3,
+            "text" : "/* Copyright (C) 2001-2024 Free Software Foundation, Inc."
+         },
+         {
+            "line" : 9,
+            "text" : "   it under the terms of the GNU General Public License as published by"
+         },
+         {
+            "line" : 10,
+            "text" : "   the Free Software Foundation, either version 3 of the License, or"
+         },
+         {
+            "line" : 14,
+            "text" : "   but WITHOUT ANY WARRANTY; without even the implied warranty of"
+         },
+         {
+            "line" : 16,
+            "text" : "   GNU General Public License for more details."
+         },
+         {
+            "line" : 18,
+            "text" : "   You should have received a copy of the GNU General Public License"
+         },
+         {
+            "line" : 19,
+            "text" : "   along with Readline.  If not, see <http://www.gnu.org/licenses/>."
+         }
+      ],
+      "notice_source" : "vendor/readline/mbutil.c",
+      "sha256" : "bb6e56ad90035aa19b19f256ae8e12d0923e680e5bab8ebf38d263bc8aa7bdae"
+   },
+   "misc.c" : {
+      "note" : "Retained upstream per-file notices and component-level COPYING apply; evidence is not an automatic license classification",
+      "notice_evidence" : [
+         {
+            "line" : 3,
+            "text" : "/* Copyright (C) 1987-2024 Free Software Foundation, Inc."
+         },
+         {
+            "line" : 9,
+            "text" : "   it under the terms of the GNU General Public License as published by"
+         },
+         {
+            "line" : 10,
+            "text" : "   the Free Software Foundation, either version 3 of the License, or"
+         },
+         {
+            "line" : 14,
+            "text" : "   but WITHOUT ANY WARRANTY; without even the implied warranty of"
+         },
+         {
+            "line" : 16,
+            "text" : "   GNU General Public License for more details."
+         },
+         {
+            "line" : 18,
+            "text" : "   You should have received a copy of the GNU General Public License"
+         },
+         {
+            "line" : 19,
+            "text" : "   along with Readline.  If not, see <http://www.gnu.org/licenses/>."
+         }
+      ],
+      "notice_source" : "vendor/readline/misc.c",
+      "sha256" : "0ecd59cc3b78a975dc73e8308d9d6c880de1fe05b223fa24e18e43f48dd8823c"
+   },
+   "nls.c" : {
+      "note" : "Retained upstream per-file notices and component-level COPYING apply; evidence is not an automatic license classification",
+      "notice_evidence" : [
+         {
+            "line" : 3,
+            "text" : "/* Copyright (C) 1996-2022 Free Software Foundation, Inc."
+         },
+         {
+            "line" : 9,
+            "text" : "   it under the terms of the GNU General Public License as published by"
+         },
+         {
+            "line" : 10,
+            "text" : "   the Free Software Foundation, either version 3 of the License, or"
+         },
+         {
+            "line" : 14,
+            "text" : "   but WITHOUT ANY WARRANTY; without even the implied warranty of"
+         },
+         {
+            "line" : 16,
+            "text" : "   GNU General Public License for more details."
+         },
+         {
+            "line" : 18,
+            "text" : "   You should have received a copy of the GNU General Public License"
+         },
+         {
+            "line" : 19,
+            "text" : "   along with Readline.  If not, see <http://www.gnu.org/licenses/>."
+         }
+      ],
+      "notice_source" : "vendor/readline/nls.c",
+      "sha256" : "243e1c31087f2d913d5d0957d07559a85e9838c1a6932c539246e3101b59a4fa"
+   },
+   "parens.c" : {
+      "note" : "Retained upstream per-file notices and component-level COPYING apply; evidence is not an automatic license classification",
+      "notice_evidence" : [
+         {
+            "line" : 3,
+            "text" : "/* Copyright (C) 1987, 1989, 1992-2015, 2017, 2021 Free Software Foundation, Inc."
+         },
+         {
+            "line" : 9,
+            "text" : "   it under the terms of the GNU General Public License as published by"
+         },
+         {
+            "line" : 10,
+            "text" : "   the Free Software Foundation, either version 3 of the License, or"
+         },
+         {
+            "line" : 14,
+            "text" : "   but WITHOUT ANY WARRANTY; without even the implied warranty of"
+         },
+         {
+            "line" : 16,
+            "text" : "   GNU General Public License for more details."
+         },
+         {
+            "line" : 18,
+            "text" : "   You should have received a copy of the GNU General Public License"
+         },
+         {
+            "line" : 19,
+            "text" : "   along with Readline.  If not, see <http://www.gnu.org/licenses/>."
+         }
+      ],
+      "notice_source" : "vendor/readline/parens.c",
+      "sha256" : "ca18d5e605157d8439232cf82b81f0f82e936de85f9657c37d5392bc347392b3"
+   },
+   "parse-colors.c" : {
+      "note" : "Retained upstream per-file notices and component-level COPYING apply; evidence is not an automatic license classification",
+      "notice_evidence" : [
+         {
+            "line" : 5,
+            "text" : "   Copyright (C) 1985, 1988, 1990-1991, 1995-2010, 2012, 2017"
+         },
+         {
+            "line" : 9,
+            "text" : "   it under the terms of the GNU General Public License as published by"
+         },
+         {
+            "line" : 10,
+            "text" : "   the Free Software Foundation, either version 3 of the License, or"
+         },
+         {
+            "line" : 14,
+            "text" : "   but WITHOUT ANY WARRANTY; without even the implied warranty of"
+         },
+         {
+            "line" : 16,
+            "text" : "   GNU General Public License for more details."
+         },
+         {
+            "line" : 18,
+            "text" : "   You should have received a copy of the GNU General Public License"
+         },
+         {
+            "line" : 19,
+            "text" : "   along with this program.  If not, see <http://www.gnu.org/licenses/>.  */"
+         }
+      ],
+      "notice_source" : "vendor/readline/parse-colors.c",
+      "sha256" : "00b8baf09cc619cdd38ea99d94da0a366c6e73d9c49a59292f3822efddd7918b"
+   },
+   "parse-colors.h" : {
+      "note" : "Retained upstream per-file notices and component-level COPYING apply; evidence is not an automatic license classification",
+      "notice_evidence" : [
+         {
+            "line" : 5,
+            "text" : "   Copyright (C) 1985, 1988, 1990-1991, 1995-2010, 2012 Free Software Foundation,"
+         },
+         {
+            "line" : 9,
+            "text" : "   it under the terms of the GNU General Public License as published by"
+         },
+         {
+            "line" : 10,
+            "text" : "   the Free Software Foundation, either version 3 of the License, or"
+         },
+         {
+            "line" : 14,
+            "text" : "   but WITHOUT ANY WARRANTY; without even the implied warranty of"
+         },
+         {
+            "line" : 16,
+            "text" : "   GNU General Public License for more details."
+         },
+         {
+            "line" : 18,
+            "text" : "   You should have received a copy of the GNU General Public License"
+         },
+         {
+            "line" : 19,
+            "text" : "   along with this program.  If not, see <http://www.gnu.org/licenses/>.  */"
+         }
+      ],
+      "notice_source" : "vendor/readline/parse-colors.h",
+      "sha256" : "f29572dfe001d479a4294bc7384f145d93236b2c30648222d21df9fbd36e13d1"
+   },
+   "patchlevel" : {
+      "note" : "Retained upstream per-file notices and component-level COPYING apply; evidence is not an automatic license classification",
+      "notice_evidence" : [],
+      "notice_source" : "vendor/readline/patchlevel",
+      "sha256" : "e3aee4ae4b275d9271393a6445aae52a4465eebe3f5caa98d4b9b1e7454508a8"
+   },
+   "posixdir.h" : {
+      "note" : "Retained upstream per-file notices and component-level COPYING apply; evidence is not an automatic license classification",
+      "notice_evidence" : [
+         {
+            "line" : 3,
+            "text" : "/* Copyright (C) 1987,1991,2012,2019,2021 Free Software Foundation, Inc."
+         },
+         {
+            "line" : 8,
+            "text" : "   it under the terms of the GNU General Public License as published by"
+         },
+         {
+            "line" : 9,
+            "text" : "   the Free Software Foundation, either version 3 of the License, or"
+         },
+         {
+            "line" : 13,
+            "text" : "   but WITHOUT ANY WARRANTY; without even the implied warranty of"
+         },
+         {
+            "line" : 15,
+            "text" : "   GNU General Public License for more details."
+         },
+         {
+            "line" : 17,
+            "text" : "   You should have received a copy of the GNU General Public License"
+         },
+         {
+            "line" : 18,
+            "text" : "   along with Bash.  If not, see <http://www.gnu.org/licenses/>."
+         }
+      ],
+      "notice_source" : "vendor/readline/posixdir.h",
+      "sha256" : "c4c12d8adb56129c3151976619f1a91eda1d47eed446deb1b728f251e85eec10"
+   },
+   "posixjmp.h" : {
+      "note" : "Retained upstream per-file notices and component-level COPYING apply; evidence is not an automatic license classification",
+      "notice_evidence" : [
+         {
+            "line" : 3,
+            "text" : "/* Copyright (C) 1987,1991-2015 Free Software Foundation, Inc."
+         },
+         {
+            "line" : 8,
+            "text" : "   it under the terms of the GNU General Public License as published by"
+         },
+         {
+            "line" : 9,
+            "text" : "   the Free Software Foundation, either version 3 of the License, or"
+         },
+         {
+            "line" : 13,
+            "text" : "   but WITHOUT ANY WARRANTY; without even the implied warranty of"
+         },
+         {
+            "line" : 15,
+            "text" : "   GNU General Public License for more details."
+         },
+         {
+            "line" : 17,
+            "text" : "   You should have received a copy of the GNU General Public License"
+         },
+         {
+            "line" : 18,
+            "text" : "   along with Bash.  If not, see <http://www.gnu.org/licenses/>."
+         }
+      ],
+      "notice_source" : "vendor/readline/posixjmp.h",
+      "sha256" : "4a79e5d83b9e87153cd057d76a5b2614922c04a5b58a9f5ae9ed23634dc70261"
+   },
+   "posixselect.h" : {
+      "note" : "Retained upstream per-file notices and component-level COPYING apply; evidence is not an automatic license classification",
+      "notice_evidence" : [
+         {
+            "line" : 3,
+            "text" : "/* Copyright (C) 2009 Free Software Foundation, Inc."
+         },
+         {
+            "line" : 8,
+            "text" : "   it under the terms of the GNU General Public License as published by"
+         },
+         {
+            "line" : 9,
+            "text" : "   the Free Software Foundation, either version 3 of the License, or"
+         },
+         {
+            "line" : 13,
+            "text" : "   but WITHOUT ANY WARRANTY; without even the implied warranty of"
+         },
+         {
+            "line" : 15,
+            "text" : "   GNU General Public License for more details."
+         },
+         {
+            "line" : 17,
+            "text" : "   You should have received a copy of the GNU General Public License"
+         },
+         {
+            "line" : 18,
+            "text" : "   along with Bash.  If not, see <http://www.gnu.org/licenses/>."
+         }
+      ],
+      "notice_source" : "vendor/readline/posixselect.h",
+      "sha256" : "5330e1aaf639e393b2463a29d35d298e7a054ddb34727743e24d9a72c8fa3ad9"
+   },
+   "posixstat.h" : {
+      "note" : "Retained upstream per-file notices and component-level COPYING apply; evidence is not an automatic license classification",
+      "notice_evidence" : [
+         {
+            "line" : 4,
+            "text" : "/* Copyright (C) 1987-2019 Free Software Foundation, Inc."
+         },
+         {
+            "line" : 9,
+            "text" : "   it under the terms of the GNU General Public License as published by"
+         },
+         {
+            "line" : 10,
+            "text" : "   the Free Software Foundation, either version 3 of the License, or"
+         },
+         {
+            "line" : 14,
+            "text" : "   but WITHOUT ANY WARRANTY; without even the implied warranty of"
+         },
+         {
+            "line" : 16,
+            "text" : "   GNU General Public License for more details."
+         },
+         {
+            "line" : 18,
+            "text" : "   You should have received a copy of the GNU General Public License"
+         },
+         {
+            "line" : 19,
+            "text" : "   along with Bash.  If not, see <http://www.gnu.org/licenses/>."
+         }
+      ],
+      "notice_source" : "vendor/readline/posixstat.h",
+      "sha256" : "29de8968be3337d40918adbf6a943d2bda903ff4eace81c12d626da9234bf544"
+   },
+   "posixtime.h" : {
+      "note" : "Retained upstream per-file notices and component-level COPYING apply; evidence is not an automatic license classification",
+      "notice_evidence" : [
+         {
+            "line" : 3,
+            "text" : "/* Copyright (C) 1999-2025 Free Software Foundation, Inc."
+         },
+         {
+            "line" : 8,
+            "text" : "   it under the terms of the GNU General Public License as published by"
+         },
+         {
+            "line" : 9,
+            "text" : "   the Free Software Foundation, either version 3 of the License, or"
+         },
+         {
+            "line" : 13,
+            "text" : "   but WITHOUT ANY WARRANTY; without even the implied warranty of"
+         },
+         {
+            "line" : 15,
+            "text" : "   GNU General Public License for more details."
+         },
+         {
+            "line" : 17,
+            "text" : "   You should have received a copy of the GNU General Public License"
+         },
+         {
+            "line" : 18,
+            "text" : "   along with Bash.  If not, see <http://www.gnu.org/licenses/>."
+         }
+      ],
+      "notice_source" : "vendor/readline/posixtime.h",
+      "sha256" : "d28362696dddb64847b9642c437377b484bac0d2dc405137b0129fee749bb5ba"
+   },
+   "readline.c" : {
+      "note" : "Retained upstream per-file notices and component-level COPYING apply; evidence is not an automatic license classification",
+      "notice_evidence" : [
+         {
+            "line" : 4,
+            "text" : "/* Copyright (C) 1987-2025 Free Software Foundation, Inc."
+         },
+         {
+            "line" : 10,
+            "text" : "   it under the terms of the GNU General Public License as published by"
+         },
+         {
+            "line" : 11,
+            "text" : "   the Free Software Foundation, either version 3 of the License, or"
+         },
+         {
+            "line" : 15,
+            "text" : "   but WITHOUT ANY WARRANTY; without even the implied warranty of"
+         },
+         {
+            "line" : 17,
+            "text" : "   GNU General Public License for more details."
+         },
+         {
+            "line" : 19,
+            "text" : "   You should have received a copy of the GNU General Public License"
+         },
+         {
+            "line" : 20,
+            "text" : "   along with Readline.  If not, see <http://www.gnu.org/licenses/>."
+         }
+      ],
+      "notice_source" : "vendor/readline/readline.c",
+      "sha256" : "55ec0a03753f231639e7f6630511b59009775c79393518908a86afad6e3a98bf"
+   },
+   "readline.h" : {
+      "note" : "Retained upstream per-file notices and component-level COPYING apply; evidence is not an automatic license classification",
+      "notice_evidence" : [
+         {
+            "line" : 3,
+            "text" : "/* Copyright (C) 1987-2024 Free Software Foundation, Inc."
+         },
+         {
+            "line" : 9,
+            "text" : "   it under the terms of the GNU General Public License as published by"
+         },
+         {
+            "line" : 10,
+            "text" : "   the Free Software Foundation, either version 3 of the License, or"
+         },
+         {
+            "line" : 14,
+            "text" : "   but WITHOUT ANY WARRANTY; without even the implied warranty of"
+         },
+         {
+            "line" : 16,
+            "text" : "   GNU General Public License for more details."
+         },
+         {
+            "line" : 18,
+            "text" : "   You should have received a copy of the GNU General Public License"
+         },
+         {
+            "line" : 19,
+            "text" : "   along with Readline.  If not, see <http://www.gnu.org/licenses/>."
+         }
+      ],
+      "notice_source" : "vendor/readline/readline.h",
+      "sha256" : "1934a225c54300308cbda341851b693ecdbba66623e5f84527d90be9de34f572"
+   },
+   "readline.pc.in" : {
+      "note" : "Retained upstream per-file notices and component-level COPYING apply; evidence is not an automatic license classification",
+      "notice_evidence" : [],
+      "notice_source" : "vendor/readline/readline.pc.in",
+      "sha256" : "98d82585fc92e1f71bf41378fd6fde68a7ab46fe2245a47c90934b5919aac18e"
+   },
+   "rlconf.h" : {
+      "note" : "Retained upstream per-file notices and component-level COPYING apply; evidence is not an automatic license classification",
+      "notice_evidence" : [
+         {
+            "line" : 3,
+            "text" : "/* Copyright (C) 1992-2015 Free Software Foundation, Inc."
+         },
+         {
+            "line" : 9,
+            "text" : "   it under the terms of the GNU General Public License as published by"
+         },
+         {
+            "line" : 10,
+            "text" : "   the Free Software Foundation, either version 3 of the License, or"
+         },
+         {
+            "line" : 14,
+            "text" : "   but WITHOUT ANY WARRANTY; without even the implied warranty of"
+         },
+         {
+            "line" : 16,
+            "text" : "   GNU General Public License for more details."
+         },
+         {
+            "line" : 18,
+            "text" : "   You should have received a copy of the GNU General Public License"
+         },
+         {
+            "line" : 19,
+            "text" : "   along with Readline.  If not, see <http://www.gnu.org/licenses/>."
+         }
+      ],
+      "notice_source" : "vendor/readline/rlconf.h",
+      "sha256" : "f140434f57cba8dbd83e87997c73608b51643b6dd89f292aa5eb83a68c816dd2"
+   },
+   "rldefs.h" : {
+      "note" : "Retained upstream per-file notices and component-level COPYING apply; evidence is not an automatic license classification",
+      "notice_evidence" : [
+         {
+            "line" : 5,
+            "text" : "/* Copyright (C) 1987-2021 Free Software Foundation, Inc."
+         },
+         {
+            "line" : 11,
+            "text" : "   it under the terms of the GNU General Public License as published by"
+         },
+         {
+            "line" : 12,
+            "text" : "   the Free Software Foundation, either version 3 of the License, or"
+         },
+         {
+            "line" : 16,
+            "text" : "   but WITHOUT ANY WARRANTY; without even the implied warranty of"
+         },
+         {
+            "line" : 18,
+            "text" : "   GNU General Public License for more details."
+         },
+         {
+            "line" : 20,
+            "text" : "   You should have received a copy of the GNU General Public License"
+         },
+         {
+            "line" : 21,
+            "text" : "   along with Readline.  If not, see <http://www.gnu.org/licenses/>."
+         }
+      ],
+      "notice_source" : "vendor/readline/rldefs.h",
+      "sha256" : "9ddfd4250234036964e11b1dd4648a1b77df24ca80ad5e3b0cdd670774cbfd8b"
+   },
+   "rlmbutil.h" : {
+      "note" : "Retained upstream per-file notices and component-level COPYING apply; evidence is not an automatic license classification",
+      "notice_evidence" : [
+         {
+            "line" : 3,
+            "text" : "/* Copyright (C) 2001-2025 Free Software Foundation, Inc."
+         },
+         {
+            "line" : 9,
+            "text" : "   it under the terms of the GNU General Public License as published by"
+         },
+         {
+            "line" : 10,
+            "text" : "   the Free Software Foundation, either version 3 of the License, or"
+         },
+         {
+            "line" : 14,
+            "text" : "   but WITHOUT ANY WARRANTY; without even the implied warranty of"
+         },
+         {
+            "line" : 16,
+            "text" : "   GNU General Public License for more details."
+         },
+         {
+            "line" : 18,
+            "text" : "   You should have received a copy of the GNU General Public License"
+         },
+         {
+            "line" : 19,
+            "text" : "   along with Readline.  If not, see <http://www.gnu.org/licenses/>."
+         }
+      ],
+      "notice_source" : "vendor/readline/rlmbutil.h",
+      "sha256" : "d51ffe32f4e53ee35dbd7bc25985b0cb639515e01cfec1e2a2218f588b573d1c"
+   },
+   "rlprivate.h" : {
+      "note" : "Retained upstream per-file notices and component-level COPYING apply; evidence is not an automatic license classification",
+      "notice_evidence" : [
+         {
+            "line" : 4,
+            "text" : "/* Copyright (C) 1999-2025 Free Software Foundation, Inc."
+         },
+         {
+            "line" : 10,
+            "text" : "   it under the terms of the GNU General Public License as published by"
+         },
+         {
+            "line" : 11,
+            "text" : "   the Free Software Foundation, either version 3 of the License, or"
+         },
+         {
+            "line" : 15,
+            "text" : "   but WITHOUT ANY WARRANTY; without even the implied warranty of"
+         },
+         {
+            "line" : 17,
+            "text" : "   GNU General Public License for more details."
+         },
+         {
+            "line" : 19,
+            "text" : "   You should have received a copy of the GNU General Public License"
+         },
+         {
+            "line" : 20,
+            "text" : "   along with Readline.  If not, see <http://www.gnu.org/licenses/>."
+         }
+      ],
+      "notice_source" : "vendor/readline/rlprivate.h",
+      "sha256" : "6efcc8b7b23a32bec041ae83cc8d87087e0efe084be66a0b8e87e00a154f3470"
+   },
+   "rlshell.h" : {
+      "note" : "Retained upstream per-file notices and component-level COPYING apply; evidence is not an automatic license classification",
+      "notice_evidence" : [
+         {
+            "line" : 3,
+            "text" : "/* Copyright (C) 1999-2021 Free Software Foundation, Inc."
+         },
+         {
+            "line" : 9,
+            "text" : "   it under the terms of the GNU General Public License as published by"
+         },
+         {
+            "line" : 10,
+            "text" : "   the Free Software Foundation, either version 3 of the License, or"
+         },
+         {
+            "line" : 14,
+            "text" : "   but WITHOUT ANY WARRANTY; without even the implied warranty of"
+         },
+         {
+            "line" : 16,
+            "text" : "   GNU General Public License for more details."
+         },
+         {
+            "line" : 18,
+            "text" : "   You should have received a copy of the GNU General Public License"
+         },
+         {
+            "line" : 19,
+            "text" : "   along with Readline.  If not, see <http://www.gnu.org/licenses/>."
+         }
+      ],
+      "notice_source" : "vendor/readline/rlshell.h",
+      "sha256" : "62959accde8c92b2fc36d7e6b14a73185b282812bd1e17c6c397dfdb8a70230c"
+   },
+   "rlstdc.h" : {
+      "note" : "Retained upstream per-file notices and component-level COPYING apply; evidence is not an automatic license classification",
+      "notice_evidence" : [
+         {
+            "line" : 3,
+            "text" : "/* Copyright (C) 1993-2009,2023 Free Software Foundation, Inc."
+         },
+         {
+            "line" : 9,
+            "text" : "   it under the terms of the GNU General Public License as published by"
+         },
+         {
+            "line" : 10,
+            "text" : "   the Free Software Foundation, either version 3 of the License, or"
+         },
+         {
+            "line" : 14,
+            "text" : "   but WITHOUT ANY WARRANTY; without even the implied warranty of"
+         },
+         {
+            "line" : 16,
+            "text" : "   GNU General Public License for more details."
+         },
+         {
+            "line" : 18,
+            "text" : "   You should have received a copy of the GNU General Public License"
+         },
+         {
+            "line" : 19,
+            "text" : "   along with Readline.  If not, see <http://www.gnu.org/licenses/>."
+         }
+      ],
+      "notice_source" : "vendor/readline/rlstdc.h",
+      "sha256" : "5a66bb179f4a7ad32b9a0a04b0a60c20c0b3f5ee63b1b2eed41fc64fbd590e64"
+   },
+   "rltty.c" : {
+      "note" : "Retained upstream per-file notices and component-level COPYING apply; evidence is not an automatic license classification",
+      "notice_evidence" : [
+         {
+            "line" : 4,
+            "text" : "/* Copyright (C) 1992-2025 Free Software Foundation, Inc."
+         },
+         {
+            "line" : 10,
+            "text" : "   it under the terms of the GNU General Public License as published by"
+         },
+         {
+            "line" : 11,
+            "text" : "   the Free Software Foundation, either version 3 of the License, or"
+         },
+         {
+            "line" : 15,
+            "text" : "   but WITHOUT ANY WARRANTY; without even the implied warranty of"
+         },
+         {
+            "line" : 17,
+            "text" : "   GNU General Public License for more details."
+         },
+         {
+            "line" : 19,
+            "text" : "   You should have received a copy of the GNU General Public License"
+         },
+         {
+            "line" : 20,
+            "text" : "   along with Readline.  If not, see <http://www.gnu.org/licenses/>."
+         }
+      ],
+      "notice_source" : "vendor/readline/rltty.c",
+      "sha256" : "479a5064f2fcfd08e8b703db0f12cb6de9e0c6a8a83fa24aab50762fd49ef668"
+   },
+   "rltty.h" : {
+      "note" : "Retained upstream per-file notices and component-level COPYING apply; evidence is not an automatic license classification",
+      "notice_evidence" : [
+         {
+            "line" : 3,
+            "text" : "/* Copyright (C) 1995-2009 Free Software Foundation, Inc."
+         },
+         {
+            "line" : 9,
+            "text" : "   it under the terms of the GNU General Public License as published by"
+         },
+         {
+            "line" : 10,
+            "text" : "   the Free Software Foundation, either version 3 of the License, or"
+         },
+         {
+            "line" : 14,
+            "text" : "   but WITHOUT ANY WARRANTY; without even the implied warranty of"
+         },
+         {
+            "line" : 16,
+            "text" : "   GNU General Public License for more details."
+         },
+         {
+            "line" : 18,
+            "text" : "   You should have received a copy of the GNU General Public License"
+         },
+         {
+            "line" : 19,
+            "text" : "   along with Readline.  If not, see <http://www.gnu.org/licenses/>."
+         }
+      ],
+      "notice_source" : "vendor/readline/rltty.h",
+      "sha256" : "2255734ae3c7a0bfc24d7145b8ca267b1ea8ecc8ca5d7c5c1f98fa8c872f146a"
+   },
+   "rltypedefs.h" : {
+      "note" : "Retained upstream per-file notices and component-level COPYING apply; evidence is not an automatic license classification",
+      "notice_evidence" : [
+         {
+            "line" : 3,
+            "text" : "/* Copyright (C) 2000-2023 Free Software Foundation, Inc."
+         },
+         {
+            "line" : 9,
+            "text" : "   it under the terms of the GNU General Public License as published by"
+         },
+         {
+            "line" : 10,
+            "text" : "   the Free Software Foundation, either version 3 of the License, or"
+         },
+         {
+            "line" : 14,
+            "text" : "   but WITHOUT ANY WARRANTY; without even the implied warranty of"
+         },
+         {
+            "line" : 16,
+            "text" : "   GNU General Public License for more details."
+         },
+         {
+            "line" : 18,
+            "text" : "   You should have received a copy of the GNU General Public License"
+         },
+         {
+            "line" : 19,
+            "text" : "   along with Readline.  If not, see <http://www.gnu.org/licenses/>."
+         }
+      ],
+      "notice_source" : "vendor/readline/rltypedefs.h",
+      "sha256" : "9c756ee45536c3999c3d9b50c75343fe0338d7634ca96c3b375d13e30e9c582e"
+   },
+   "rlwinsize.h" : {
+      "note" : "Retained upstream per-file notices and component-level COPYING apply; evidence is not an automatic license classification",
+      "notice_evidence" : [
+         {
+            "line" : 4,
+            "text" : "/* Copyright (C) 1997-2025 Free Software Foundation, Inc."
+         },
+         {
+            "line" : 10,
+            "text" : "   it under the terms of the GNU General Public License as published by"
+         },
+         {
+            "line" : 11,
+            "text" : "   the Free Software Foundation, either version 3 of the License, or"
+         },
+         {
+            "line" : 15,
+            "text" : "   but WITHOUT ANY WARRANTY; without even the implied warranty of"
+         },
+         {
+            "line" : 17,
+            "text" : "   GNU General Public License for more details."
+         },
+         {
+            "line" : 19,
+            "text" : "   You should have received a copy of the GNU General Public License"
+         },
+         {
+            "line" : 20,
+            "text" : "   along with Readline.  If not, see <http://www.gnu.org/licenses/>."
+         }
+      ],
+      "notice_source" : "vendor/readline/rlwinsize.h",
+      "sha256" : "eabe5439bb5372be6694eaaeae3c91b36148beec68c4003958628b7910a68138"
+   },
+   "savestring.c" : {
+      "note" : "Retained upstream per-file notices and component-level COPYING apply; evidence is not an automatic license classification",
+      "notice_evidence" : [
+         {
+            "line" : 3,
+            "text" : "/* Copyright (C) 1998,2003,2017 Free Software Foundation, Inc."
+         },
+         {
+            "line" : 9,
+            "text" : "   it under the terms of the GNU General Public License as published by"
+         },
+         {
+            "line" : 10,
+            "text" : "   the Free Software Foundation, either version 3 of the License, or"
+         },
+         {
+            "line" : 14,
+            "text" : "   but WITHOUT ANY WARRANTY; without even the implied warranty of"
+         },
+         {
+            "line" : 16,
+            "text" : "   GNU General Public License for more details."
+         },
+         {
+            "line" : 18,
+            "text" : "   You should have received a copy of the GNU General Public License"
+         },
+         {
+            "line" : 19,
+            "text" : "   along with Readline.  If not, see <http://www.gnu.org/licenses/>."
+         }
+      ],
+      "notice_source" : "vendor/readline/savestring.c",
+      "sha256" : "2cf7d256fc3cbd2f2dd1fb6fd1b2a02cb278edbc14f9b0db1372346fc23a3de1"
+   },
+   "search.c" : {
+      "note" : "Retained upstream per-file notices and component-level COPYING apply; evidence is not an automatic license classification",
+      "notice_evidence" : [
+         {
+            "line" : 3,
+            "text" : "/* Copyright (C) 1992-2025 Free Software Foundation, Inc."
+         },
+         {
+            "line" : 9,
+            "text" : "   it under the terms of the GNU General Public License as published by"
+         },
+         {
+            "line" : 10,
+            "text" : "   the Free Software Foundation, either version 3 of the License, or"
+         },
+         {
+            "line" : 14,
+            "text" : "   but WITHOUT ANY WARRANTY; without even the implied warranty of"
+         },
+         {
+            "line" : 16,
+            "text" : "   GNU General Public License for more details."
+         },
+         {
+            "line" : 18,
+            "text" : "   You should have received a copy of the GNU General Public License"
+         },
+         {
+            "line" : 19,
+            "text" : "   along with Readline.  If not, see <http://www.gnu.org/licenses/>."
+         }
+      ],
+      "notice_source" : "vendor/readline/search.c",
+      "sha256" : "5e33985cc078d24c623d08eb162c8b7a9b1fe435016533c7471a27ecfe2dd210"
+   },
+   "shell.c" : {
+      "note" : "Retained upstream per-file notices and component-level COPYING apply; evidence is not an automatic license classification",
+      "notice_evidence" : [
+         {
+            "line" : 4,
+            "text" : "/* Copyright (C) 1997-2025 Free Software Foundation, Inc."
+         },
+         {
+            "line" : 10,
+            "text" : "   it under the terms of the GNU General Public License as published by"
+         },
+         {
+            "line" : 11,
+            "text" : "   the Free Software Foundation, either version 3 of the License, or"
+         },
+         {
+            "line" : 15,
+            "text" : "   but WITHOUT ANY WARRANTY; without even the implied warranty of"
+         },
+         {
+            "line" : 17,
+            "text" : "   GNU General Public License for more details."
+         },
+         {
+            "line" : 19,
+            "text" : "   You should have received a copy of the GNU General Public License"
+         },
+         {
+            "line" : 20,
+            "text" : "   along with Readline.  If not, see <http://www.gnu.org/licenses/>."
+         }
+      ],
+      "notice_source" : "vendor/readline/shell.c",
+      "sha256" : "4f138c8a44bf27c13b613d79fafd447c463ee7791217efd02edc72c7603a14c8"
+   },
+   "shlib/Makefile.in" : {
+      "note" : "Retained upstream per-file notices and component-level COPYING apply; evidence is not an automatic license classification",
+      "notice_evidence" : [
+         {
+            "line" : 4,
+            "text" : "# Copyright (C) 1998-2009 Free Software Foundation, Inc."
+         },
+         {
+            "line" : 7,
+            "text" : "#   it under the terms of the GNU General Public License as published by"
+         },
+         {
+            "line" : 8,
+            "text" : "#   the Free Software Foundation, either version 3 of the License, or"
+         },
+         {
+            "line" : 12,
+            "text" : "#   but WITHOUT ANY WARRANTY; without even the implied warranty of"
+         },
+         {
+            "line" : 14,
+            "text" : "#   GNU General Public License for more details."
+         },
+         {
+            "line" : 16,
+            "text" : "#   You should have received a copy of the GNU General Public License"
+         },
+         {
+            "line" : 17,
+            "text" : "#   along with this program.  If not, see <http://www.gnu.org/licenses/>."
+         }
+      ],
+      "notice_source" : "vendor/readline/shlib/Makefile.in",
+      "sha256" : "6a02d5d7e5f85b00d9f1cc150ccf5c3ee241838773e412f1d56b5fafedee939e"
+   },
+   "signals.c" : {
+      "note" : "Retained upstream per-file notices and component-level COPYING apply; evidence is not an automatic license classification",
+      "notice_evidence" : [
+         {
+            "line" : 3,
+            "text" : "/* Copyright (C) 1987-2025 Free Software Foundation, Inc."
+         },
+         {
+            "line" : 9,
+            "text" : "   it under the terms of the GNU General Public License as published by"
+         },
+         {
+            "line" : 10,
+            "text" : "   the Free Software Foundation, either version 3 of the License, or"
+         },
+         {
+            "line" : 14,
+            "text" : "   but WITHOUT ANY WARRANTY; without even the implied warranty of"
+         },
+         {
+            "line" : 16,
+            "text" : "   GNU General Public License for more details."
+         },
+         {
+            "line" : 18,
+            "text" : "   You should have received a copy of the GNU General Public License"
+         },
+         {
+            "line" : 19,
+            "text" : "   along with Readline.  If not, see <http://www.gnu.org/licenses/>."
+         }
+      ],
+      "notice_source" : "vendor/readline/signals.c",
+      "sha256" : "eb14ca8717e32c3542acb2f681b0891870533b422f6bd608c67504e2fe6f0c91"
+   },
+   "support/config.guess" : {
+      "note" : "Retained upstream per-file notices and component-level COPYING apply; evidence is not an automatic license classification",
+      "notice_evidence" : [
+         {
+            "line" : 3,
+            "text" : "#   Copyright 1992-2024 Free Software Foundation, Inc."
+         },
+         {
+            "line" : 10,
+            "text" : "# under the terms of the GNU General Public License as published by"
+         },
+         {
+            "line" : 11,
+            "text" : "# the Free Software Foundation, either version 3 of the License, or"
+         },
+         {
+            "line" : 15,
+            "text" : "# WITHOUT ANY WARRANTY; without even the implied warranty of"
+         },
+         {
+            "line" : 17,
+            "text" : "# General Public License for more details."
+         },
+         {
+            "line" : 19,
+            "text" : "# You should have received a copy of the GNU General Public License"
+         },
+         {
+            "line" : 20,
+            "text" : "# along with this program; if not, see <https://www.gnu.org/licenses/>."
+         },
+         {
+            "line" : 22,
+            "text" : "# As a special exception to the GNU General Public License, if you"
+         },
+         {
+            "line" : 26,
+            "text" : "# program.  This Exception is an additional permission under section 7"
+         },
+         {
+            "line" : 27,
+            "text" : "# of the GNU General Public License, version 3 (\"GPLv3\")."
+         },
+         {
+            "line" : 63,
+            "text" : "Copyright 1992-2024 Free Software Foundation, Inc."
+         },
+         {
+            "line" : 66,
+            "text" : "warranty; not even for MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.\""
+         }
+      ],
+      "notice_source" : "vendor/readline/support/config.guess",
+      "sha256" : "e3d148130e9151735f8b9a8e69a70d06890ece51468a9762eb7ac0feddddcc2f"
+   },
+   "support/config.rpath" : {
+      "note" : "Retained upstream per-file notices and component-level COPYING apply; evidence is not an automatic license classification",
+      "notice_evidence" : [
+         {
+            "line" : 6,
+            "text" : "#   Copyright 1996-2024 Free Software Foundation, Inc."
+         },
+         {
+            "line" : 11,
+            "text" : "#   unlimited permission to copy and/or distribute it, with or without"
+         },
+         {
+            "line" : 52,
+            "text" : "  echo \"Copyright (C) 2024 Free Software Foundation, Inc."
+         },
+         {
+            "line" : 53,
+            "text" : "License: All-Permissive."
+         },
+         {
+            "line" : 55,
+            "text" : "There is NO WARRANTY, to the extent permitted by law.\""
+         }
+      ],
+      "notice_source" : "vendor/readline/support/config.rpath",
+      "sha256" : "46e05ef0ed1805729438662c040e85b0abdeba5fbedd448c4d79a3f0f3af6250"
+   },
+   "support/config.sub" : {
+      "note" : "Retained upstream per-file notices and component-level COPYING apply; evidence is not an automatic license classification",
+      "notice_evidence" : [
+         {
+            "line" : 3,
+            "text" : "#   Copyright 1992-2024 Free Software Foundation, Inc."
+         },
+         {
+            "line" : 10,
+            "text" : "# under the terms of the GNU General Public License as published by"
+         },
+         {
+            "line" : 11,
+            "text" : "# the Free Software Foundation, either version 3 of the License, or"
+         },
+         {
+            "line" : 15,
+            "text" : "# WITHOUT ANY WARRANTY; without even the implied warranty of"
+         },
+         {
+            "line" : 17,
+            "text" : "# General Public License for more details."
+         },
+         {
+            "line" : 19,
+            "text" : "# You should have received a copy of the GNU General Public License"
+         },
+         {
+            "line" : 20,
+            "text" : "# along with this program; if not, see <https://www.gnu.org/licenses/>."
+         },
+         {
+            "line" : 22,
+            "text" : "# As a special exception to the GNU General Public License, if you"
+         },
+         {
+            "line" : 26,
+            "text" : "# program.  This Exception is an additional permission under section 7"
+         },
+         {
+            "line" : 27,
+            "text" : "# of the GNU General Public License, version 3 (\"GPLv3\")."
+         },
+         {
+            "line" : 79,
+            "text" : "Copyright 1992-2024 Free Software Foundation, Inc."
+         },
+         {
+            "line" : 82,
+            "text" : "warranty; not even for MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.\""
+         }
+      ],
+      "notice_source" : "vendor/readline/support/config.sub",
+      "sha256" : "11c54f55c3ac99e5d2c3dc2bb0bcccbf69f8223cc68f6b2438daa806cf0d16d8"
+   },
+   "support/install-sh" : {
+      "note" : "Retained upstream per-file notices and component-level COPYING apply; evidence is not an automatic license classification",
+      "notice_evidence" : [
+         {
+            "line" : 8,
+            "text" : "# following copyright and license."
+         },
+         {
+            "line" : 10,
+            "text" : "# Copyright (C) 1994 X Consortium"
+         },
+         {
+            "line" : 12,
+            "text" : "# Permission is hereby granted, free of charge, to any person obtaining a copy"
+         },
+         {
+            "line" : 15,
+            "text" : "# rights to use, copy, modify, merge, publish, distribute, sublicense, and/or"
+         },
+         {
+            "line" : 19,
+            "text" : "# The above copyright notice and this permission notice shall be included in"
+         },
+         {
+            "line" : 22,
+            "text" : "# THE SOFTWARE IS PROVIDED \"AS IS\", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR"
+         },
+         {
+            "line" : 31,
+            "text" : "# ings in this Software without prior written authorization from the X Consor-"
+         },
+         {
+            "line" : 35,
+            "text" : "# FSF changes to this file are in the public domain."
+         }
+      ],
+      "notice_source" : "vendor/readline/support/install-sh",
+      "sha256" : "6240afc6a0133cc733a6f94765efaba54c32f9cf9b6b086614d6d2f353963a1f"
+   },
+   "support/mkdirs" : {
+      "note" : "Retained upstream per-file notices and component-level COPYING apply; evidence is not an automatic license classification",
+      "notice_evidence" : [
+         {
+            "line" : 8,
+            "text" : "# Copyright (C) 1996-2002 Free Software Foundation, Inc."
+         },
+         {
+            "line" : 11,
+            "text" : "#   it under the terms of the GNU General Public License as published by"
+         },
+         {
+            "line" : 12,
+            "text" : "#   the Free Software Foundation, either version 3 of the License, or"
+         },
+         {
+            "line" : 16,
+            "text" : "#   but WITHOUT ANY WARRANTY; without even the implied warranty of"
+         },
+         {
+            "line" : 18,
+            "text" : "#   GNU General Public License for more details."
+         },
+         {
+            "line" : 20,
+            "text" : "#   You should have received a copy of the GNU General Public License"
+         },
+         {
+            "line" : 21,
+            "text" : "#   along with this program.  If not, see <http://www.gnu.org/licenses/>."
+         }
+      ],
+      "notice_source" : "vendor/readline/support/mkdirs",
+      "sha256" : "b30e23f017337d631dbbc1e52017d76994a72605856e1d668219216f13f005b8"
+   },
+   "support/mkdist" : {
+      "note" : "Retained upstream per-file notices and component-level COPYING apply; evidence is not an automatic license classification",
+      "notice_evidence" : [
+         {
+            "line" : 13,
+            "text" : "# Copyright (C) 1996-2002 Free Software Foundation, Inc."
+         },
+         {
+            "line" : 16,
+            "text" : "#   it under the terms of the GNU General Public License as published by"
+         },
+         {
+            "line" : 17,
+            "text" : "#   the Free Software Foundation, either version 3 of the License, or"
+         },
+         {
+            "line" : 21,
+            "text" : "#   but WITHOUT ANY WARRANTY; without even the implied warranty of"
+         },
+         {
+            "line" : 23,
+            "text" : "#   GNU General Public License for more details."
+         },
+         {
+            "line" : 25,
+            "text" : "#   You should have received a copy of the GNU General Public License"
+         },
+         {
+            "line" : 26,
+            "text" : "#   along with this program.  If not, see <http://www.gnu.org/licenses/>."
+         }
+      ],
+      "notice_source" : "vendor/readline/support/mkdist",
+      "sha256" : "5aeb8874334c01a0341cf5bf885a0fca438f9d69c8cb6a9533fe3e764b899d85"
+   },
+   "support/mkinstalldirs" : {
+      "note" : "Retained upstream per-file notices and component-level COPYING apply; evidence is not an automatic license classification",
+      "notice_evidence" : [
+         {
+            "line" : 3,
+            "text" : "# Author: Noah Friedman <friedman@prep.ai.mit.edu>"
+         },
+         {
+            "line" : 5,
+            "text" : "# Public domain"
+         }
+      ],
+      "notice_source" : "vendor/readline/support/mkinstalldirs",
+      "sha256" : "83cea13a5eb25b445d916d7a2184f3513227bc3b70735f086b3446d2d4676952"
+   },
+   "support/shlib-install" : {
+      "note" : "Retained upstream per-file notices and component-level COPYING apply; evidence is not an automatic license classification",
+      "notice_evidence" : [
+         {
+            "line" : 68,
+            "text" : "# HP-UX and Darwin/MacOS X require that a shared library have execute permission"
+         }
+      ],
+      "notice_source" : "vendor/readline/support/shlib-install",
+      "sha256" : "7a62b79e5852369f42696058b6a695cf36f58de0f695c5be03d968f797dbfe78"
+   },
+   "support/shobj-conf" : {
+      "note" : "Retained upstream per-file notices and component-level COPYING apply; evidence is not an automatic license classification",
+      "notice_evidence" : [
+         {
+            "line" : 13,
+            "text" : "#   Copyright (C) 1996-2021 Free Software Foundation, Inc."
+         },
+         {
+            "line" : 18,
+            "text" : "#   it under the terms of the GNU General Public License as published by"
+         },
+         {
+            "line" : 19,
+            "text" : "#   the Free Software Foundation, either version 3 of the License, or"
+         },
+         {
+            "line" : 23,
+            "text" : "#   but WITHOUT ANY WARRANTY; without even the implied warranty of"
+         },
+         {
+            "line" : 25,
+            "text" : "#   GNU General Public License for more details."
+         },
+         {
+            "line" : 27,
+            "text" : "#   You should have received a copy of the GNU General Public License"
+         },
+         {
+            "line" : 28,
+            "text" : "#   along with this program.  If not, see <http://www.gnu.org/licenses/>."
+         }
+      ],
+      "notice_source" : "vendor/readline/support/shobj-conf",
+      "sha256" : "19d3c3ed459a1136af90af72ef5b8fb084c49fc66e55b3e801ce3fe50d5f84b5"
+   },
+   "support/wcwidth.c" : {
+      "note" : "Retained upstream per-file notices and component-level COPYING apply; evidence is not an automatic license classification",
+      "notice_evidence" : [
+         {
+            "line" : 50,
+            "text" : " * but also of each presentation form, something the author of these"
+         },
+         {
+            "line" : 57,
+            "text" : " * Permission to use, copy, modify, and distribute this software"
+         },
+         {
+            "line" : 58,
+            "text" : " * for any purpose and without fee is hereby granted. The author"
+         }
+      ],
+      "notice_source" : "vendor/readline/support/wcwidth.c",
+      "sha256" : "754e79217c74517079a93f853062ffce7017974ab8aa448d06afb51cf6b1b975"
+   },
+   "tcap.h" : {
+      "note" : "Retained upstream per-file notices and component-level COPYING apply; evidence is not an automatic license classification",
+      "notice_evidence" : [
+         {
+            "line" : 3,
+            "text" : "/* Copyright (C) 1996-2015,2023 Free Software Foundation, Inc."
+         },
+         {
+            "line" : 9,
+            "text" : "   it under the terms of the GNU General Public License as published by"
+         },
+         {
+            "line" : 10,
+            "text" : "   the Free Software Foundation, either version 3 of the License, or"
+         },
+         {
+            "line" : 14,
+            "text" : "   but WITHOUT ANY WARRANTY; without even the implied warranty of"
+         },
+         {
+            "line" : 16,
+            "text" : "   GNU General Public License for more details."
+         },
+         {
+            "line" : 18,
+            "text" : "   You should have received a copy of the GNU General Public License"
+         },
+         {
+            "line" : 19,
+            "text" : "   along with Readline.  If not, see <http://www.gnu.org/licenses/>."
+         }
+      ],
+      "notice_source" : "vendor/readline/tcap.h",
+      "sha256" : "de2985c15c44b787097d007ab5a3d96935f1ca124980be106bd777cae5fba74b"
+   },
+   "terminal.c" : {
+      "note" : "Retained upstream per-file notices and component-level COPYING apply; evidence is not an automatic license classification",
+      "notice_evidence" : [
+         {
+            "line" : 3,
+            "text" : "/* Copyright (C) 1996-2025 Free Software Foundation, Inc."
+         },
+         {
+            "line" : 9,
+            "text" : "   it under the terms of the GNU General Public License as published by"
+         },
+         {
+            "line" : 10,
+            "text" : "   the Free Software Foundation, either version 3 of the License, or"
+         },
+         {
+            "line" : 14,
+            "text" : "   but WITHOUT ANY WARRANTY; without even the implied warranty of"
+         },
+         {
+            "line" : 16,
+            "text" : "   GNU General Public License for more details."
+         },
+         {
+            "line" : 18,
+            "text" : "   You should have received a copy of the GNU General Public License"
+         },
+         {
+            "line" : 19,
+            "text" : "   along with Readline.  If not, see <http://www.gnu.org/licenses/>."
+         }
+      ],
+      "notice_source" : "vendor/readline/terminal.c",
+      "sha256" : "65ff1a8a3853775d2cc813a6312a4a064f3a439bc6f1ff7bed633e8cafafea0a"
+   },
+   "text.c" : {
+      "note" : "Retained upstream per-file notices and component-level COPYING apply; evidence is not an automatic license classification",
+      "notice_evidence" : [
+         {
+            "line" : 3,
+            "text" : "/* Copyright (C) 1987-2021,2023-2024 Free Software Foundation, Inc."
+         },
+         {
+            "line" : 9,
+            "text" : "   it under the terms of the GNU General Public License as published by"
+         },
+         {
+            "line" : 10,
+            "text" : "   the Free Software Foundation, either version 3 of the License, or"
+         },
+         {
+            "line" : 14,
+            "text" : "   but WITHOUT ANY WARRANTY; without even the implied warranty of"
+         },
+         {
+            "line" : 16,
+            "text" : "   GNU General Public License for more details."
+         },
+         {
+            "line" : 18,
+            "text" : "   You should have received a copy of the GNU General Public License"
+         },
+         {
+            "line" : 19,
+            "text" : "   along with Readline.  If not, see <http://www.gnu.org/licenses/>."
+         }
+      ],
+      "notice_source" : "vendor/readline/text.c",
+      "sha256" : "858cd9c39e3baf33778b7137f338c22993c6e96abe361bd8ad3b0012e0fbb773"
+   },
+   "tilde.c" : {
+      "note" : "Retained upstream per-file notices and component-level COPYING apply; evidence is not an automatic license classification",
+      "notice_evidence" : [
+         {
+            "line" : 3,
+            "text" : "/* Copyright (C) 1988-2020,2023-2024 Free Software Foundation, Inc."
+         },
+         {
+            "line" : 9,
+            "text" : "   it under the terms of the GNU General Public License as published by"
+         },
+         {
+            "line" : 10,
+            "text" : "   the Free Software Foundation, either version 3 of the License, or"
+         },
+         {
+            "line" : 14,
+            "text" : "   but WITHOUT ANY WARRANTY; without even the implied warranty of"
+         },
+         {
+            "line" : 16,
+            "text" : "   GNU General Public License for more details."
+         },
+         {
+            "line" : 18,
+            "text" : "   You should have received a copy of the GNU General Public License"
+         },
+         {
+            "line" : 19,
+            "text" : "   along with Readline.  If not, see <http://www.gnu.org/licenses/>."
+         }
+      ],
+      "notice_source" : "vendor/readline/tilde.c",
+      "sha256" : "14852bd1a56a0f67e4a9d059ebccf30cd804be3cd65fb530dad2d0d1693879f8"
+   },
+   "tilde.h" : {
+      "note" : "Retained upstream per-file notices and component-level COPYING apply; evidence is not an automatic license classification",
+      "notice_evidence" : [
+         {
+            "line" : 3,
+            "text" : "/* Copyright (C) 1992-2009,2021 Free Software Foundation, Inc."
+         },
+         {
+            "line" : 10,
+            "text" : "   it under the terms of the GNU General Public License as published by"
+         },
+         {
+            "line" : 11,
+            "text" : "   the Free Software Foundation, either version 3 of the License, or"
+         },
+         {
+            "line" : 15,
+            "text" : "   but WITHOUT ANY WARRANTY; without even the implied warranty of"
+         },
+         {
+            "line" : 17,
+            "text" : "   GNU General Public License for more details."
+         },
+         {
+            "line" : 19,
+            "text" : "   You should have received a copy of the GNU General Public License"
+         },
+         {
+            "line" : 20,
+            "text" : "   along with Readline.  If not, see <http://www.gnu.org/licenses/>."
+         }
+      ],
+      "notice_source" : "vendor/readline/tilde.h",
+      "sha256" : "76ea2566b9045468f1ae1a0a97e62d765edcd642a2d1f12a62a6af1b4dfe9729"
+   },
+   "undo.c" : {
+      "note" : "Retained upstream per-file notices and component-level COPYING apply; evidence is not an automatic license classification",
+      "notice_evidence" : [
+         {
+            "line" : 3,
+            "text" : "/* Copyright (C) 1987-2021 Free Software Foundation, Inc."
+         },
+         {
+            "line" : 9,
+            "text" : "   it under the terms of the GNU General Public License as published by"
+         },
+         {
+            "line" : 10,
+            "text" : "   the Free Software Foundation, either version 3 of the License, or"
+         },
+         {
+            "line" : 14,
+            "text" : "   but WITHOUT ANY WARRANTY; without even the implied warranty of"
+         },
+         {
+            "line" : 16,
+            "text" : "   GNU General Public License for more details."
+         },
+         {
+            "line" : 18,
+            "text" : "   You should have received a copy of the GNU General Public License"
+         },
+         {
+            "line" : 19,
+            "text" : "   along with Readline.  If not, see <http://www.gnu.org/licenses/>."
+         }
+      ],
+      "notice_source" : "vendor/readline/undo.c",
+      "sha256" : "6c68c1a7b0bd8887ee13371390cf55efb2a2477334e0deb4f3606c7f158936f9"
+   },
+   "util.c" : {
+      "note" : "Retained upstream per-file notices and component-level COPYING apply; evidence is not an automatic license classification",
+      "notice_evidence" : [
+         {
+            "line" : 3,
+            "text" : "/* Copyright (C) 1987-2025 Free Software Foundation, Inc."
+         },
+         {
+            "line" : 9,
+            "text" : "   it under the terms of the GNU General Public License as published by"
+         },
+         {
+            "line" : 10,
+            "text" : "   the Free Software Foundation, either version 3 of the License, or"
+         },
+         {
+            "line" : 14,
+            "text" : "   but WITHOUT ANY WARRANTY; without even the implied warranty of"
+         },
+         {
+            "line" : 16,
+            "text" : "   GNU General Public License for more details."
+         },
+         {
+            "line" : 18,
+            "text" : "   You should have received a copy of the GNU General Public License"
+         },
+         {
+            "line" : 19,
+            "text" : "   along with Readline.  If not, see <http://www.gnu.org/licenses/>."
+         }
+      ],
+      "notice_source" : "vendor/readline/util.c",
+      "sha256" : "3638744e0ffb866bcd3e8e524ed56d096bfcfaca04456bb60e53023844d25ab1"
+   },
+   "vi_keymap.c" : {
+      "note" : "Retained upstream per-file notices and component-level COPYING apply; evidence is not an automatic license classification",
+      "notice_evidence" : [
+         {
+            "line" : 3,
+            "text" : "/* Copyright (C) 1987-2017 Free Software Foundation, Inc."
+         },
+         {
+            "line" : 9,
+            "text" : "   it under the terms of the GNU General Public License as published by"
+         },
+         {
+            "line" : 10,
+            "text" : "   the Free Software Foundation, either version 3 of the License, or"
+         },
+         {
+            "line" : 14,
+            "text" : "   but WITHOUT ANY WARRANTY; without even the implied warranty of"
+         },
+         {
+            "line" : 16,
+            "text" : "   GNU General Public License for more details."
+         },
+         {
+            "line" : 18,
+            "text" : "   You should have received a copy of the GNU General Public License"
+         },
+         {
+            "line" : 19,
+            "text" : "   along with Readline.  If not, see <http://www.gnu.org/licenses/>."
+         },
+         {
+            "line" : 505,
+            "text" : "  { ISFUNC, rl_insert },\t/* Copyright sign */"
+         }
+      ],
+      "notice_source" : "vendor/readline/vi_keymap.c",
+      "sha256" : "d622732d0c82f6810c60c4cd97da80220bd8b949407e237996371b39050182a5"
+   },
+   "vi_mode.c" : {
+      "note" : "Retained upstream per-file notices and component-level COPYING apply; evidence is not an automatic license classification",
+      "notice_evidence" : [
+         {
+            "line" : 4,
+            "text" : "/* Copyright (C) 1987-2021,2023 Free Software Foundation, Inc."
+         },
+         {
+            "line" : 10,
+            "text" : "   it under the terms of the GNU General Public License as published by"
+         },
+         {
+            "line" : 11,
+            "text" : "   the Free Software Foundation, either version 3 of the License, or"
+         },
+         {
+            "line" : 15,
+            "text" : "   but WITHOUT ANY WARRANTY; without even the implied warranty of"
+         },
+         {
+            "line" : 17,
+            "text" : "   GNU General Public License for more details."
+         },
+         {
+            "line" : 19,
+            "text" : "   You should have received a copy of the GNU General Public License"
+         },
+         {
+            "line" : 20,
+            "text" : "   along with Readline.  If not, see <http://www.gnu.org/licenses/>."
+         }
+      ],
+      "notice_source" : "vendor/readline/vi_mode.c",
+      "sha256" : "3f92ee815ba81edbdee08abb481dceead6bf073ad53828874958559a35e65b0f"
+   },
+   "xfree.c" : {
+      "note" : "Retained upstream per-file notices and component-level COPYING apply; evidence is not an automatic license classification",
+      "notice_evidence" : [
+         {
+            "line" : 3,
+            "text" : "/* Copyright (C) 1991-2010,2017 Free Software Foundation, Inc."
+         },
+         {
+            "line" : 9,
+            "text" : "   it under the terms of the GNU General Public License as published by"
+         },
+         {
+            "line" : 10,
+            "text" : "   the Free Software Foundation, either version 3 of the License, or"
+         },
+         {
+            "line" : 14,
+            "text" : "   but WITHOUT ANY WARRANTY; without even the implied warranty of"
+         },
+         {
+            "line" : 16,
+            "text" : "   GNU General Public License for more details."
+         },
+         {
+            "line" : 18,
+            "text" : "   You should have received a copy of the GNU General Public License"
+         },
+         {
+            "line" : 19,
+            "text" : "   along with Readline.  If not, see <http://www.gnu.org/licenses/>."
+         }
+      ],
+      "notice_source" : "vendor/readline/xfree.c",
+      "sha256" : "1c5a5493c870bb1e12044713cbfff0fefc0a48e572d287072b6f55e3d17dc3a6"
+   },
+   "xmalloc.c" : {
+      "note" : "Retained upstream per-file notices and component-level COPYING apply; evidence is not an automatic license classification",
+      "notice_evidence" : [
+         {
+            "line" : 3,
+            "text" : "/* Copyright (C) 1991-2017 Free Software Foundation, Inc."
+         },
+         {
+            "line" : 9,
+            "text" : "   it under the terms of the GNU General Public License as published by"
+         },
+         {
+            "line" : 10,
+            "text" : "   the Free Software Foundation, either version 3 of the License, or"
+         },
+         {
+            "line" : 14,
+            "text" : "   but WITHOUT ANY WARRANTY; without even the implied warranty of"
+         },
+         {
+            "line" : 16,
+            "text" : "   GNU General Public License for more details."
+         },
+         {
+            "line" : 18,
+            "text" : "   You should have received a copy of the GNU General Public License"
+         },
+         {
+            "line" : 19,
+            "text" : "   along with Readline.  If not, see <http://www.gnu.org/licenses/>."
+         }
+      ],
+      "notice_source" : "vendor/readline/xmalloc.c",
+      "sha256" : "fcab7a9bf239ca9aa211c8d6e831c5d391cdbfe8534d93a5e78b45bf67c1a10b"
+   },
+   "xmalloc.h" : {
+      "note" : "Retained upstream per-file notices and component-level COPYING apply; evidence is not an automatic license classification",
+      "notice_evidence" : [
+         {
+            "line" : 3,
+            "text" : "/* Copyright (C) 1999-2009,2010-2023 Free Software Foundation, Inc."
+         },
+         {
+            "line" : 9,
+            "text" : "   it under the terms of the GNU General Public License as published by"
+         },
+         {
+            "line" : 10,
+            "text" : "   the Free Software Foundation, either version 3 of the License, or"
+         },
+         {
+            "line" : 14,
+            "text" : "   but WITHOUT ANY WARRANTY; without even the implied warranty of"
+         },
+         {
+            "line" : 16,
+            "text" : "   GNU General Public License for more details."
+         },
+         {
+            "line" : 18,
+            "text" : "   You should have received a copy of the GNU General Public License"
+         },
+         {
+            "line" : 19,
+            "text" : "   along with Readline.  If not, see <http://www.gnu.org/licenses/>."
+         }
+      ],
+      "notice_source" : "vendor/readline/xmalloc.h",
+      "sha256" : "bb1a1618cd56fdf4308026ba87adcdb7bb96e844228618ed8fe9ccbbd0466c6e"
+   }
+}

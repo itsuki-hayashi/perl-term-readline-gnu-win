@@ -1,0 +1,8 @@
+version = 1
+
+# External declarations for formats where comments would be intrusive.
+# Upstream trees retain their own notices; their inventory is documented separately.
+[[annotations]]
+path = ["README.md", "INSTALL.md", "Changes", "MANIFEST", "MANIFEST.SKIP", "META.json", "META.yml", ".gitignore", ".gitattributes", "AGENTS.md", "THIRD_PARTY_NOTICES.md", "docs/ARCHITECTURE.md", "docs/CONTRIBUTING.md", "docs/UPDATING_READLINE.md", "docs/CI.md", "docs/RELEASING.md", "docs/LICENSING.md", "docs/licensing/vendor-inventory.json", "vendor/manifest.json"]
+SPDX-FileCopyrightText = "2026 itsuki-hayashi"
+SPDX-License-Identifier = "GPL-3.0-or-later"

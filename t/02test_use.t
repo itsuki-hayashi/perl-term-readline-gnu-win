@@ -1,0 +1,47 @@
+# Modified 2026-10-21 by itsuki-hayashi: Windows-only GnuWin32 fork.
+# Fork modifications copyright (c) 2026 itsuki-hayashi.
+# SPDX-License-Identifier: GPL-3.0-or-later
+# Original upstream copyright and license notices below are retained.
+# -*- perl -*-
+#       02test_use.t - give up on a dumb terminal
+#
+#       $Id: 00checkver.t 518 2016-05-18 16:33:37Z hayashi $
+#
+#       Copyright (c) 2023 Hiroo Hayashi.  All rights reserved.
+#
+#       This program is free software; you can redistribute it and/or
+#       modify it under the same terms as Perl itself.
+
+use strict;
+use warnings;
+use Test::More tests => 3;
+use vars qw($loaded);
+
+BEGIN {
+    $ENV{PERL_RL} = 'GnuWin32';      # force to use Term::ReadLine::GnuWin32
+    $ENV{TERM} = 'dumb';
+}
+END {
+    unless ($loaded) {
+        ok(0, 'fail before loading');
+        diag "\nPlease report the output of \'perl Makefile.PL\'\n";
+    }
+}
+
+use Term::ReadLine;
+ok(1, 'load done');
+$loaded = 1;
+
+my $t = new Term::ReadLine 'ReadLineTest';
+isa_ok($t, 'Term::ReadLine::Stub');
+
+print  "# \$TERM=$ENV{TERM}\n";
+
+my $e = eval "new Term::ReadLine 'The 2nd new'; 1";
+{
+    no warnings;
+    ok($e != 1, 'reject the 2nd "new Term::ReadLine"');
+}
+
+exit 0;
+

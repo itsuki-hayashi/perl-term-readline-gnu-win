@@ -1,0 +1,27 @@
+#!/usr/bin/env perl
+# Modified 2026-10-21 by itsuki-hayashi: Windows-only GnuWin32 fork.
+# Fork modifications copyright (c) 2026 itsuki-hayashi.
+# SPDX-License-Identifier: GPL-3.0-or-later
+# Original upstream copyright and license notices below are retained.
+#
+# rlbasic: A basic readline() loop example
+#
+#   Copyright (C) 2024 Hiroo Hayashi
+#
+# Derived from: examples/rlbasic.c in the GNU Readline Library
+
+use strict;
+use warnings;
+use Term::ReadLine;
+
+my $t = new Term::ReadLine 'rlbasic';
+
+while (1) {
+    my $input = $t->readline('');
+    last unless defined $input;
+    print("$input\n");
+    if ($input eq 'exit') {
+        last;
+    }
+}
+exit 0;

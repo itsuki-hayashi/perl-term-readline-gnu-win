@@ -1,0 +1,14 @@
+* text=auto
+# Vendor hashes are of the exact upstream archive bytes, including manuals.
+vendor/readline/** -text
+patches/readline/*.patch -text
+LICENSES/** -text
+COPYING -text
+*.pl text eol=lf
+*.pm text eol=lf
+*.xs text eol=lf
+*.t text eol=lf
+*.md text eol=lf
+*.json text eol=lf
+*.yml text eol=lf
+*.ps1 text eol=lf

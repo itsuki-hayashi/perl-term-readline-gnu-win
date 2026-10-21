@@ -1,0 +1,81 @@
+# SPDX-FileCopyrightText: 2026 itsuki-hayashi
+# SPDX-License-Identifier: GPL-3.0-or-later
+name: Native Windows CPAN distribution
+on:
+  push:
+  pull_request:
+  workflow_dispatch:
+permissions:
+  contents: read
+jobs:
+  test:
+    name: Perl ${{ matrix.perl }} / ${{ matrix.arch }} / VS ${{ matrix.vs }}
+    runs-on: ${{ matrix.runner }}
+    timeout-minutes: 60
+    strategy:
+      fail-fast: false
+      matrix:
+        include:
+          - runner: windows-2025-vs2026
+            arch: x64
+            perl: '5.44.0'
+            perl_sha256: 3b855066b92491cb40e86affb1ca57d1a388aa43e51b91c7806a32c2f65f96c3
+            vs: 18
+            toolset: '14.5'
+            cctype: MSVC145
+          - runner: windows-11-vs2026-arm
+            arch: arm64
+            perl: '5.44.0'
+            perl_sha256: 3b855066b92491cb40e86affb1ca57d1a388aa43e51b91c7806a32c2f65f96c3
+            vs: 18
+            toolset: '14.5'
+            cctype: MSVC145
+    defaults:
+      run:
+        shell: pwsh
+    env:
+      LC_ALL: C
+      AUTOMATED_TESTING: '1'
+      RELEASE_TESTING: '1'
+      PERL_RL: GnuWin32
+      TERM: win32
+    steps:
+      - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
+      - name: Select MSVC and Windows SDK
+        id: compiler
+        run: .github/scripts/toolchain.ps1 -Architecture '${{ matrix.arch }}' -VisualStudio ${{ matrix.vs }} -Toolset '${{ matrix.toolset }}'
+      - name: Cache native MSVC Perl
+        id: perl-cache
+        uses: actions/cache@55cc8345863c7cc4c66a329aec7e433d2d1c52a9 # v6.1.0
+        with:
+          path: ${{ runner.temp }}/native-perl
+          key: native-perl-v1-${{ runner.os }}-${{ matrix.arch }}-${{ matrix.perl_sha256 }}-${{ steps.compiler.outputs.tools }}-${{ steps.compiler.outputs.sdk }}-shared-threaded-release
+      - name: Build matching native Perl
+        if: steps.perl-cache.outputs.cache-hit != 'true'
+        run: .github/scripts/bootstrap-perl.ps1 -Version '${{ matrix.perl }}' -Sha256 '${{ matrix.perl_sha256 }}' -Prefix "$env:RUNNER_TEMP/native-perl" -Cctype '${{ matrix.cctype }}'
+      - name: Select and verify native Perl
+        run: |
+          "$env:RUNNER_TEMP/native-perl/bin" | Out-File $env:GITHUB_PATH -Encoding utf8 -Append
+          & "$env:RUNNER_TEMP/native-perl/bin/perl.exe" -MConfig -e 'die "Wrong compiler" unless $Config{cc} eq "cl"; die "Wrong architecture" unless $Config{archname} =~ /MSWin32-${{ matrix.arch }}-/; print "$^V $Config{archname}\n"'
+          if ($LASTEXITCODE) { throw 'Wrong native Perl configuration' }
+      - name: Build, test, stage and prepare archive
+        run: |
+          perl script/build.pl --stage 'stage with spaces' --vs-major ${{ matrix.vs }} --toolset '${{ matrix.toolset }}'
+          if ($LASTEXITCODE) { throw 'Checkout tests failed' }
+          perl script/release.pl
+          if ($LASTEXITCODE) { throw 'Release checks failed' }
+      - name: Rebuild and test extracted CPAN archive
+        run: |
+          perl script/test-archive.pl
+          if ($LASTEXITCODE) { throw 'Archive installation failed' }
+      - name: Upload test evidence and candidate archive
+        if: always()
+        uses: actions/upload-artifact@cf430e030ddbb5b0abf93d22962f4752f3646cd9 # v7.0.2
+        with:
+          name: cpan-${{ matrix.arch }}-perl-${{ matrix.perl }}-vs${{ matrix.vs }}
+          path: |
+            dist/
+            build/**/*.log
+            build/**/*.json
+            build/**/*.txt
+          if-no-files-found: warn

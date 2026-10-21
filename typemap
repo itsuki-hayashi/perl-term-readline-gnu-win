@@ -1,0 +1,60 @@
+# Modified 2026-10-21 by itsuki-hayashi: Windows-only GnuWin32 fork.
+# Fork modifications copyright (c) 2026 itsuki-hayashi.
+# SPDX-License-Identifier: GPL-3.0-or-later
+# Original upstream copyright and license notices below are retained.
+#	typemap for Term::ReadLine::GnuWin32
+#
+
+const char *		T_PV
+CONST char *		T_PV
+Keymap			T_WIN32_PTROBJ
+Function *		T_WIN32_PTROBJ
+rl_command_func_t *	T_WIN32_PTROBJ
+readline_state_t *	T_WIN32_PTROBJ
+HIST_ENTRY *		T_HIST_ENTRY
+HISTORY_STATE *		T_WIN32_PTROBJ
+t_utf8			T_XSTR
+t_utf8_free		T_XSTR_FREE
+
+########################################################################
+INPUT
+
+T_WIN32_PTROBJ
+	if (SvROK($arg) && sv_derived_from($arg, \"Term::ReadLine::GnuWin32::Pointer::$ntype\")) {
+	    IV pointer_value = SvIV((SV*)SvRV($arg));
+	    $var = INT2PTR($type,pointer_value);
+	} else {
+	    croak(\"Expected a Term::ReadLine::GnuWin32::Pointer::$ntype object\");
+	}
+
+T_WIN32_PTRREF
+	if (SvROK($arg)) {
+	    IV pointer_value = SvIV((SV*)SvRV($arg));
+	    $var = INT2PTR($type,pointer_value);
+	} else {
+	    croak(\"Expected a pointer reference\");
+	}
+
+########################################################################
+OUTPUT
+T_WIN32_PTROBJ
+	sv_setref_pv($arg, \"Term::ReadLine::GnuWin32::Pointer::$ntype\", (void*)$var);
+T_XSTR
+	if ($var) {
+	  sv_setpv($arg, $var);
+	  if (utf8_mode)
+	    sv_utf8_decode($arg);
+	}
+T_XSTR_FREE
+	if ($var) {
+	  sv_setpv($arg, $var);
+	  if (utf8_mode)
+	    sv_utf8_decode($arg);
+	  xfree($var);
+	}
+T_HIST_ENTRY
+	if ($var && $var->line) {
+	  sv_setpv($arg, $var->line);
+	  if (utf8_mode)
+	    sv_utf8_decode($arg);
+	}

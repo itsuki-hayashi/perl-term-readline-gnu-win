@@ -1,0 +1,27 @@
+use strict;
+use warnings;
+use utf8;
+use Encode qw(encode);
+use IO::Handle;
+BEGIN { $ENV{PERL_RL} = 'GnuWin32'; $ENV{TERM} = 'win32'; $ENV{INPUTRC} = 'NUL'; }
+use Term::ReadLine;
+open my $log, '>', $ARGV[0] or die $!;
+$log->autoflush(1);
+my $t = Term::ReadLine->new('MSVC integration');
+die 'Wrong backend' unless $t->ReadLine eq 'Term::ReadLine::GnuWin32';
+die 'Wrong library' unless $t->Attribs->{library_version} eq '8.3';
+$t->enableUTF8();
+my $s = $t->readline('Perl Unicode> ');
+die 'Unicode editing failed: ' . encode('UTF-8', $s // 'undef') unless defined($s) && $s eq "x日🐪";
+print {$log} "Perl Unicode editing passed\n";
+$t->add_history('previous');
+$s = $t->readline('Perl history> ');
+die 'History editing failed' unless defined($s) && $s eq 'revious';
+print {$log} "Perl history editing passed\n";
+my $callback;
+$t->callback_handler_install('Perl callback> ', sub { $callback = shift; });
+$t->callback_read_char() until defined $callback;
+$t->callback_handler_remove();
+die 'Callback failed' unless $callback eq 'ok';
+print {$log} "Perl callback passed\n";
+close $log or die $!;

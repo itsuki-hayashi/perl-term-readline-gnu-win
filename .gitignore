@@ -1,7 +1,5 @@
 !Build/
 .last_cover_stats
-/META.yml
-/META.json
 /MYMETA.*
 *.o
 *.pm.tdy
@@ -21,8 +19,6 @@ _build/
 Build
 Build.bat
 
-# Module::Install
-inc/
 
 # ExtUtils::MakeMaker
 /blib/
@@ -43,3 +39,17 @@ inc/
 # Native MSVC build and staged installation
 /build/
 /stage/
+/dist/
+/Term-ReadLine-GnuWin32-*/
+/GnuWin32.c
+/GnuWin32.xsc
+/GnuWin32.def
+/GnuWin32_def.old
+/*.obj
+/*.lib
+/*.exp
+/*.pdb
+/.history_test
+/*.tar
+/*.tar.gz
+/*.tar.gz.sha256

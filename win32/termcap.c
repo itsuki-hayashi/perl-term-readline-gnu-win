@@ -1,3 +1,6 @@
+/* Original Windows port: copyright (c) 2026 itsuki-hayashi.
+ * SPDX-License-Identifier: Unlicense
+ * Historical permissive grant retained; see LICENSES/Unlicense.txt. */
 /* A deliberately bounded VT terminal description, not a terminfo database. */
 #include "config.h"
 #include <string.h>

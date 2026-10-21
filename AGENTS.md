@@ -2,12 +2,15 @@
 
 ## Objective
 
-Build the supplied GNU Readline and Term::ReadLine::Gnu with MSVC and an
-MSVC-built Perl. Do not introduce MinGW, MSYS2, Cygwin, or Unix shell dependencies.
+Maintain the Windows-only Term::ReadLine::GnuWin32 CPAN distribution, derived
+from Term::ReadLine::Gnu 1.47 and bundled GNU Readline. Require Windows 11+,
+MSVC Perl 5.44+, Visual C++ 2026+, and native x64 or ARM64. Do not introduce
+MinGW, MSYS2, Cygwin, or Unix shell dependencies into installation.
 
 ## Implementation constraints
 
-- Keep Windows/MSVC changes conditional and preserve upstream Unix behavior.
+- Keep vendor sources pristine and preserve their upstream structure. Put
+  upstream edits in ordered patches applied to build copies by Perl.
 - Match the target Perl's architecture, compiler settings, and CRT.
 - Treat Perl/CRT FILE pointers, descriptors, and memory ownership as ABI boundaries.
 - Build and stage outside the upstream source directories.
@@ -27,3 +30,5 @@ limitations in README.md; never present an untested feature as verified.
 Read existing changes before editing. Do not overwrite unrelated work.
 Use focused portability helpers rather than global compiler impersonation.
 Do not suppress failing tests merely to obtain a passing build.
+Use standard MakeMaker targets; script/build.pl only sets up the environment
+and staging. New code is GPL-3.0-or-later; retain original upstream and prior grants.

@@ -1,3 +1,6 @@
+/* Original Windows port: copyright (c) 2026 itsuki-hayashi.
+ * SPDX-License-Identifier: Unlicense
+ * Historical permissive grant retained; see LICENSES/Unlicense.txt. */
 /* Native MSVC configuration. No POSIX emulation runtime is required. */
 #ifndef RL_MSVC_CONFIG_H
 #define RL_MSVC_CONFIG_H

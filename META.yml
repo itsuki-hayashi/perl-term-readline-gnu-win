@@ -1,0 +1,71 @@
+---
+abstract: 'Native GNU Readline for Windows 11 and MSVC Perl'
+author:
+  - 'itsuki-hayashi <2121340+itsuki-hayashi@users.noreply.github.com>'
+build_requires:
+  Digest::SHA: '0'
+  ExtUtils::MakeMaker: '7.78'
+  File::Temp: '0'
+  JSON::PP: '0'
+  Test::More: '1.302'
+configure_requires:
+  ExtUtils::MakeMaker: '7.78'
+  Win32: '0'
+dynamic_config: 1
+generated_by: 'ExtUtils::MakeMaker version 7.78, CPAN::Meta::Converter version 2.150013'
+license: gpl
+meta-spec:
+  url: http://module-build.sourceforge.net/META-spec-v1.4.html
+  version: '1.4'
+name: Term-ReadLine-GnuWin32
+no_index:
+  directory:
+    - t
+    - inc
+    - vendor
+    - inc
+    - t
+    - xt
+    - examples
+    - script
+    - win32
+    - patches
+    - docs
+  namespace:
+    - Term::ReadLine::GnuWin32::Pointer
+provides:
+  Term::ReadLine::GnuWin32:
+    file: lib/Term/ReadLine/GnuWin32.pm
+    version: 0.001_001
+  Term::ReadLine::GnuWin32::AU:
+    file: lib/Term/ReadLine/GnuWin32.pm
+    version: 0.001_001
+  Term::ReadLine::GnuWin32::Var:
+    file: lib/Term/ReadLine/GnuWin32.pm
+    version: 0.001_001
+  Term::ReadLine::GnuWin32::XS:
+    file: lib/Term/ReadLine/GnuWin32/XS.pm
+    version: 0.001_001
+requires:
+  Term::ReadLine: '1.17'
+  Win32: '0'
+  perl: '5.044'
+resources:
+  bugtracker: https://github.com/itsuki-hayashi/perl-term-readline-gnu-win/issues
+  homepage: https://github.com/itsuki-hayashi/perl-term-readline-gnu-win
+  repository: https://github.com/itsuki-hayashi/perl-term-readline-gnu-win.git
+version: 0.001_001
+x_bundled:
+  readline: '8.3'
+  upstream_perl_module: 'Term::ReadLine::Gnu 1.47'
+x_serialization_backend: 'CPAN::Meta::YAML version 0.020'
+x_spdx_expression: GPL-3.0-or-later
+x_support:
+  architectures:
+    - x64
+    - arm64
+  client: 'Windows 11+'
+  compiler: 'Visual C++ 2026 / v145+'
+  crt: 'release shared /MD'
+  os: MSWin32
+  server: 'Windows Server 2025+ (CI)'
