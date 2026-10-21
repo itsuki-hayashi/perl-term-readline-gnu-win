@@ -49,7 +49,7 @@ jobs:
         uses: actions/cache@55cc8345863c7cc4c66a329aec7e433d2d1c52a9 # v6.1.0
         with:
           path: ${{ runner.temp }}/native-perl
-          key: native-perl-v1-${{ runner.os }}-${{ matrix.arch }}-${{ matrix.perl_sha256 }}-${{ steps.compiler.outputs.tools }}-${{ steps.compiler.outputs.sdk }}-shared-threaded-release
+          key: native-perl-v2-${{ runner.os }}-${{ matrix.arch }}-${{ matrix.perl_sha256 }}-${{ steps.compiler.outputs.tools }}-${{ steps.compiler.outputs.sdk }}-shared-threaded-release
       - name: Build matching native Perl
         if: steps.perl-cache.outputs.cache-hit != 'true'
         run: .github/scripts/bootstrap-perl.ps1 -Version '${{ matrix.perl }}' -Sha256 '${{ matrix.perl_sha256 }}' -Prefix "$env:RUNNER_TEMP/native-perl" -Cctype '${{ matrix.cctype }}'

@@ -3,6 +3,9 @@
 param([string]$Version, [string]$Sha256, [string]$Prefix, [string]$Cctype)
 $ErrorActionPreference = 'Stop'
 if ($Version -notmatch '^5\.\d+\.\d+$' -or $Sha256 -notmatch '^[a-f0-9]{64}$' -or $Cctype -notmatch '^MSVC\d+$') { throw 'Invalid bootstrap matrix values' }
+# Perl's native install recipes pass INST_TOP to xcopy, which interprets
+# forward slashes in otherwise valid Windows paths as command switches.
+$Prefix = [System.IO.Path]::GetFullPath($Prefix).Replace('/', '\')
 $archive = Join-Path $env:RUNNER_TEMP "perl-$Version.tar.gz"
 Invoke-WebRequest "https://www.cpan.org/src/5.0/perl-$Version.tar.gz" -OutFile $archive
 if ((Get-FileHash $archive -Algorithm SHA256).Hash.ToLowerInvariant() -ne $Sha256) { throw 'Perl archive checksum mismatch' }
