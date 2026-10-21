@@ -1,6 +1,6 @@
 # SPDX-FileCopyrightText: 2026 Itsuki Hayashi
 # SPDX-License-Identifier: GPL-3.0-or-later
-name: Native Windows CPAN distribution
+name: Native Windows Readline
 on:
   push:
   pull_request:
@@ -37,7 +37,6 @@ jobs:
       LC_ALL: C
       AUTOMATED_TESTING: '1'
       RELEASE_TESTING: '1'
-      PERL_RL: GnuWin32
       TERM: win32
     steps:
       - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
@@ -68,7 +67,7 @@ jobs:
           if ($LASTEXITCODE) { throw 'Checkout tests failed' }
           perl script/release.pl
           if ($LASTEXITCODE) { throw 'Release checks failed' }
-      - name: Rebuild and test extracted CPAN archive
+      - name: Rebuild and test extracted source archive
         run: |
           perl script/test-archive.pl
           if ($LASTEXITCODE) { throw 'Archive installation failed' }
@@ -76,7 +75,7 @@ jobs:
         if: always()
         uses: actions/upload-artifact@cf430e030ddbb5b0abf93d22962f4752f3646cd9 # v7.0.2
         with:
-          name: cpan-${{ matrix.arch }}-perl-${{ matrix.perl }}-vs${{ matrix.vs }}
+          name: readline-${{ matrix.arch }}-perl-${{ matrix.perl }}-vs${{ matrix.vs }}
           path: |
             dist/
             build/**/*.log

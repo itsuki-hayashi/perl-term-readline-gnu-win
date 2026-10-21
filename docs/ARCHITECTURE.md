@@ -2,7 +2,7 @@
 
 ## Layers
 
-1. `lib/Term/ReadLine/GnuWin32.pm` implements the backend and inherited API.
+1. `lib/Term/ReadLine/Gnu.pm` implements the backend and inherited API.
 2. `xs/GnuWin32.xs`, `xs/typemap`, and private `XS.pm` bind Readline. AutoSplit creates
    installed AutoLoader routines; opaque classes live under `Pointer`.
 3. `win32/` handles consoles, UTF-8/scalar conversion, directory enumeration,

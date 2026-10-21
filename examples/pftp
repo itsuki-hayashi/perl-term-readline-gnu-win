@@ -23,7 +23,7 @@ This is an ftp client which has the GNU Readline support.  It can
 complete not only local file name but also remote file name and host
 name to which login.
 
-This is a sample program of Perl Term::ReadLine::GnuWin32 module.
+This is a sample program of Perl Term::ReadLine::Gnu module.
 
 =cut
 

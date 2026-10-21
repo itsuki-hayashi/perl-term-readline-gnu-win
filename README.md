@@ -1,4 +1,4 @@
-# Term::ReadLine::GnuWin32
+# Term::ReadLine::Gnu
 
 Native GNU Readline and history editing for **Windows 11, Perl 5.44+, and
 Visual C++ 2026+**. The source distribution bundles GNU Readline 8.3 and
@@ -6,8 +6,16 @@ builds it with the same MSVC architecture and shared CRT as the target Perl.
 It needs no MinGW, MSYS2, Cygwin, Unix shell, or network access to build.
 
 This is an independent fork of Hiroo Hayashi's **Term::ReadLine::Gnu 1.47**.
-It installs `Term::ReadLine::GnuWin32`, not the upstream module. The initial
-version, **0.001_001**, is a developer release; see [release policy](docs/RELEASING.md).
+It is distributed through GitHub as **Term-ReadLine-GnuWin32**, and provides
+**`Term::ReadLine::Gnu`** for automatic backend discovery and CPAN command
+completion. Version **1.470_001** identifies this Windows fork of upstream 1.47.
+This project is not published to CPAN or PAUSE.
+
+This replaces upstream `Term::ReadLine::Gnu` in the selected library tree.
+Do not install both implementations into the same destination. Use an isolated
+`INSTALL_BASE` to try this fork, with its library directories first in `PERL5LIB`.
+Installing upstream later can replace this fork; CPAN conflict metadata cannot
+protect two implementations of the same package.
 
 ## Requirements
 
@@ -45,11 +53,12 @@ See [INSTALL.md](INSTALL.md) for installation options and troubleshooting.
 
 ## Select the backend
 
-`Term::ReadLine` does not automatically discover third-party backend names.
-Set `PERL_RL` **before loading it**:
+`Term::ReadLine` automatically discovers this backend when `PERL_RL` is unset.
+CPAN recognizes its GNU identity and installs command completion. An explicit
+`PERL_RL=Gnu` also works; remove an old `PERL_RL=GnuWin32` setting.
+Load the backend through the standard interface:
 
 ```perl
-BEGIN { $ENV{PERL_RL} = 'GnuWin32' }
 use Term::ReadLine;
 
 my $term = Term::ReadLine->new('example');
@@ -59,14 +68,14 @@ while (defined(my $line = $term->readline('input> '))) {
 }
 ```
 
-Check `$term->ReadLine eq 'Term::ReadLine::GnuWin32'` to detect fallback.
-Do not `use Term::ReadLine::GnuWin32` directly. The original upstream namespace
-remains available to its own distribution; this fork installs no shim over it.
+Check `$term->ReadLine eq 'Term::ReadLine::Gnu'` to detect fallback.
+Do not `use Term::ReadLine::Gnu` directly. This fork and upstream provide the same package and cannot coexist in one
+library destination.
 
 In PowerShell, select the backend for the debugger:
 
 ```powershell
-$env:PERL_RL = 'GnuWin32'
+$env:PERL_RL = 'Gnu'
 perl -d your-script.pl
 ```
 
@@ -78,7 +87,7 @@ for `.perlsh_history` and `.perlshrc`.
 
 The fork retains upstream methods, attributes, history functions, completion
 hooks, and callbacks. The main module's POD contains the inherited API reference
-and Windows guidance: `perldoc Term::ReadLine::GnuWin32`.
+and Windows guidance: `perldoc Term::ReadLine::Gnu`.
 
 - Console input is converted from UTF-16 to UTF-8, including supplementary
   characters. `enableUTF8()` controls Perl string decoding.
@@ -114,21 +123,21 @@ not imply it passed before its first run. See [CI.md](docs/CI.md).
 
 Local validation on 2026-10-21 used Windows 11 x64, Perl 5.44.0,
 Visual Studio 2026 Community (MSVC 19.51 / tools 14.51.36231), and
-Windows SDK 10.0.26100.0. All 332 tests passed with both the existing
-MSVC Perl and a fresh Perl built by the CI bootstrap. The fresh build also
-passed from a source directory containing spaces. The 24 release checks
-passed, including source-only contents, metadata, POD and vendor hashes.
-Integer-boundary regression tests bring the suite to 350 tests. The MSVC
-`/W3` build has no warnings from the bundled Readline, Windows port or XS
-sources; Perl 5.44's installed `CORE/inline.h` still emits one C4244 warning.
+Windows SDK 10.0.26100.0. All **360 tests** passed with the fresh MSVC Perl,
+including native C/console tests, automatic backend discovery, explicit GNU
+and Stub selection, CPAN shell callback initialization, and actual Tab
+completion of a CPAN command. The 24 release checks passed, including
+source-only contents, metadata, POD and pristine vendor hashes. An extracted
+archive passed the same suite and installed into a temporary prefix containing
+spaces. The installed backend was automatically discovered with `PERL_RL`
+unset, and DLL inspection found no MinGW, MSYS2 or Cygwin dependencies.
 ARM64 library cross-compilation passed; native ARM64 runtime tests and
 hosted GitHub Actions runs remain pending. Optional Tk was unavailable.
 
 Before release, run `perl script/release.pl` and `perl script/test-archive.pl`
 in the developer environment. The latter rebuilds a fresh archive, installs
 into a prefix containing spaces, inspects DLL imports, and exercises the
-installed module outside its source directory. These tools do not upload to
-CPAN or install into the user's Perl. Logs and target configuration are under
+installed module outside its source directory. These tools do not publish releases or install into the user's Perl. Logs and target configuration are under
 `build/`; candidate archives are under `dist/`.
 
 ## Limitations
@@ -155,7 +164,7 @@ including GNU documentation, LGPL and permissive exceptions.
 
 - GNU Readline 8.3: Free Software Foundation copyright; maintained by Chet Ramey.
 - Term::ReadLine::Gnu 1.47: Hiroo Hayashi and its recorded contributors.
-- Windows fork and CPAN packaging: Itsuki Hayashi.
+- Windows fork and GitHub distribution: Itsuki Hayashi.
 
 Read [LICENSE](LICENSE), [THIRD_PARTY_NOTICES.md](THIRD_PARTY_NOTICES.md), and
 [the licensing guide](docs/LICENSING.md). Original upstream licensing is not

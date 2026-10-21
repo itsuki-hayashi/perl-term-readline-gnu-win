@@ -13,15 +13,15 @@
 #       Some of documentation strings in this file are cited from the
 #       GNU Readline/History Library Manual.
 
-package Term::ReadLine::GnuWin32;
+package Term::ReadLine::Gnu;
 
 =head1 NAME
 
-Term::ReadLine::GnuWin32 - Perl extension for the GNU Readline/History Library
+Term::ReadLine::Gnu - Perl extension for the GNU Readline/History Library
 
 =head1 SYNOPSIS
 
-  use Term::ReadLine;   # Do not "use Term::ReadLine::GnuWin32;"
+  use Term::ReadLine;   # Do not "use Term::ReadLine::Gnu;"
   $term = new Term::ReadLine 'ProgramName';
   while ( defined ($_ = $term->readline('prompt>')) ) {
     ...
@@ -44,19 +44,20 @@ do not lower this fork's minimum requirements.
 
 =head2 Selecting this backend
 
-Select the backend before loading Term::ReadLine:
+Core Term::ReadLine automatically discovers this GitHub-distributed backend
+when PERL_RL is unset. CPAN recognizes its GNU identity for command completion.
+An explicit C<PERL_RL=Gnu> is optional; remove any old C<PERL_RL=GnuWin32> setting.
 
-  BEGIN { $ENV{PERL_RL} = 'GnuWin32' }
   use Term::ReadLine;
   my $term = Term::ReadLine->new('application');
   die 'Backend unavailable' unless
-      $term->ReadLine eq 'Term::ReadLine::GnuWin32';
+      $term->ReadLine eq 'Term::ReadLine::Gnu';
 
-The same environment variable selects this backend in the Perl debugger.
-The installed C<perlsh-gnu-win32.bat> REPL selects it automatically. This
-distribution does not overwrite upstream C<Term::ReadLine::Gnu> or its
-C<perlsh> command, and core Term::ReadLine does not automatically discover
-this new name. Do not load the backend directly.
+This fork replaces upstream C<Term::ReadLine::Gnu> in its installation tree;
+do not install both implementations into the same destination. It is not
+published to CPAN or PAUSE. The distinct distribution name is
+C<Term-ReadLine-GnuWin32>. Do not load the backend directly.
+The installed C<perlsh-gnu-win32.bat> REPL selects the GNU backend.
 
 =head2 Installation
 
@@ -93,7 +94,7 @@ fork does not provide POSIX job control, select/alarm timeouts, a Unix terminal
 database, legacy non-VT rendering, or a cross-CRT ABI bridge. Optional Tk
 examples require separate dependencies and validation.
 
-Opaque pointer objects live under C<Term::ReadLine::GnuWin32::Pointer> to
+Opaque pointer objects live under C<Term::ReadLine::Gnu::Pointer> to
 avoid sharing upstream's unqualified classes. Treat them as opaque handles;
 do not construct them from integer addresses.
 
@@ -106,26 +107,26 @@ Library|https://tiswww.cwru.edu/php/chet/readline/rltop.html>.
 
 For basic functions object oriented interface is provided. These are
 described in the section L</"Standard Methods"> and
-L</"C<Term::ReadLine::GnuWin32> Functions">.
+L</"C<Term::ReadLine::Gnu> Functions">.
 
 This package also has the interface with the almost all functions and
 variables which are documented in the GNU Readline/History Library
 Manual.  They are documented in the section
-L</"C<Term::ReadLine::GnuWin32> Functions">
+L</"C<Term::ReadLine::Gnu> Functions">
 and
-L</"C<Term::ReadLine::GnuWin32>
+L</"C<Term::ReadLine::Gnu>
 Variables"> briefly.  For further details of the GNU Readline/History
 Library, see L<GNU Readline Library
 Manual|https://tiswww.cwru.edu/php/chet/readline/readline.html> and
 L<GNU History Library
 Manual|https://tiswww.cwru.edu/php/chet/readline/history.html>.
 
-There are some C<Term::ReadLine::GnuWin32> original features.  They are
-described in the section L</"C<Term::ReadLine::GnuWin32> Specific
+There are some C<Term::ReadLine::Gnu> original features.  They are
+described in the section L</"C<Term::ReadLine::Gnu> Specific
 Features">
 
 The sample programs under F<eg/> directory and test programs under
-F<t/> directory in L<the C<Term::ReadLine::GnuWin32> distribution|http://search.cpan.org/dist/Term-ReadLine-Gnu/> include
+F<t/> directory in L<the C<Term::ReadLine::Gnu> distribution|http://search.cpan.org/dist/Term-ReadLine-Gnu/> include
 many examples of this module.  See F<eg/README.md> for details on F<eg/> directory.
 
 =head2 Standard Methods
@@ -141,7 +142,7 @@ use Carp;
 # use version TRG-1.22 for perl 5.7.x, or TRG-1.09 for older Perl
 use 5.044;
 BEGIN {
-    die "OS unsupported: Term::ReadLine::GnuWin32 requires native Windows\n" unless $^O eq 'MSWin32';
+    die "OS unsupported: Term::ReadLine::Gnu requires native Windows\n" unless $^O eq 'MSWin32';
     require Win32;
     my @os = Win32::GetOSVersion();
     die "Windows 11 or Windows Server 2025 or later is required\n"
@@ -152,7 +153,7 @@ BEGIN {
 BEGIN {
     if (not defined $Term::ReadLine::VERSION) {
         croak <<END;
-It is invalid to load Term::ReadLine::GnuWin32 directly.  Please consult
+It is invalid to load Term::ReadLine::Gnu directly.  Please consult
 the Term::ReadLine documentation for more information.
 END
     }
@@ -180,14 +181,14 @@ BEGIN {
     use Exporter ();
     use DynaLoader;
 
-    our $VERSION = '0.001_001';              # update GnuWin32::XS::VERSION also.
+    our $VERSION = '1.470_001';              # update Gnu::XS::VERSION also.
 
-    # Term::ReadLine::GnuWin32::AU makes a function in
-    # `Term::ReadLine::GnuWin32::XS' as a method.
-    # The namespace of Term::ReadLine::GnuWin32::AU is searched before ones
+    # Term::ReadLine::Gnu::AU makes a function in
+    # `Term::ReadLine::Gnu::XS' as a method.
+    # The namespace of Term::ReadLine::Gnu::AU is searched before ones
     # of other classes
 
-    our @ISA = qw(Term::ReadLine::GnuWin32::AU Term::ReadLine::Stub
+    our @ISA = qw(Term::ReadLine::Gnu::AU Term::ReadLine::Stub
                   Exporter DynaLoader);
 
     our %EXPORT_TAGS = (
@@ -220,9 +221,9 @@ BEGIN {
     Exporter::export_ok_tags('undo_code');
     Exporter::export_ok_tags('rl_state');
 
-    Term::ReadLine::GnuWin32->bootstrap($VERSION);
+    Term::ReadLine::Gnu->bootstrap($VERSION);
 }
-require Term::ReadLine::GnuWin32::XS;
+require Term::ReadLine::Gnu::XS;
 
 #       Global Variables
 
@@ -231,7 +232,7 @@ our($readline_version);
 # Each variable in the GNU Readline Library is tied to an entry of
 # this hash (%Attribs).  By accessing the hash entry, you can read
 # and/or write the variable in the GNU Readline Library.  See the
-# package definition of Term::ReadLine::GnuWin32::Var and following code
+# package definition of Term::ReadLine::Gnu::Var and following code
 # for further details.
 
 # Normal (non-tied) entries
@@ -331,11 +332,11 @@ sub RL_STATE_READSTR            { 0x1000_0000; } # [8.3] reading a string for M-
 =item C<ReadLine>
 
 returns the actual package that executes the commands. If
-this package is being used, C<Term::ReadLine::GnuWin32> is returned.
+this package is being used, C<Term::ReadLine::Gnu> is returned.
 
 =cut
 
-sub ReadLine { 'Term::ReadLine::GnuWin32'; }
+sub ReadLine { 'Term::ReadLine::Gnu'; }
 
 =item C<new(NAME,[IN,OUT])>
 
@@ -360,7 +361,7 @@ sub new {
     bless $self, $class;
 
     if ($has_been_initialized) {
-        croak "Only one Term::ReadLine::GnuWin32 instance is allowed."
+        croak "Only one Term::ReadLine::Gnu instance is allowed."
     }
     $has_been_initialized = 1;
 
@@ -415,8 +416,8 @@ sub new {
     # bind operate-and-get-next to \C-o by default for the compatibility
     # with bash and Term::ReadLine::Perl
     # GNU Readline 8.1 and later support operate-and-get-next natively.
-    Term::ReadLine::GnuWin32::XS::rl_add_defun('operate-and-get-next',
-                                          \&Term::ReadLine::GnuWin32::XS::operate_and_get_next, ord "\co")
+    Term::ReadLine::Gnu::XS::rl_add_defun('operate-and-get-next',
+                                          \&Term::ReadLine::Gnu::XS::operate_and_get_next, ord "\co")
         if ($readline_version < 0x801);
 
     $self;
@@ -460,7 +461,7 @@ sub readline {                  # should be ReadLine
     # `completion_function' support for compatibility with
     # Term:ReadLine::Perl.  Prefer $completion_entry_function, since a
     # program which uses $completion_entry_function should know
-    # Term::ReadLine::GnuWin32 and have better completion function using
+    # Term::ReadLine::Gnu and have better completion function using
     # the variable.
     $Attribs{completion_entry_function} = $Attribs{_trp_completion_function}
         if (!defined $Attribs{completion_entry_function}
@@ -567,7 +568,7 @@ returns a reference to a hash which describes internal configuration
 (variables) of the package.  Names of keys in this hash conform to
 standard conventions with the leading C<rl_> stripped.
 
-See section L</"C<Term::ReadLine::GnuWin32> Variables"> for supported variables.
+See section L</"C<Term::ReadLine::Gnu> Variables"> for supported variables.
 
 =cut
 
@@ -617,7 +618,7 @@ standout, last two to make the input line standout.
 
 sub ornaments {
     my $self = shift;
-    return Term::ReadLine::GnuWin32::XS::ornaments(@_);
+    return Term::ReadLine::Gnu::XS::ornaments(@_);
 }
 
 =item C<newTTY>
@@ -679,7 +680,7 @@ sub CallbackHandlerInstall {
             && defined $Attribs{completion_function});
 
     $self->rl_callback_handler_install($prompt,
-                                       \&Term::ReadLine::GnuWin32::XS::_ch_wrapper);
+                                       \&Term::ReadLine::Gnu::XS::_ch_wrapper);
 }
 
 
@@ -721,7 +722,7 @@ sub WriteHistory {
 #
 #       Access Routines for GNU Readline/History Library Variables
 #
-package Term::ReadLine::GnuWin32::Var;
+package Term::ReadLine::Gnu::Var;
 use Carp;
 use strict;
 use warnings;
@@ -847,7 +848,7 @@ sub FETCH {
 
     my $name = $$self;
     if (! defined $_rl_vars{$name}) {
-        confess "Term::ReadLine::GnuWin32::Var::FETCH: Unknown variable name `$name'\n";
+        confess "Term::ReadLine::Gnu::Var::FETCH: Unknown variable name `$name'\n";
         return undef ;
     }
 
@@ -868,7 +869,7 @@ sub FETCH {
     } elsif ($type eq 'LF') {
         return _rl_fetch_last_func();
     } else {
-        carp "Term::ReadLine::GnuWin32::Var::FETCH: Illegal type `$type'\n";
+        carp "Term::ReadLine::Gnu::Var::FETCH: Illegal type `$type'\n";
         return undef;
     }
 }
@@ -879,7 +880,7 @@ sub STORE {
 
     my $name = $$self;
     if (! defined $_rl_vars{$name}) {
-        confess "Term::ReadLine::GnuWin32::Var::STORE: Unknown variable name `$name'\n";
+        confess "Term::ReadLine::Gnu::Var::STORE: Unknown variable name `$name'\n";
         return undef ;
     }
 
@@ -914,15 +915,15 @@ sub STORE {
         }
         return $stream[$id] = $value;
     } elsif ($type eq 'K' || $type eq 'LF') {
-        carp "Term::ReadLine::GnuWin32::Var::STORE: read only variable `$name'\n";
+        carp "Term::ReadLine::Gnu::Var::STORE: read only variable `$name'\n";
         return undef;
     } else {
-        carp "Term::ReadLine::GnuWin32::Var::STORE: Illegal type `$type'\n";
+        carp "Term::ReadLine::Gnu::Var::STORE: Illegal type `$type'\n";
         return undef;
     }
 }
 
-package Term::ReadLine::GnuWin32;
+package Term::ReadLine::Gnu;
 use Carp;
 use strict;
 use warnings;
@@ -932,10 +933,10 @@ use warnings;
 #
 
 #       Tie all Readline/History variables
-foreach (keys %Term::ReadLine::GnuWin32::Var::_rl_vars) {
+foreach (keys %Term::ReadLine::Gnu::Var::_rl_vars) {
     my $name;
     ($name = $_) =~ s/^rl_//;   # strip leading `rl_'
-    tie $Attribs{$name},  'Term::ReadLine::GnuWin32::Var', $_;
+    tie $Attribs{$name},  'Term::ReadLine::Gnu::Var', $_;
 }
 
 #       add reference to some functions
@@ -944,7 +945,7 @@ foreach (keys %Term::ReadLine::GnuWin32::Var::_rl_vars) {
     no strict 'refs';           # allow symbolic reference
     map {
         ($name = $_) =~ s/^rl_//; # strip leading `rl_'
-        $fname = 'Term::ReadLine::GnuWin32::XS::' . $_;
+        $fname = 'Term::ReadLine::Gnu::XS::' . $_;
         $Attribs{$name} = \&$fname; # symbolic reference
     } qw(rl_getc
          rl_redisplay
@@ -956,12 +957,12 @@ foreach (keys %Term::ReadLine::GnuWin32::Var::_rl_vars) {
          _trp_completion_function);
     # auto-splited subroutines cannot be processed in the map loop above
     use strict 'refs';
-    $Attribs{shadow_redisplay} = \&Term::ReadLine::GnuWin32::XS::shadow_redisplay;
-    $Attribs{Tk_getc} = \&Term::ReadLine::GnuWin32::XS::Tk_getc;
-    $Attribs{list_completion_function} = \&Term::ReadLine::GnuWin32::XS::list_completion_function;
+    $Attribs{shadow_redisplay} = \&Term::ReadLine::Gnu::XS::shadow_redisplay;
+    $Attribs{Tk_getc} = \&Term::ReadLine::Gnu::XS::Tk_getc;
+    $Attribs{list_completion_function} = \&Term::ReadLine::Gnu::XS::list_completion_function;
 }
 
-package Term::ReadLine::GnuWin32::AU;
+package Term::ReadLine::Gnu::AU;
 use Carp;
 no strict qw(refs vars);
 use warnings;
@@ -969,12 +970,12 @@ use warnings;
 sub AUTOLOAD {
     { $AUTOLOAD =~ s/.*:://; }  # preserve match data
     my $name;
-    if (exists $Term::ReadLine::GnuWin32::XS::{"rl_$AUTOLOAD"}) {
-        $name = "Term::ReadLine::GnuWin32::XS::rl_$AUTOLOAD";
-    } elsif (exists $Term::ReadLine::GnuWin32::XS::{"$AUTOLOAD"}) {
-        $name = "Term::ReadLine::GnuWin32::XS::$AUTOLOAD";
+    if (exists $Term::ReadLine::Gnu::XS::{"rl_$AUTOLOAD"}) {
+        $name = "Term::ReadLine::Gnu::XS::rl_$AUTOLOAD";
+    } elsif (exists $Term::ReadLine::Gnu::XS::{"$AUTOLOAD"}) {
+        $name = "Term::ReadLine::Gnu::XS::$AUTOLOAD";
     } else {
-        croak "Cannot do `$AUTOLOAD' in Term::ReadLine::GnuWin32";
+        croak "Cannot do `$AUTOLOAD' in Term::ReadLine::Gnu";
     }
     no warnings 'redefine';     # Why is this line necessary ???
     *$AUTOLOAD = sub { shift; &$name(@_); };
@@ -984,7 +985,7 @@ sub AUTOLOAD {
 __END__
 
 
-=head2 C<Term::ReadLine::GnuWin32> Functions
+=head2 C<Term::ReadLine::Gnu> Functions
 
 All these GNU Readline/History Library functions supported are callable via
 method interface and have names which conform to standard conventions
@@ -999,7 +1000,7 @@ Refer them for further details.
 
 Although it is preferred to use method interface, most methods have
 lower level functions in
-C<Term::ReadLine::GnuWin32::XS> package.  To use them a full qualified name
+C<Term::ReadLine::Gnu::XS> package.  To use them a full qualified name
 is required.
 
 =head3 Basic Behavior
@@ -1691,7 +1692,7 @@ When C<MAX> is omitted, the max length of an item in C<@matches> is used.
 
 =item C<free_history(HISTENT)>
 
-        Not implemented since Term::ReadLine::GnuWin32 does not support the
+        Not implemented since Term::ReadLine::Gnu does not support the
         member 'data' of HIST_ENTRY structure. remove_history() frees
         the memory.
         histdata_t      free_history_entry(HIST_ENTRY *histent) # GRL 5.0
@@ -1868,7 +1869,7 @@ Note that this function returns C<expansion> in the scalar context.
 
 =back
 
-=head2 C<Term::ReadLine::GnuWin32> Variables
+=head2 C<Term::ReadLine::Gnu> Variables
 
 Following GNU Readline/History Library variables can be accessed by a
 Perl program.  See L<GNU Readline Library
@@ -2124,15 +2125,15 @@ to use.
 
 =item C<list_completion_function(TEXT, STATE)>
 
-A sample generator function defined by C<Term::ReadLine::GnuWin32>.
+A sample generator function defined by C<Term::ReadLine::Gnu>.
 Example code at C<completion_entry_function> shows how to use this
 function.
 
 =back
 
-=head2 C<Term::ReadLine::GnuWin32> Specific Features
+=head2 C<Term::ReadLine::Gnu> Specific Features
 
-=head3 C<Term::ReadLine::GnuWin32> Specific Functions
+=head3 C<Term::ReadLine::Gnu> Specific Functions
 
 =over 4
 
@@ -2171,7 +2172,7 @@ See the description of section L<"Custom Completion"|"Custom Completion">.
 
 =back
 
-=head3 C<Term::ReadLine::GnuWin32> Specific Variables
+=head3 C<Term::ReadLine::Gnu> Specific Variables
 
 =over 4
 
@@ -2190,7 +2191,7 @@ C<list_completion_function>.
 
 =back
 
-=head3 C<Term::ReadLine::GnuWin32> Specific Commands
+=head3 C<Term::ReadLine::Gnu> Specific Commands
 
 =over 4
 
@@ -2208,7 +2209,7 @@ the Bash and L<Term::ReadLine::Perl|http://search.cpan.org/dist/Term-ReadLine-Pe
 
 =item C<display-readline-version>
 
-Shows the version of C<Term::ReadLine::GnuWin32> and the one of the GNU
+Shows the version of C<Term::ReadLine::Gnu> and the one of the GNU
 Readline Library.
 
 =item C<change-ornaments>
@@ -2306,7 +2307,7 @@ They can be exported as follows;
 
         use Term::ReadLine;
         BEGIN {
-            import Term::ReadLine::GnuWin32 qw(:keymap_type RL_STATE_INITIALIZED);
+            import Term::ReadLine::Gnu qw(:keymap_type RL_STATE_INITIALIZED);
         }
 
 =head1 ENVIRONMENT
@@ -2326,7 +2327,7 @@ C<Term::ReadLine::Stub> is used instead of <Term::ReadLine:Gnu>.
 
 =item *
 
-L<Term::ReadLine::GnuWin32 Project Home Page|https://github.com/hirooih/perl-trg>
+L<Term::ReadLine::Gnu Project Home Page|https://github.com/hirooih/perl-trg>
 
 =item *
 
@@ -2338,7 +2339,7 @@ L<GNU History Library Manual|https://tiswww.cwru.edu/php/chet/readline/history.h
 
 =item *
 
-Sample and test programs (F<eg/*> and F<t/*>) in L<the C<Term::ReadLine::GnuWin32> distribution|http://search.cpan.org/dist/Term-ReadLine-Gnu/>
+Sample and test programs (F<eg/*> and F<t/*>) in L<the C<Term::ReadLine::Gnu> distribution|http://search.cpan.org/dist/Term-ReadLine-Gnu/>
 
 =item *
 
@@ -2346,11 +2347,11 @@ L<Term::ReadLine|http://search.cpan.org/dist/Term-ReadLine/>
 
 =item *
 
-Works which use Term::ReadLine::GnuWin32
+Works which use Term::ReadLine::Gnu
 
 =over 4
 
-=item Distributions which depend on Term::ReadLine::GnuWin32 on L<CPAN|http://www.cpan.org/>
+=item Distributions which depend on Term::ReadLine::Gnu on L<CPAN|http://www.cpan.org/>
 
 L<https://metacpan.org/requires/distribution/Term-ReadLine-Gnu>
 
@@ -2410,7 +2411,7 @@ If you know any other works you recommend, please let me know.
 
 =head1 AUTHOR
 
-Windows fork and CPAN packaging: Itsuki Hayashi
+Windows fork and GitHub distribution: Itsuki Hayashi
 C<E<lt>2121340+itsuki-hayashi@users.noreply.github.comE<gt>>.
 
 Original Perl wrapper:

@@ -3,7 +3,7 @@
 # SPDX-License-Identifier: GPL-3.0-or-later
 # Original upstream copyright and license notices below are retained.
 # -*- perl -*-
-#       01test_use.t - reject 'use Term::ReadLine::GnuWin32'
+#       01test_use.t - reject 'use Term::ReadLine::Gnu'
 #
 #       $Id: 00checkver.t 518 2016-05-18 16:33:37Z hayashi $
 #
@@ -18,7 +18,7 @@ use Test::More tests => 2;
 use vars qw($loaded);
 
 BEGIN {
-    $ENV{PERL_RL} = 'GnuWin32';      # force to use Term::ReadLine::GnuWin32
+    $ENV{PERL_RL} = 'Gnu';      # force to use Term::ReadLine::Gnu
 }
 END {
     unless ($loaded) {
@@ -28,10 +28,10 @@ END {
 }
 
 my $e;
-$e = eval "use Term::ReadLine::GnuWin32; 1";
+$e = eval "use Term::ReadLine::Gnu; 1";
 {
     no warnings;
-    ok($e != 1, 'reject "use Term::ReadLine::GnuWin32"');
+    ok($e != 1, 'reject "use Term::ReadLine::Gnu"');
 }
 
 $e = eval "use Term::ReadLine; 1";

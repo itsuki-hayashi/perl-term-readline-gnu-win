@@ -16,7 +16,7 @@ use warnings;
 use Term::ReadLine;
 
 BEGIN {
-    import Term::ReadLine::GnuWin32 qw(RL_STATE_TIMEOUT READERR);
+    import Term::ReadLine::Gnu qw(RL_STATE_TIMEOUT READERR);
 }
 
 sub usage {

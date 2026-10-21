@@ -28,7 +28,7 @@ sub note {
 use warnings 'redefine';
 
 BEGIN {
-    $ENV{PERL_RL} = 'GnuWin32';      # force to use Term::ReadLine::GnuWin32
+    $ENV{PERL_RL} = 'Gnu';      # force to use Term::ReadLine::Gnu
     $ENV{LC_ALL} = 'C';         # LC_ALL is stronger than LANG
 }
 
@@ -37,11 +37,11 @@ my $verbose = scalar @ARGV && ($ARGV[0] eq 'verbose');
 
 use Term::ReadLine;
 BEGIN {
-    import Term::ReadLine::GnuWin32 qw(:keymap_type RL_STATE_INITIALIZED);
+    import Term::ReadLine::Gnu qw(:keymap_type RL_STATE_INITIALIZED);
 }
 ok(1, 'load done');
 
-note "Testing Term::ReadLine::GnuWin32 version $Term::ReadLine::GnuWin32::VERSION";
+note "Testing Term::ReadLine::Gnu version $Term::ReadLine::Gnu::VERSION";
 
 ########################################################################
 # test new method
@@ -70,7 +70,7 @@ if ($verbose) {
 
 ########################################################################
 # test ReadLine method
-ok($t->ReadLine eq 'Term::ReadLine::GnuWin32', '$t->ReadLine');
+ok($t->ReadLine eq 'Term::ReadLine::Gnu', '$t->ReadLine');
 
 ########################################################################
 # test Features method
@@ -457,7 +457,7 @@ SKIP:
     skip "GNU Readline Library is older than 4.3.", 4 unless ($version >= 0x0403);
     ok($a->{point} == 0, 'save_state, restore_state');
     my $state = $t->save_state();
-    isa_ok($state, 'Term::ReadLine::GnuWin32::Pointer::readline_state_tPtr');
+    isa_ok($state, 'Term::ReadLine::Gnu::Pointer::readline_state_tPtr');
     $a->{point} = 10;
     ok($a->{point} == 10, 'save_state, restore_state');
     $t->restore_state($state);

@@ -42,8 +42,8 @@ inc/GnuWin32/Patch.pm
 inc/GnuWin32/Platform.pm
 inc/GnuWin32/Toolchain.pm
 INSTALL.md
-lib/Term/ReadLine/GnuWin32.pm
-lib/Term/ReadLine/GnuWin32/XS.pm
+lib/Term/ReadLine/Gnu.pm
+lib/Term/ReadLine/Gnu/XS.pm
 LICENSE
 LICENSES/Artistic-1.0-Perl.txt
 LICENSES/GFDL-1.3-no-invariants-or-later.txt
@@ -74,6 +74,7 @@ t/11-platform.t
 t/12-vendor.t
 t/13-build-helpers.t
 t/14-integer-boundaries.t
+t/15-cpan-integration.t
 t/callback.t
 t/comptest/0123
 t/comptest/012345

@@ -24,7 +24,7 @@ sub note {
 use warnings 'redefine';
 
 BEGIN {
-    $ENV{PERL_RL} = 'GnuWin32';      # force to use Term::ReadLine::GnuWin32
+    $ENV{PERL_RL} = 'Gnu';      # force to use Term::ReadLine::Gnu
 }
 
 # 'define @ARGV' is deprecated

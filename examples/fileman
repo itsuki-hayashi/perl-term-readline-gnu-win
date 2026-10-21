@@ -4,7 +4,7 @@
 # SPDX-License-Identifier: GPL-3.0-or-later
 # Original upstream copyright and license notices below are retained.
 #
-# This is a sample program of Term::ReadLine::GnuWin32 perl module.  The
+# This is a sample program of Term::ReadLine::Gnu perl module.  The
 # origin is a C program in the GNU Readline Libarary manual Edition
 # 2.1, "2.5.4 A Short Completion Example".  This program is under GPL.
 #
@@ -144,7 +144,7 @@ sub fileman_completion {
 # whether to start from scratch; without any state (i.e. STATE == 0),
 # then we start at the top of the list.
 
-## Term::ReadLine::GnuWin32 has list_completion_function similar with this
+## Term::ReadLine::Gnu has list_completion_function similar with this
 ## function.  I defined new one to be compared with original C version.
 {
     my $list_index;

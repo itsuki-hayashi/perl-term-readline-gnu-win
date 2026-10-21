@@ -2,7 +2,8 @@
 
 ## Objective
 
-Maintain the Windows-only Term::ReadLine::GnuWin32 CPAN distribution, derived
+Maintain the Windows-only GitHub-only Term-ReadLine-GnuWin32 distribution providing
+Term::ReadLine::Gnu, derived
 from Term::ReadLine::Gnu 1.47 and bundled GNU Readline. Require Windows 11+,
 MSVC Perl 5.44+, Visual C++ 2026+, and native x64 or ARM64. Do not introduce
 MinGW, MSYS2, Cygwin, or Unix shell dependencies into installation.
@@ -14,7 +15,7 @@ MinGW, MSYS2, Cygwin, or Unix shell dependencies into installation.
 - Match the target Perl's architecture, compiler settings, and CRT.
 - Treat Perl/CRT FILE pointers, descriptors, and memory ownership as ABI boundaries.
 - Build outside the upstream source directories.
-- Use standard CPAN build and installation targets.
+- Use standard MakeMaker build and installation targets.
 - Support modern Windows VT consoles, UTF-8, redirected input, and callbacks.
 - Restore console modes and code pages when editing finishes or is interrupted.
 - Keep public Perl APIs compatible and report unsupported behavior honestly.

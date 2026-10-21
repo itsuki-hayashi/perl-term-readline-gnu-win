@@ -3,14 +3,14 @@
 # SPDX-License-Identifier: GPL-3.0-or-later
 # Original upstream copyright and license notices below are retained.
 #
-#       XS.pm : perl function definition for Term::ReadLine::GnuWin32
+#       XS.pm : perl function definition for Term::ReadLine::Gnu
 #
 #       Copyright (c) 1999-2025 Hiroo Hayashi.  All rights reserved.
 #
 #       This program is free software; you can redistribute it and/or
 #       modify it under the same terms as Perl itself.
 
-package Term::ReadLine::GnuWin32::XS;
+package Term::ReadLine::Gnu::XS;
 
 use Carp;
 use strict;
@@ -18,11 +18,11 @@ use warnings;
 use AutoLoader 'AUTOLOAD';
 
 our $VERSION;
-$VERSION='0.001_001';        # added for CPAN
+$VERSION='1.470_001';        # keep in sync with the main module
 
 # make aliases
 our %Attribs;
-*Attribs = \%Term::ReadLine::GnuWin32::Attribs;
+*Attribs = \%Term::ReadLine::Gnu::Attribs;
 
 #use vars qw(*read_history);
 *read_history = \&read_history_range;
@@ -70,13 +70,13 @@ my $_tstrs_init = 0;
 
 =head1 NAME
 
-Term::ReadLine::GnuWin32::XS - private helpers for the Windows Readline backend
+Term::ReadLine::Gnu::XS - private helpers for the Windows Readline backend
 
 =head1 DESCRIPTION
 
 This implementation module supplies AutoLoader routines for
-L<Term::ReadLine::GnuWin32>. Load the backend through L<Term::ReadLine> with
-C<PERL_RL=GnuWin32>; do not import this helper independently. Its internal
+L<Term::ReadLine::Gnu>. Load the backend through L<Term::ReadLine> with
+C<PERL_RL=Gnu>; do not import this helper independently. Its internal
 layout is not a separate public API. The backend POD describes supported
 methods, callbacks, platform requirements and installation.
 
@@ -238,26 +238,26 @@ sub rl_macro_bind ($$;$) {
 }
 
 sub rl_generic_bind ($$$;$) {
-    if      ($_[0] == Term::ReadLine::GnuWin32::ISFUNC) {
+    if      ($_[0] == Term::ReadLine::Gnu::ISFUNC) {
         if (defined $_[3]) {
             _rl_generic_bind_function($_[1], _str2fn($_[2]), _str2map($_[3]));
         } else {
             _rl_generic_bind_function($_[1], _str2fn($_[2]));
         }
-    } elsif ($_[0] == Term::ReadLine::GnuWin32::ISKMAP) {
+    } elsif ($_[0] == Term::ReadLine::Gnu::ISKMAP) {
         if (defined $_[3]) {
             _rl_generic_bind_keymap($_[1], _str2map($_[2]), _str2map($_[3]));
         } else {
             _rl_generic_bind_keymap($_[1], _str2map($_[2]));
         }
-    } elsif ($_[0] == Term::ReadLine::GnuWin32::ISMACR) {
+    } elsif ($_[0] == Term::ReadLine::Gnu::ISMACR) {
         if (defined $_[3]) {
             _rl_generic_bind_macro($_[1], $_[2], _str2map($_[3]));
         } else {
             _rl_generic_bind_macro($_[1], $_[2]);
         }
     } else {
-        carp("Term::ReadLine::GnuWin32::rl_generic_bind: invalid \`type\'\n");
+        carp("Term::ReadLine::Gnu::rl_generic_bind: invalid \`type\'\n");
     }
 }
 
@@ -447,9 +447,9 @@ sub ornaments {
             # non-printing characters must be informed to readline
             my $t;
             ($_ and $t = tgetstr($_))
-                ? (Term::ReadLine::GnuWin32::RL_PROMPT_START_IGNORE
+                ? (Term::ReadLine::Gnu::RL_PROMPT_START_IGNORE
                    . $t
-                   . Term::ReadLine::GnuWin32::RL_PROMPT_END_IGNORE)
+                   . Term::ReadLine::Gnu::RL_PROMPT_END_IGNORE)
                     : '';
         } @ts;
     $Attribs{term_set} = \@rl_term_set;
@@ -516,7 +516,7 @@ sub display_readline_version {  # show version
     my($count, $key) = @_;      # ignored in this function
     my $OUT = $Attribs{outstream};
     print $OUT
-        ("\nTerm::ReadLine::GnuWin32 version: $Term::ReadLine::GnuWin32::VERSION");
+        ("\nTerm::ReadLine::Gnu version: $Term::ReadLine::Gnu::VERSION");
     print $OUT
         ("\nGNU Readline Library version: $Attribs{library_version}\n");
     rl_on_new_line();
@@ -563,8 +563,8 @@ sub shadow_redisplay {
     @_tstrs = _tgetstrs() unless $_tstrs_init;
     # remove prompt start/end mark from prompt string
     my $prompt = $Attribs{prompt}; my $s;
-    $s = Term::ReadLine::GnuWin32::RL_PROMPT_START_IGNORE; $prompt =~ s/$s//g;
-    $s = Term::ReadLine::GnuWin32::RL_PROMPT_END_IGNORE;   $prompt =~ s/$s//g;
+    $s = Term::ReadLine::Gnu::RL_PROMPT_START_IGNORE; $prompt =~ s/$s//g;
+    $s = Term::ReadLine::Gnu::RL_PROMPT_END_IGNORE;   $prompt =~ s/$s//g;
     my $OUT = $Attribs{outstream};
     my $oldfh = select($OUT); $| = 1; select($oldfh);
     print $OUT ($_tstrs[0],     # carriage return

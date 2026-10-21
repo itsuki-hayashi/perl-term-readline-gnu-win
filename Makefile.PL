@@ -11,11 +11,12 @@ use GnuWin32::Toolchain;
 use GnuWin32::Build;
 die "OS unsupported: this distribution targets native Windows only\n" unless $^O eq 'MSWin32';
 GnuWin32::Platform::validate(GnuWin32::Platform::current(), msvc => GnuWin32::Toolchain::compiler_version());
-my $version=MM->parse_version('lib/Term/ReadLine/GnuWin32.pm');
+my $version=MM->parse_version('lib/Term/ReadLine/Gnu.pm');
 WriteMakefile(
-    NAME => 'Term::ReadLine::GnuWin32',
+    NAME => 'Term::ReadLine::Gnu',
+    DISTNAME => 'Term-ReadLine-GnuWin32',
     DIR => [],
-    VERSION_FROM => 'lib/Term/ReadLine/GnuWin32.pm',
+    VERSION_FROM => 'lib/Term/ReadLine/Gnu.pm',
     ABSTRACT => 'Native GNU Readline for Windows 11 and MSVC Perl',
     AUTHOR => ['Itsuki Hayashi <2121340+itsuki-hayashi@users.noreply.github.com>'],
     LICENSE => 'gpl_3', MIN_PERL_VERSION => '5.044', PERL => $^X,
@@ -26,26 +27,27 @@ WriteMakefile(
     XS => {'xs/GnuWin32.xs'=>'xs/GnuWin32.c'},
     OBJECT => 'xs/GnuWin32$(OBJ_EXT)',
     TYPEMAPS => ['xs/typemap'],
-    PM => {'lib/Term/ReadLine/GnuWin32.pm'=>'$(INST_LIB)/Term/ReadLine/GnuWin32.pm',
-           'lib/Term/ReadLine/GnuWin32/XS.pm'=>'$(INST_LIB)/Term/ReadLine/GnuWin32/XS.pm'},
+    PM => {'lib/Term/ReadLine/Gnu.pm'=>'$(INST_LIB)/Term/ReadLine/Gnu.pm',
+           'lib/Term/ReadLine/Gnu/XS.pm'=>'$(INST_LIB)/Term/ReadLine/Gnu/XS.pm'},
     EXE_FILES => ['script/perlsh-gnu-win32'],
     INC => '-I"xs" -I"build/include"', DEFINE => '-DHAVE_STRING_H -DTRG_READLINE_VERSION=0x0803',
     MYEXTLIB => 'build/native/readline.lib', LIBS => ['-luser32'],
-    clean => {FILES=>'build xs/*.xsc xs/*.obj xs/*.pdb GnuWin32.c GnuWin32.obj GnuWin32.def GnuWin32.exp GnuWin32.lib GnuWin32_def.old'},
+    clean => {FILES=>'build xs/*.xsc xs/*.obj xs/*.pdb GnuWin32.c GnuWin32.obj GnuWin32.def GnuWin32.exp GnuWin32.lib GnuWin32_def.old Gnu.def Gnu.exp Gnu.lib Gnu_def.old'},
     META_MERGE => {
         'meta-spec'=>{version=>2},
         provides=>{
-            'Term::ReadLine::GnuWin32'=>{file=>'lib/Term/ReadLine/GnuWin32.pm',version=>$version},
-            'Term::ReadLine::GnuWin32::XS'=>{file=>'lib/Term/ReadLine/GnuWin32/XS.pm',version=>$version},
-            'Term::ReadLine::GnuWin32::Var'=>{file=>'lib/Term/ReadLine/GnuWin32.pm',version=>$version},
-            'Term::ReadLine::GnuWin32::AU'=>{file=>'lib/Term/ReadLine/GnuWin32.pm',version=>$version},
+            'Term::ReadLine::Gnu'=>{file=>'lib/Term/ReadLine/Gnu.pm',version=>$version},
+            'Term::ReadLine::Gnu::XS'=>{file=>'lib/Term/ReadLine/Gnu/XS.pm',version=>$version},
+            'Term::ReadLine::Gnu::Var'=>{file=>'lib/Term/ReadLine/Gnu.pm',version=>$version},
+            'Term::ReadLine::Gnu::AU'=>{file=>'lib/Term/ReadLine/Gnu.pm',version=>$version},
         },
         resources=>{
             homepage=>'https://github.com/itsuki-hayashi/perl-term-readline-gnu-win',
             repository=>{type=>'git',url=>'https://github.com/itsuki-hayashi/perl-term-readline-gnu-win.git',web=>'https://github.com/itsuki-hayashi/perl-term-readline-gnu-win'},
             bugtracker=>{web=>'https://github.com/itsuki-hayashi/perl-term-readline-gnu-win/issues'},
         },
-        no_index=>{directory=>[qw(vendor inc t xt examples script win32 patches docs xs)],namespace=>['Term::ReadLine::GnuWin32::Pointer']},
+        no_index=>{directory=>[qw(vendor inc t xt examples script win32 patches docs xs)],namespace=>['Term::ReadLine::Gnu::Pointer']},
+        x_distribution_channel=>'GitHub only; not for PAUSE upload',
         x_spdx_expression=>'GPL-3.0-or-later',
         x_support=>{os=>'MSWin32',client=>'Windows 11+',server=>'Windows Server 2025+ (CI)',
             architectures=>[qw(x64 arm64)],compiler=>'Visual C++ 2026 / v145+',crt=>'release shared /MD'},

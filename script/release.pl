@@ -10,7 +10,6 @@ use Archive::Tar;
 use ExtUtils::Manifest qw(mkmanifest maniread);
 use ExtUtils::MakeMaker;
 use File::Path qw(make_path);
-use File::Copy qw(copy);
 use File::Spec;
 use JSON::PP;
 use Digest::SHA qw(sha256_hex);
@@ -22,10 +21,17 @@ flock($lock,LOCK_EX|LOCK_NB) or die "Another release preparation is running\n";
 my $output='dist';
 GetOptions('output=s'=>\$output) or die "Usage: perl script/release.pl [--output DIR]\n";
 mkmanifest();
-my $version=MM->parse_version('lib/Term/ReadLine/GnuWin32.pm');
+my $version=MM->parse_version('lib/Term/ReadLine/Gnu.pm');
 my $name="Term-ReadLine-GnuWin32-$version";
 system('nmake','/nologo','metafile') == 0 or die "Run perl Makefile.PL in the developer prompt first\n";
-copy("$name/META.$_", "META.$_") or die "Cannot copy generated META.$_: $!" for qw(json yml);
+# MakeMaker may hard-link the distribution directory to the working tree.
+# Read before writing so repeated release preparation also handles that case.
+for my $format (qw(json yml)) {
+    open my $source, '<:raw', "$name/META.$format" or die $!;
+    my $data=do { local $/; <$source> }; close $source or die $!;
+    open my $target, '>:raw', "META.$format" or die $!;
+    print {$target} $data or die $!; close $target or die $!;
+}
 mkmanifest();
 local $ENV{RELEASE_TESTING}=1;
 system {$^X} $^X,'-MTest::Harness','-e','runtests(glob q(xt/*.t))' ;

@@ -16,7 +16,7 @@ use Test::More tests => 5;
 use vars qw($loaded);
 
 BEGIN {
-    $ENV{PERL_RL} = 'GnuWin32';      # force to use Term::ReadLine::GnuWin32
+    $ENV{PERL_RL} = 'Gnu';      # force to use Term::ReadLine::Gnu
 }
 END {
     unless ($loaded) {
@@ -37,7 +37,7 @@ if ($ENV{TERM} eq "emacs" || defined($ENV{EMACS}) || defined($ENV{INSIDE_EMACS})
 }
 ok(1, '$TERM value');
 
-print "# I'm testing Term::ReadLine::GnuWin32 version $Term::ReadLine::GnuWin32::VERSION\n";
+print "# I'm testing Term::ReadLine::Gnu version $Term::ReadLine::Gnu::VERSION\n";
 
 my $t = new Term::ReadLine 'ReadLineTest';
 isa_ok($t, 'Term::ReadLine');

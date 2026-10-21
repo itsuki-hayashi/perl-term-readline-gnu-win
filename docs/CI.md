@@ -11,7 +11,7 @@ tested. An optional self-hosted x64 row can use labels for a maintained
 Windows 11 client. Do not expose privileged personal runners to untrusted PRs.
 
 PowerShell provisioning initializes MSVC and builds checksum-pinned Perl with
-its native `nmake` makefile. These CI tools are not CPAN installation dependencies.
+its native `nmake` makefile. These CI tools are not end-user installation dependencies.
 Preinstalled MinGW/MSYS2 programs must not become target build dependencies.
 
 The Perl cache key includes source digest, architecture, exact toolset, SDK

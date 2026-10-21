@@ -1862,7 +1862,7 @@ trg_input_available()
  * make separate name space for low level XS functions and their methods
  */
 
-MODULE = Term::ReadLine::GnuWin32            PACKAGE = Term::ReadLine::GnuWin32::XS
+MODULE = Term::ReadLine::Gnu            PACKAGE = Term::ReadLine::Gnu::XS
 
  ########################################################################
  #
@@ -2142,10 +2142,10 @@ _rl_function_of_keyseq(SV *keyseq, Keymap map = rl_get_keymap())
             sv = sv_newmortal();
             switch (type) {
             case ISFUNC:
-              sv_setref_pv(sv, "Term::ReadLine::GnuWin32::Pointer::rl_command_func_tPtr", (void*)p);
+              sv_setref_pv(sv, "Term::ReadLine::Gnu::Pointer::rl_command_func_tPtr", (void*)p);
               break;
             case ISKMAP:
-              sv_setref_pv(sv, "Term::ReadLine::GnuWin32::Pointer::Keymap", (void*)p);
+              sv_setref_pv(sv, "Term::ReadLine::Gnu::Pointer::Keymap", (void*)p);
               break;
             case ISMACR:
               if (p) {
@@ -2500,7 +2500,7 @@ rl_save_state()
 int
 rl_restore_state(readline_state_t *state)
 
-MODULE = Term::ReadLine::GnuWin32    PACKAGE = Term::ReadLine::GnuWin32::Pointer::readline_state_tPtr   PREFIX = my_
+MODULE = Term::ReadLine::Gnu    PACKAGE = Term::ReadLine::Gnu::Pointer::readline_state_tPtr   PREFIX = my_
 
 void
 my_DESTROY(readline_state_t *state)
@@ -2510,7 +2510,7 @@ my_DESTROY(readline_state_t *state)
       Safefree(state);
     }
 
-MODULE = Term::ReadLine::GnuWin32    PACKAGE = Term::ReadLine::GnuWin32::XS
+MODULE = Term::ReadLine::Gnu    PACKAGE = Term::ReadLine::Gnu::XS
 
 void
 rl_replace_line(CONST char *text, int clear_undo = 0)
@@ -2878,7 +2878,7 @@ history_get_history_state()
 void
 history_set_history_state(HISTORY_STATE *state)
 
-MODULE = Term::ReadLine::GnuWin32    PACKAGE = Term::ReadLine::GnuWin32::Pointer::HISTORY_STATEPtr      PREFIX = my_
+MODULE = Term::ReadLine::Gnu    PACKAGE = Term::ReadLine::Gnu::Pointer::HISTORY_STATEPtr      PREFIX = my_
 
 void
 my_DESTROY(HISTORY_STATE *state)
@@ -2888,7 +2888,7 @@ my_DESTROY(HISTORY_STATE *state)
       xfree(state);
     }
 
-MODULE = Term::ReadLine::GnuWin32    PACKAGE = Term::ReadLine::GnuWin32::XS
+MODULE = Term::ReadLine::Gnu    PACKAGE = Term::ReadLine::Gnu::XS
 
  #
  #      2.3.2 History List Management
@@ -2918,7 +2918,7 @@ remove_history(int which)
         }
 
  # free_history_entry() is introduced by GNU Readline Library 5.0.
- # Since Term::ReadLine::GnuWin32 does not support the member 'data' of HIST_ENTRY
+ # Since Term::ReadLine::Gnu does not support the member 'data' of HIST_ENTRY
  # structure, remove_history() covers it.
 
  # The 3rd parameter (histdata_t) is not supported. Does anyone use it?
@@ -3149,7 +3149,7 @@ _history_arg_extract(CONST char *line, int first = 0 , int last = DALLAR)
  #      GNU Readline/History Library Variable Access Routines
  #
 
-MODULE = Term::ReadLine::GnuWin32            PACKAGE = Term::ReadLine::GnuWin32::Var
+MODULE = Term::ReadLine::Gnu            PACKAGE = Term::ReadLine::Gnu::Var
 
 void
 _rl_store_str(CONST char *pstr, int id)
@@ -3480,7 +3480,7 @@ _rl_fetch_last_func()
     OUTPUT:
         RETVAL
 
-MODULE = Term::ReadLine::GnuWin32            PACKAGE = Term::ReadLine::GnuWin32::XS
+MODULE = Term::ReadLine::Gnu            PACKAGE = Term::ReadLine::Gnu::XS
 
 void
 tgetstr(const char *id)

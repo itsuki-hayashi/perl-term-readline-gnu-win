@@ -18,7 +18,7 @@ use Test::More tests => 3;
 use vars qw($loaded);
 
 BEGIN {
-    $ENV{PERL_RL} = 'GnuWin32';      # force to use Term::ReadLine::GnuWin32
+    $ENV{PERL_RL} = 'Gnu';      # force to use Term::ReadLine::Gnu
     $ENV{TERM} = 'dumb';
 }
 END {

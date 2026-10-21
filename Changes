@@ -1,10 +1,12 @@
 Revision history for Term-ReadLine-GnuWin32
 
-0.001_001  2026-10-21
+1.470_001  2026-10-21
     - Initial Windows-only developer release, based on Term::ReadLine::Gnu
       1.47 and bundled GNU Readline 8.3.
     - Require Windows 11, Perl 5.44, and Visual C++ 2026; target x64/ARM64.
-    - Move the fork into independent GnuWin32 packages and pointer classes.
+    - Distribute through GitHub as Term-ReadLine-GnuWin32, providing the
+      compatible Term::ReadLine::Gnu package for automatic discovery and
+      CPAN GNU command completion; do not upload this fork to PAUSE.
     - Build with standard MakeMaker targets and native Perl build helpers.
     - Keep XS sources, typemaps, portability headers, and generated C/object
       files together in xs/; omit generated files from source releases.
@@ -15,5 +17,5 @@ Revision history for Term-ReadLine-GnuWin32
     - Add GPLv3-or-later project licensing and upstream component notices.
 
 The original module history is retained in docs/UPSTREAM_CHANGES.
-Developer version 0.001_001 sorts above 0.001; the next stable release must
-advance to at least 0.002.
+Developer version 1.470_001 sorts above upstream 1.47; the next stable fork release
+must advance to at least 1.471.

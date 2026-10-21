@@ -29,7 +29,7 @@
          "xs"
       ],
       "namespace" : [
-         "Term::ReadLine::GnuWin32::Pointer"
+         "Term::ReadLine::Gnu::Pointer"
       ]
    },
    "prereqs" : {
@@ -61,21 +61,21 @@
       }
    },
    "provides" : {
-      "Term::ReadLine::GnuWin32" : {
-         "file" : "lib/Term/ReadLine/GnuWin32.pm",
-         "version" : "0.001_001"
+      "Term::ReadLine::Gnu" : {
+         "file" : "lib/Term/ReadLine/Gnu.pm",
+         "version" : "1.470_001"
       },
-      "Term::ReadLine::GnuWin32::AU" : {
-         "file" : "lib/Term/ReadLine/GnuWin32.pm",
-         "version" : "0.001_001"
+      "Term::ReadLine::Gnu::AU" : {
+         "file" : "lib/Term/ReadLine/Gnu.pm",
+         "version" : "1.470_001"
       },
-      "Term::ReadLine::GnuWin32::Var" : {
-         "file" : "lib/Term/ReadLine/GnuWin32.pm",
-         "version" : "0.001_001"
+      "Term::ReadLine::Gnu::Var" : {
+         "file" : "lib/Term/ReadLine/Gnu.pm",
+         "version" : "1.470_001"
       },
-      "Term::ReadLine::GnuWin32::XS" : {
-         "file" : "lib/Term/ReadLine/GnuWin32/XS.pm",
-         "version" : "0.001_001"
+      "Term::ReadLine::Gnu::XS" : {
+         "file" : "lib/Term/ReadLine/Gnu/XS.pm",
+         "version" : "1.470_001"
       }
    },
    "release_status" : "unstable",
@@ -90,11 +90,12 @@
          "web" : "https://github.com/itsuki-hayashi/perl-term-readline-gnu-win"
       }
    },
-   "version" : "0.001_001",
+   "version" : "1.470_001",
    "x_bundled" : {
       "readline" : "8.3",
       "upstream_perl_module" : "Term::ReadLine::Gnu 1.47"
    },
+   "x_distribution_channel" : "GitHub only; not for PAUSE upload",
    "x_serialization_backend" : "JSON::PP version 4.16",
    "x_spdx_expression" : "GPL-3.0-or-later",
    "x_support" : {

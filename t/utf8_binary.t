@@ -3,7 +3,7 @@
 # SPDX-License-Identifier: GPL-3.0-or-later
 # Original upstream copyright and license notices below are retained.
 # -*- perl -*-
-#       utf8_binary.t --- Term::ReadLine::GnuWin32 UTF-8 binary string test script
+#       utf8_binary.t --- Term::ReadLine::Gnu UTF-8 binary string test script
 #
 #       Copyright (c) 2016-2019 Hiroo Hayashi.  All rights reserved.
 #
@@ -37,12 +37,12 @@ use Data::Dumper;
 }
 
 BEGIN {
-    $ENV{PERL_RL} = 'GnuWin32';
+    $ENV{PERL_RL} = 'Gnu';
 }
 
 use Term::ReadLine;
 ok(1, 'load done');
-note "I'm testing Term::ReadLine::GnuWin32 version $Term::ReadLine::GnuWin32::VERSION";
+note "I'm testing Term::ReadLine::Gnu version $Term::ReadLine::Gnu::VERSION";
 
 my $verbose = scalar @ARGV && ($ARGV[0] eq 'verbose');
 
@@ -89,7 +89,7 @@ if ($verbose) {
     $t = new Term::ReadLine 'ReadLineTest', $in, \*STDOUT;
 }
 print "\n";     # rl_initialize() outputs some escape characters in Term-ReadLine-Gnu less than 6.3,
-isa_ok($t, 'Term::ReadLine::GnuWin32');
+isa_ok($t, 'Term::ReadLine::Gnu');
 
 $expected = $^O eq 'MSWin32' ? ['unix', 'crlf', 'stdio'] : $] >= 5.010 ? ['unix', 'perlio', 'stdio'] : ['stdio'];
 @layers = PerlIO::get_layers($t->IN);
@@ -100,7 +100,7 @@ note 'o: ', join(':', @layers);
 is_deeply(\@layers, $expected, "output layers after 'new'");
 
 # force the GNU Readline 8 bit through
-if ($t->ReadLine eq 'Term::ReadLine::GnuWin32') {
+if ($t->ReadLine eq 'Term::ReadLine::Gnu') {
     $t->parse_and_bind('set input-meta on');
     $t->parse_and_bind('set convert-meta off');
     $t->parse_and_bind('set output-meta on');

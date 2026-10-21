@@ -27,7 +27,7 @@ sub note {
 use warnings 'redefine';
 
 BEGIN {
-    $ENV{PERL_RL} = 'GnuWin32';      # force to use Term::ReadLine::GnuWin32
+    $ENV{PERL_RL} = 'Gnu';      # force to use Term::ReadLine::Gnu
     $ENV{LC_ALL} = 'C';
 }
 sub show_indices;               # for debugging
@@ -35,7 +35,7 @@ sub show_indices;               # for debugging
 use Term::ReadLine;
 ok(1, 'load done');
 
-note "Testing Term::ReadLine::GnuWin32 version $Term::ReadLine::GnuWin32::VERSION";
+note "Testing Term::ReadLine::Gnu version $Term::ReadLine::Gnu::VERSION";
 
 ########################################################################
 # test new method
@@ -47,7 +47,7 @@ my $OUT = $t->OUT || \*STDOUT;
 
 ########################################################################
 # test ReadLine method
-ok($t->ReadLine eq 'Term::ReadLine::GnuWin32', '$t->ReadLine');
+ok($t->ReadLine eq 'Term::ReadLine::Gnu', '$t->ReadLine');
 
 ########################################################################
 # test Attribs method
@@ -69,7 +69,7 @@ $t->using_history;
 {
     ok($attribs->{history_length} == 0, 'history_get/set_history_state');
     my $state = $t->history_get_history_state();
-    isa_ok($state, 'Term::ReadLine::GnuWin32::Pointer::HISTORY_STATEPtr');
+    isa_ok($state, 'Term::ReadLine::Gnu::Pointer::HISTORY_STATEPtr');
     $attribs->{history_length} = 10;
     ok($attribs->{history_length} == 10, 'history_get/set_history_state');
     $t->history_set_history_state($state);

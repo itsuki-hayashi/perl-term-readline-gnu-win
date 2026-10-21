@@ -21,7 +21,7 @@ my $prompt = 'readline$ ';
 my $done   = 0;
 while (!$done) {
     # use full qualified name not to call addhistory() implicitly.
-    my $temp = Term::ReadLine::GnuWin32::XS::rl_readline($prompt);
+    my $temp = Term::ReadLine::Gnu::XS::rl_readline($prompt);
     exit 1 unless defined $temp;
 
     if ($temp) {

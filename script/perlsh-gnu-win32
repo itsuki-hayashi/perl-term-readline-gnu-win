@@ -26,7 +26,7 @@ and prints the result.  If the result is a list value then each value
 of the list is printed line by line.  This program can be used as a
 very strong calculator which has whole perl functions.
 
-This is a sample program Term::ReadLine::GnuWin32 module.  When you input a
+This is a sample program Term::ReadLine::Gnu module.  When you input a
 line, the line editing function of GNU Readline Library is available.
 Perl symbol name completion function is also available.
 
@@ -36,7 +36,7 @@ package PerlSh;
 
 use strict;
 use warnings;
-BEGIN { $ENV{PERL_RL} = 'GnuWin32'; }
+BEGIN { $ENV{PERL_RL} = 'Gnu'; }
 use Term::ReadLine;
 use POSIX;                      #  for sigaction below
 
@@ -471,7 +471,7 @@ Here is a sample.
             $mw = MainWindow->new();
         }
 
-        # for debugging Term::ReadLine::GnuWin32
+        # for debugging Term::ReadLine::Gnu
         sub afterinit {
             *t = \$PerlSh::term;
             *a = \$PerlSh::attribs;
@@ -488,7 +488,7 @@ for details.
 
 =head1 SEE ALSO
 
-L<Term::ReadLine::GnuWin32|http://search.cpan.org/dist/Term-ReadLine-Gnu/>
+L<Term::ReadLine::Gnu|http://search.cpan.org/dist/Term-ReadLine-Gnu/>
 
 L<GNU Readline Library|https://tiswww.cwru.edu/php/chet/readline/rltop.html>
 

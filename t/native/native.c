@@ -169,6 +169,8 @@ static void perl_console_tests(const char *logpath) {
   inject(0, VK_HOME, 0); inject('x', 'X', 0); inject('\r', VK_RETURN, 0);
   inject(0, VK_UP, 0); inject(0, VK_HOME, 0); inject(0, VK_DELETE, 0); inject('\r', VK_RETURN, 0);
   inject('o', 'O', 0); inject('k', 'K', 0); inject('\r', VK_RETURN, 0);
+  { const char *completion = "install_t\t\r";
+    while (*completion) { inject((WCHAR)*completion, 0, 0); ++completion; } }
   assert(swprintf(command, 32768, L"\"%ls\" \"%ls\" \"%ls\"", perl, test, wlog) > 0);
   assert(CreateProcessW(perl, command, NULL, NULL, TRUE, 0, NULL, NULL, &si, &pi));
   assert(WaitForSingleObject(pi.hProcess, 60000) == WAIT_OBJECT_0);
@@ -180,12 +182,12 @@ static void debugger_tests(void) {
   const char *cmd = "p do { open my $f, '>', 'debugger-backend.log' or die $!; print $f $DB::term->ReadLine; close $f; 1 }\rq\r";
   FILE *f; char backend[80] = {0};
   assert(perl);
-  _putenv_s("PERL_RL", "GnuWin32"); _putenv_s("TERM", "win32"); _putenv_s("INPUTRC", "NUL");
+  _putenv_s("PERL_RL", "Gnu"); _putenv_s("TERM", "win32"); _putenv_s("INPUTRC", "NUL");
   while (*cmd) { inject((WCHAR)*cmd, 0, 0); ++cmd; }
   assert(_wspawnl(_P_WAIT, perl, perl, L"-d", L"-e", L"0", NULL) == 0);
   f = fopen("debugger-backend.log", "r"); assert(f);
   assert(fgets(backend, sizeof(backend), f)); fclose(f);
-  assert(!strcmp(backend, "Term::ReadLine::GnuWin32"));
+  assert(!strcmp(backend, "Term::ReadLine::Gnu"));
 }
 static void perlsh_tests(void) {
   const wchar_t *launcher = _wgetenv(L"RL_TEST_PERLSH");
@@ -199,7 +201,7 @@ static void perlsh_tests(void) {
   f = fopen(expected, "w"); assert(f);
   fputs("$PerlSh::PS1 = ''; sub main::afterinit { open my $f, '>', 'perlsh-config-loaded.log' or die $!; print $f 'loaded'; close $f; } 1;\n", f);
   fclose(f);
-  _putenv_s("PERL_RL", "GnuWin32"); _putenv_s("TERM", "win32"); _putenv_s("INPUTRC", "NUL");
+  _putenv_s("PERL_RL", "Gnu"); _putenv_s("TERM", "win32"); _putenv_s("INPUTRC", "NUL");
   for (scenario = 0; scenario < 3; ++scenario) {
     STARTUPINFOW si = {sizeof(si)}; PROCESS_INFORMATION pi; DWORD code;
     const char *input = "open my $f, '>', 'perlsh-startup-result.log' or die $!; print $f $PerlSh::HISTFILE; close $f; PerlSh::quit()\r";

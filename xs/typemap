@@ -2,7 +2,7 @@
 # Fork modifications copyright (c) 2026 Itsuki Hayashi.
 # SPDX-License-Identifier: GPL-3.0-or-later
 # Original upstream copyright and license notices below are retained.
-#	typemap for Term::ReadLine::GnuWin32
+#	typemap for Term::ReadLine::Gnu
 #
 
 char *                  T_TRG_PV
@@ -28,11 +28,11 @@ T_TRG_INT
 	$var = trg_sv_to_int($arg);
 
 T_WIN32_PTROBJ
-	if (SvROK($arg) && sv_derived_from($arg, \"Term::ReadLine::GnuWin32::Pointer::$ntype\")) {
+	if (SvROK($arg) && sv_derived_from($arg, \"Term::ReadLine::Gnu::Pointer::$ntype\")) {
 	    IV pointer_value = SvIV((SV*)SvRV($arg));
 	    $var = INT2PTR($type,pointer_value);
 	} else {
-	    croak(\"Expected a Term::ReadLine::GnuWin32::Pointer::$ntype object\");
+	    croak(\"Expected a Term::ReadLine::Gnu::Pointer::$ntype object\");
 	}
 
 T_WIN32_PTRREF
@@ -50,7 +50,7 @@ T_TRG_PV
 T_TRG_INT
 	sv_setiv($arg, (IV)$var);
 T_WIN32_PTROBJ
-	sv_setref_pv($arg, \"Term::ReadLine::GnuWin32::Pointer::$ntype\", (void*)$var);
+	sv_setref_pv($arg, \"Term::ReadLine::Gnu::Pointer::$ntype\", (void*)$var);
 T_XSTR
 	if ($var) {
 	  sv_setpv($arg, $var);

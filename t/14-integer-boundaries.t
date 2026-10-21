@@ -5,7 +5,7 @@ use strict;
 use warnings;
 use Test::More;
 use File::Temp qw(tempfile);
-BEGIN { $ENV{PERL_RL} = 'GnuWin32' }
+BEGIN { $ENV{PERL_RL} = 'Gnu' }
 use Term::ReadLine;
 my ($input) = tempfile();
 my ($output) = tempfile();

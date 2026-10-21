@@ -11,7 +11,7 @@ Typical executables are `%LOCALAPPDATA%\Programs\Perl\bin\perl.exe` and
 when several distributions exist. Check `where perl` and `where cl` in cmd,
 or `Get-Command perl,cl,nmake` in PowerShell.
 
-## Standard CPAN flow
+## Standard MakeMaker flow
 
 In the matching Visual Studio 2026 Native Tools prompt:
 
@@ -22,8 +22,8 @@ nmake test
 nmake install
 ```
 
-A CPAN client uses the same MakeMaker contract. Start it in that developer
-environment so `cl`, `lib`, `link`, and `nmake` are available. The archive
+Download the source archive from GitHub or use a checkout. Start in the
+developer environment so `cl`, `lib`, `link`, and `nmake` are available. The archive
 includes all library sources and patches; it needs no additional download
 or Unix commands. There is no switch to silently link a system Readline.
 
@@ -35,11 +35,13 @@ architecture directory to `PERL5LIB`, and its `bin` directory to PATH.
 
 | Setting | Value |
 |---|---|
-| Backend environment variable | `PERL_RL=GnuWin32` |
-| Backend package | `Term::ReadLine::GnuWin32` |
+| Backend environment variable | `PERL_RL=Gnu` |
+| Backend package | `Term::ReadLine::Gnu` |
 | Installed REPL | `perlsh-gnu-win32.bat` |
 
-Set the backend before loading Term::ReadLine.
+No backend setting is required for automatic discovery. An explicit setting
+must precede loading Term::ReadLine. Remove old `PERL_RL=GnuWin32` settings.
+This fork replaces upstream Gnu; use a separate library prefix for trials.
 Do not reuse compiled extensions across Perl versions or architectures.
 Run `nmake realclean` before switching target Perl or compiler.
 
@@ -50,7 +52,7 @@ Run `nmake realclean` before switching target Perl or compiler.
 - **Unsupported CRT/Perl:** this is an ABI requirement, not a flag to override.
   Obtain or build a compatible interpreter.
 - **Stub fallback:** check backend selection, installation paths, and loading
-  errors. The fork does not overwrite upstream Gnu for automatic discovery.
+  errors. Check `$INC{"Term/ReadLine/Gnu.pm"}` to identify the loaded implementation.
 - **Wrong machine type:** select the compiler for the interpreter's architecture,
   not merely the host OS. x64 on ARM emulation is still x64.
 - **Vendor/patch mismatch:** restore the pristine tree or follow the dependency

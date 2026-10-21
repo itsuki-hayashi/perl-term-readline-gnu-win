@@ -49,7 +49,7 @@ patches and build materials that produced a binary. This project grants no
 special Readline linking exception and does not label the combined binary
 "Perl-license-only". Unrelated software is not relabeled by a project notice.
 
-For a source-only CPAN candidate, the release checks verify inclusion of
+For a source-only GitHub candidate, the release checks verify inclusion of
 license texts, notices and vendor hashes. A separate binary distributor must
 choose and satisfy an applicable GPL source-conveyance method; this guide is
 not a substitute for reviewing that distributor's actual arrangement.
