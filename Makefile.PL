@@ -1,4 +1,4 @@
-# SPDX-FileCopyrightText: 2026 itsuki-hayashi
+# SPDX-FileCopyrightText: 2026 Itsuki Hayashi
 # SPDX-License-Identifier: GPL-3.0-or-later
 use 5.044;
 use strict;
@@ -17,7 +17,7 @@ WriteMakefile(
     DIR => [],
     VERSION_FROM => 'lib/Term/ReadLine/GnuWin32.pm',
     ABSTRACT => 'Native GNU Readline for Windows 11 and MSVC Perl',
-    AUTHOR => ['itsuki-hayashi <2121340+itsuki-hayashi@users.noreply.github.com>'],
+    AUTHOR => ['Itsuki Hayashi <2121340+itsuki-hayashi@users.noreply.github.com>'],
     LICENSE => 'gpl_3', MIN_PERL_VERSION => '5.044', PERL => $^X,
     CONFIGURE_REQUIRES => {'ExtUtils::MakeMaker'=>7.78, 'Win32'=>0},
     BUILD_REQUIRES => {'ExtUtils::MakeMaker'=>7.78, 'Digest::SHA'=>0, 'JSON::PP'=>0},

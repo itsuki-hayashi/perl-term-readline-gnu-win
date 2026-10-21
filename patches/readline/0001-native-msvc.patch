@@ -3,7 +3,7 @@ index 11bdd84..eef0a6c 100644
 --- a/histfile.c
 +++ b/histfile.c
 @@ -1,3 +1,5 @@
-+/* Modified 2026-10-21 by itsuki-hayashi for native MSVC/Windows.
++/* Modified 2026-10-21 by Itsuki Hayashi for native MSVC/Windows.
 + * Fork changes: GPL-3.0-or-later. Original upstream notices remain below. */
  /* histfile.c - functions to manipulate the history file. */
  
@@ -35,7 +35,7 @@ index e6a39e2..b04a58c 100644
 --- a/input.c
 +++ b/input.c
 @@ -1,3 +1,5 @@
-+/* Modified 2026-10-21 by itsuki-hayashi for native MSVC/Windows.
++/* Modified 2026-10-21 by Itsuki Hayashi for native MSVC/Windows.
 + * Fork changes: GPL-3.0-or-later. Original upstream notices remain below. */
  /* input.c -- character input functions for readline. */
  
@@ -74,7 +74,7 @@ index ca92ea1..d8494c2 100644
 --- a/kill.c
 +++ b/kill.c
 @@ -1,3 +1,5 @@
-+/* Modified 2026-10-21 by itsuki-hayashi for native MSVC/Windows.
++/* Modified 2026-10-21 by Itsuki Hayashi for native MSVC/Windows.
 + * Fork changes: GPL-3.0-or-later. Original upstream notices remain below. */
  /* kill.c -- kill ring management. */
  
@@ -94,7 +94,7 @@ index 5243fd7..e6e48c4 100644
 --- a/mbutil.c
 +++ b/mbutil.c
 @@ -1,3 +1,5 @@
-+/* Modified 2026-10-21 by itsuki-hayashi for native MSVC/Windows.
++/* Modified 2026-10-21 by Itsuki Hayashi for native MSVC/Windows.
 + * Fork changes: GPL-3.0-or-later. Original upstream notices remain below. */
  /* mbutil.c -- readline multibyte character utility functions */
  
@@ -113,7 +113,7 @@ index e04991d..bb0caa5 100644
 --- a/nls.c
 +++ b/nls.c
 @@ -1,3 +1,5 @@
-+/* Modified 2026-10-21 by itsuki-hayashi for native MSVC/Windows.
++/* Modified 2026-10-21 by Itsuki Hayashi for native MSVC/Windows.
 + * Fork changes: GPL-3.0-or-later. Original upstream notices remain below. */
  /* nls.c -- skeletal internationalization code. */
  
@@ -137,7 +137,7 @@ index 2d10efd..980f44d 100644
 --- a/rltty.c
 +++ b/rltty.c
 @@ -1,3 +1,5 @@
-+/* Modified 2026-10-21 by itsuki-hayashi for native MSVC/Windows.
++/* Modified 2026-10-21 by Itsuki Hayashi for native MSVC/Windows.
 + * Fork changes: GPL-3.0-or-later. Original upstream notices remain below. */
  /* rltty.c -- functions to prepare and restore the terminal for readline's
     use. */
@@ -165,7 +165,7 @@ index becb8cf..fc3549f 100644
 --- a/shell.c
 +++ b/shell.c
 @@ -1,3 +1,5 @@
-+/* Modified 2026-10-21 by itsuki-hayashi for native MSVC/Windows.
++/* Modified 2026-10-21 by Itsuki Hayashi for native MSVC/Windows.
 + * Fork changes: GPL-3.0-or-later. Original upstream notices remain below. */
  /* shell.c -- readline utility functions that are normally provided by
  	      bash when readline is linked as part of the shell. */
@@ -188,7 +188,7 @@ index 50fb904..9390543 100644
 --- a/terminal.c
 +++ b/terminal.c
 @@ -1,3 +1,5 @@
-+/* Modified 2026-10-21 by itsuki-hayashi for native MSVC/Windows.
++/* Modified 2026-10-21 by Itsuki Hayashi for native MSVC/Windows.
 + * Fork changes: GPL-3.0-or-later. Original upstream notices remain below. */
  /* terminal.c -- controlling the terminal with termcap. */
  

@@ -1,5 +1,5 @@
-# Modified 2026-10-21 by itsuki-hayashi: Windows-only GnuWin32 fork.
-# Fork modifications copyright (c) 2026 itsuki-hayashi.
+# Modified 2026-10-21 by Itsuki Hayashi: Windows-only GnuWin32 fork.
+# Fork modifications copyright (c) 2026 Itsuki Hayashi.
 # SPDX-License-Identifier: GPL-3.0-or-later
 # Original upstream copyright and license notices below are retained.
 #
@@ -2410,7 +2410,7 @@ If you know any other works you recommend, please let me know.
 
 =head1 AUTHOR
 
-Windows fork and CPAN packaging: itsuki-hayashi
+Windows fork and CPAN packaging: Itsuki Hayashi
 C<E<lt>2121340+itsuki-hayashi@users.noreply.github.comE<gt>>.
 
 Original Perl wrapper:
@@ -2452,7 +2452,7 @@ L<https://rt.perl.org/Public/Bug/Display.html?id=121456> for details.
 
 =head1 LICENSE
 
-Fork contributions copyright (c) 2026 itsuki-hayashi. This combined software
+Fork contributions copyright (c) 2026 Itsuki Hayashi. This combined software
 release and new fork contributions are licensed under GNU GPL version 3 or,
 at your option, any later version (C<GPL-3.0-or-later>). See C<COPYING>,
 C<LICENSE> and C<THIRD_PARTY_NOTICES.md> in the source distribution.

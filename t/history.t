@@ -1,5 +1,5 @@
-# Modified 2026-10-21 by itsuki-hayashi: Windows-only GnuWin32 fork.
-# Fork modifications copyright (c) 2026 itsuki-hayashi.
+# Modified 2026-10-21 by Itsuki Hayashi: Windows-only GnuWin32 fork.
+# Fork modifications copyright (c) 2026 Itsuki Hayashi.
 # SPDX-License-Identifier: GPL-3.0-or-later
 # Original upstream copyright and license notices below are retained.
 # -*- perl -*-

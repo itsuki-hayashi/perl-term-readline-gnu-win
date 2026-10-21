@@ -1,4 +1,4 @@
-/* Copyright (c) 2026 itsuki-hayashi.
+/* Copyright (c) 2026 Itsuki Hayashi.
  * SPDX-License-Identifier: GPL-3.0-or-later */
 #ifndef RL_WIN_CHECKED_H
 #define RL_WIN_CHECKED_H

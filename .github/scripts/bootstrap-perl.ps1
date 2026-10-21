@@ -1,4 +1,4 @@
-# SPDX-FileCopyrightText: 2026 itsuki-hayashi
+# SPDX-FileCopyrightText: 2026 Itsuki Hayashi
 # SPDX-License-Identifier: GPL-3.0-or-later
 param([string]$Version, [string]$Sha256, [string]$Prefix, [string]$Cctype)
 $ErrorActionPreference = 'Stop'

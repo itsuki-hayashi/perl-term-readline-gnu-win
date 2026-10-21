@@ -155,7 +155,7 @@ including GNU documentation, LGPL and permissive exceptions.
 
 - GNU Readline 8.3: Free Software Foundation copyright; maintained by Chet Ramey.
 - Term::ReadLine::Gnu 1.47: Hiroo Hayashi and its recorded contributors.
-- Windows fork and CPAN packaging: itsuki-hayashi.
+- Windows fork and CPAN packaging: Itsuki Hayashi.
 
 Read [LICENSE](LICENSE), [THIRD_PARTY_NOTICES.md](THIRD_PARTY_NOTICES.md), and
 [the licensing guide](docs/LICENSING.md). Original upstream licensing is not

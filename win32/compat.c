@@ -1,8 +1,8 @@
-/* Original Windows port: copyright (c) 2026 itsuki-hayashi.
+/* Original Windows port: copyright (c) 2026 Itsuki Hayashi.
  * SPDX-License-Identifier: Unlicense
  * Historical permissive grant retained; see LICENSES/Unlicense.txt. */
 #include "config.h"
-/* Integer-safety additions copyright (c) 2026 itsuki-hayashi,
+/* Integer-safety additions copyright (c) 2026 Itsuki Hayashi,
  * licensed GPL-3.0-or-later; original portions retain the grant above. */
 #include "dirent.h"
 #include <stdarg.h>

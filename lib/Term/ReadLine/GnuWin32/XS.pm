@@ -1,5 +1,5 @@
-# Modified 2026-10-21 by itsuki-hayashi: Windows-only GnuWin32 fork.
-# Fork modifications copyright (c) 2026 itsuki-hayashi.
+# Modified 2026-10-21 by Itsuki Hayashi: Windows-only GnuWin32 fork.
+# Fork modifications copyright (c) 2026 Itsuki Hayashi.
 # SPDX-License-Identifier: GPL-3.0-or-later
 # Original upstream copyright and license notices below are retained.
 #
@@ -83,7 +83,7 @@ methods, callbacks, platform requirements and installation.
 =head1 AUTHOR AND LICENSE
 
 Original implementation by Hiroo Hayashi and recorded contributors.
-Windows fork modifications copyright (c) 2026 itsuki-hayashi, distributed
+Windows fork modifications copyright (c) 2026 Itsuki Hayashi, distributed
 under GNU GPL version 3 or later. Original upstream Perl-license notices
 remain applicable to the upstream portions. See the distribution's LICENSE,
 COPYING and THIRD_PARTY_NOTICES.md.

@@ -1,4 +1,4 @@
-/* Original Windows port: copyright (c) 2026 itsuki-hayashi.
+/* Original Windows port: copyright (c) 2026 Itsuki Hayashi.
  * SPDX-License-Identifier: Unlicense
  * Historical permissive grant retained; see LICENSES/Unlicense.txt. */
 #include "config.h"

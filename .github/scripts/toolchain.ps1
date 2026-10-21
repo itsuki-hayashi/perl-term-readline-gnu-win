@@ -1,4 +1,4 @@
-# SPDX-FileCopyrightText: 2026 itsuki-hayashi
+# SPDX-FileCopyrightText: 2026 Itsuki Hayashi
 # SPDX-License-Identifier: GPL-3.0-or-later
 param([ValidateSet('x64','arm64')][string]$Architecture, [int]$VisualStudio, [string]$Toolset)
 $ErrorActionPreference = 'Stop'

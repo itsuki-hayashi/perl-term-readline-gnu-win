@@ -1,7 +1,7 @@
 ---
 abstract: 'Native GNU Readline for Windows 11 and MSVC Perl'
 author:
-  - 'itsuki-hayashi <2121340+itsuki-hayashi@users.noreply.github.com>'
+  - 'Itsuki Hayashi <2121340+itsuki-hayashi@users.noreply.github.com>'
 build_requires:
   Digest::SHA: '0'
   ExtUtils::MakeMaker: '7.78'
