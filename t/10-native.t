@@ -12,7 +12,7 @@ BAIL_OUT('Native test executable was not built') unless $exe;
 local $ENV{PERL5LIB} = join ';', map {abs_path($_)} qw(blib/arch blib/lib);
 local $ENV{RL_TEST_PERL} = $^X;
 local $ENV{RL_TEST_SCRIPT} = abs_path('t/native/perl-console.pl');
-local $ENV{RL_TEST_PERLSH} = abs_path('blib/script/perlsh-gnu-win32.bat');
+local $ENV{RL_TEST_PERLSH} = abs_path('blib/script/perlsh.bat');
 local $ENV{INPUTRC} = 'NUL';
 local $ENV{TERM} = 'win32';
 chdir 'build/native' or die $!;

@@ -37,10 +37,10 @@ architecture directory to `PERL5LIB`, and its `bin` directory to PATH.
 |---|---|
 | Backend environment variable | `PERL_RL=Gnu` |
 | Backend package | `Term::ReadLine::Gnu` |
-| Installed REPL | `perlsh-gnu-win32.bat` |
+| Installed REPL | `perlsh.bat` |
 
 No backend setting is required for automatic discovery. An explicit setting
-must precede loading Term::ReadLine. Remove old `PERL_RL=GnuWin32` settings.
+must precede loading Term::ReadLine. Leave `PERL_RL` unset for automatic selection.
 This fork replaces upstream Gnu; use a separate library prefix for trials.
 Do not reuse compiled extensions across Perl versions or architectures.
 Run `nmake realclean` before switching target Perl or compiler.

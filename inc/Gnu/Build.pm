@@ -1,6 +1,6 @@
 # SPDX-FileCopyrightText: 2026 Itsuki Hayashi
 # SPDX-License-Identifier: GPL-3.0-or-later
-package GnuWin32::Build;
+package Gnu::Build;
 use strict;
 use warnings;
 use File::Path qw(make_path);
@@ -9,7 +9,7 @@ use File::Spec;
 use File::Find;
 use JSON::PP;
 use Digest::SHA qw(sha256_hex);
-use GnuWin32::Patch;
+use Gnu::Patch;
 sub slurp { open my $f, '<:raw', $_[0] or die "$_[0]: $!"; local $/; return <$f>; }
 sub run { print join(' ', @_), "\n"; system {$_[0]} @_ ; die "Command failed ($?): @_\n" if $?; }
 sub manifest { return decode_json(slurp('vendor/manifest.json'))->{readline}; }
@@ -33,7 +33,7 @@ sub prepare {
         my $out="build/readline/$file"; (my $dir=$out)=~s{/[^/]+$}{};
         make_path($dir); copy("vendor/readline/$file",$out) or die $!;
     }
-    GnuWin32::Patch::apply('build/readline', $_) for @{$m->{patches}};
+    Gnu::Patch::apply('build/readline', $_) for @{$m->{patches}};
     make_path('build/include/readline');
     for my $h (qw(readline.h chardefs.h keymaps.h history.h tilde.h rlstdc.h rlconf.h rltypedefs.h)) {
         copy("build/readline/$h","build/include/readline/$h") or die $!;

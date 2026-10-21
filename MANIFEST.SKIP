@@ -1,11 +1,11 @@
 ^\.git(?:/|$)
 ^(?:build|blib|dist|_build|cover_db)(?:/|$)
-^Term-ReadLine-GnuWin32-[^/]+/
+^Term-ReadLine-Gnu[^/]*-[^/]+/
 ^(?:Makefile(?:\.old)?|MYMETA\.(?:json|yml)|pm_to_blib|MANIFEST\.bak|\.history_test)$
-^Gnu(?:Win32)?\.(?:c|xsc|def|exp|lib|obj|pdb|bs)$
-^Gnu(?:Win32)?_def\.old$
-^xs/GnuWin32\.(?:c|xsc|obj|pdb)$
+^Gnu\.(?:c|xsc|def|exp|lib|obj|pdb|bs)$
+^Gnu_def\.old$
+^xs/Gnu\.(?:c|xsc|obj|pdb)$
 ^[^/]+\.(?:tar|tar\.gz|zip)$
 ^[^/]+\.tar\.gz\.sha256$
 ^.*(?:~|\.bak)$
-^gnuwin32-msvc-[^/]+\.cmd$
+^gnu-msvc-[^/]+\.cmd$

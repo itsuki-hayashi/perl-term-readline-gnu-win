@@ -10,7 +10,7 @@ $vs = & $vswhere -latest -products '*' -version "[$VisualStudio.0,$($VisualStudi
 if (!$vs) { throw "Visual Studio $VisualStudio unavailable" }
 $target = if ($Architecture -eq 'arm64') {'arm64'} else {'amd64'}
 $hostArch = if ($env:PROCESSOR_ARCHITECTURE -eq 'ARM64') {'arm64'} else {'amd64'}
-$batch = Join-Path $env:RUNNER_TEMP 'gnuwin32-toolchain.cmd'
+$batch = Join-Path $env:RUNNER_TEMP 'gnu-toolchain.cmd'
 @"
 @echo off
 call "$vs/Common7/Tools/VsDevCmd.bat" -no_logo -arch=$target -host_arch=$hostArch -vcvars_ver=$Toolset >nul

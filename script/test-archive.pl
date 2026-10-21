@@ -13,13 +13,13 @@ use Config;
 use ExtUtils::MakeMaker;
 chdir "$FindBin::Bin/.." or die $!;
 use lib "$FindBin::Bin/../inc";
-use GnuWin32::Toolchain;
-use GnuWin32::Command;
-GnuWin32::Toolchain::activate();
+use Gnu::Toolchain;
+use Gnu::Command;
+Gnu::Toolchain::activate();
 local $ENV{LC_ALL}='C';
 local $ENV{PERL5LIB}; delete $ENV{PERL5LIB};
 my $version=MM->parse_version('lib/Term/ReadLine/Gnu.pm');
-my $archive=abs_path("dist/Term-ReadLine-GnuWin32-$version.tar.gz") or die 'Run script/release.pl first';
+my $archive=abs_path("dist/Term-ReadLine-Gnu-$version.tar.gz") or die 'Run script/release.pl first';
 my $log=abs_path('build').'/archive-tests.log';
 my $work=abs_path(tempdir('archive with spaces XXXX',DIR=>'build'));
 my $tar=Archive::Tar->new($archive,1);
@@ -33,7 +33,7 @@ die "Expected one distribution directory\n" unless keys(%top)==1;
 chdir $work or die $!; $tar->extract() or die 'Cannot extract archive';
 my ($name)=keys %top; chdir $name or die $!;
 my $installed="$work/installed with spaces";
-sub run { GnuWin32::Command::run_logged($log,@_); }
+sub run { Gnu::Command::run_logged($log,@_); }
 run($^X,'Makefile.PL',"INSTALL_BASE=$installed");
 run('nmake','/nologo'); run('nmake','/nologo','test'); run('nmake','/nologo','install');
 my $dll="$installed/lib/perl5/$Config{archname}/auto/Term/ReadLine/Gnu/Gnu.dll";

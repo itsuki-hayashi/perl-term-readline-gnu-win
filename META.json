@@ -12,7 +12,7 @@
       "url" : "http://search.cpan.org/perldoc?CPAN::Meta::Spec",
       "version" : 2
    },
-   "name" : "Term-ReadLine-GnuWin32",
+   "name" : "Term-ReadLine-Gnu",
    "no_index" : {
       "directory" : [
          "t",

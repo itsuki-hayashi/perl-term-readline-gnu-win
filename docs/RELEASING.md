@@ -1,6 +1,6 @@
 # Release procedure
 
-The GitHub distribution is named `Term-ReadLine-GnuWin32` and provides
+The GitHub distribution is named `Term-ReadLine-Gnu` and provides
 `Term::ReadLine::Gnu`. Do not upload it to PAUSE: that package belongs to
 upstream. Version `1.470_001` sorts above upstream 1.47; a subsequent stable
 fork release must be at least 1.471. Update both main-module and XS.pm versions.

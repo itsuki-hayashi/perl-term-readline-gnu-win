@@ -1,4 +1,4 @@
-# Modified 2026-10-21 by Itsuki Hayashi: Windows-only GnuWin32 fork.
+# Modified 2026-10-21 by Itsuki Hayashi: Windows-only Gnu fork.
 # Fork modifications copyright (c) 2026 Itsuki Hayashi.
 # SPDX-License-Identifier: GPL-3.0-or-later
 # Original upstream copyright and license notices below are retained.
@@ -46,7 +46,7 @@ do not lower this fork's minimum requirements.
 
 Core Term::ReadLine automatically discovers this GitHub-distributed backend
 when PERL_RL is unset. CPAN recognizes its GNU identity for command completion.
-An explicit C<PERL_RL=Gnu> is optional; remove any old C<PERL_RL=GnuWin32> setting.
+An explicit C<PERL_RL=Gnu> is optional.
 
   use Term::ReadLine;
   my $term = Term::ReadLine->new('application');
@@ -55,9 +55,9 @@ An explicit C<PERL_RL=Gnu> is optional; remove any old C<PERL_RL=GnuWin32> setti
 
 This fork replaces upstream C<Term::ReadLine::Gnu> in its installation tree;
 do not install both implementations into the same destination. It is not
-published to CPAN or PAUSE. The distinct distribution name is
-C<Term-ReadLine-GnuWin32>. Do not load the backend directly.
-The installed C<perlsh-gnu-win32.bat> REPL selects the GNU backend.
+published to CPAN or PAUSE. The source distribution is named
+C<Term-ReadLine-Gnu>. Do not load the backend directly.
+The installed C<perlsh.bat> REPL selects the GNU backend.
 
 =head2 Installation
 

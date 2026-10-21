@@ -22,7 +22,7 @@ my $output='dist';
 GetOptions('output=s'=>\$output) or die "Usage: perl script/release.pl [--output DIR]\n";
 mkmanifest();
 my $version=MM->parse_version('lib/Term/ReadLine/Gnu.pm');
-my $name="Term-ReadLine-GnuWin32-$version";
+my $name="Term-ReadLine-Gnu-$version";
 system('nmake','/nologo','metafile') == 0 or die "Run perl Makefile.PL in the developer prompt first\n";
 # MakeMaker may hard-link the distribution directory to the working tree.
 # Read before writing so repeated release preparation also handles that case.

@@ -5,6 +5,6 @@ use strict;
 use warnings;
 use Test::More;
 use lib 'inc';
-use GnuWin32::Build;
-ok(GnuWin32::Build::verify_vendor(),'complete pristine vendor tree matches recorded checksums');
+use Gnu::Build;
+ok(Gnu::Build::verify_vendor(),'complete pristine vendor tree matches recorded checksums');
 done_testing;

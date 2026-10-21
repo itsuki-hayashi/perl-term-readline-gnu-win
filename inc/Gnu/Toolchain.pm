@@ -1,6 +1,6 @@
 # SPDX-FileCopyrightText: 2026 Itsuki Hayashi
 # SPDX-License-Identifier: GPL-3.0-or-later
-package GnuWin32::Toolchain;
+package Gnu::Toolchain;
 use strict;
 use warnings;
 use Config;
@@ -24,7 +24,7 @@ sub activate {
         die "Invalid toolset\n" unless $options{toolset} =~ /^\d+\.\d+(?:\.\d+)?$/;
         $command .= " -vcvars_ver=$options{toolset}";
     }
-    my ($batch,$path)=tempfile('gnuwin32-msvc-XXXX', SUFFIX=>'.cmd', TMPDIR=>1, UNLINK=>1);
+    my ($batch,$path)=tempfile('gnu-msvc-XXXX', SUFFIX=>'.cmd', TMPDIR=>1, UNLINK=>1);
     print {$batch} "\@echo off\ncall $command >nul\nif errorlevel 1 exit /b 1\nset\n";
     close $batch or die $!;
     open $p, '-|', $ENV{COMSPEC} || 'cmd.exe', '/d', '/c', 'call', $path or die $!;
@@ -37,9 +37,9 @@ sub activate {
 sub compiler_version {
     open my $p, '-|', 'cl', '/nologo', '/EP', 'inc/compiler-version.c' or die "Cannot run cl; use a Visual Studio 2026 Native Tools command prompt\n";
     local $/; my $out = <$p>; close $p or die "Cannot run the MSVC compiler\n";
-    my ($v) = $out =~ /GNUWIN32_MSC_VER\s+(\d+)/;
+    my ($v) = $out =~ /GNU_MSC_VER\s+(\d+)/;
     die "Could not identify the compiler\n" unless $v;
-    my ($arch)=$out =~ /GNUWIN32_MSC_ARCH\s+(\w+)/;
+    my ($arch)=$out =~ /GNU_MSC_ARCH\s+(\w+)/;
     my $expected=$Config{archname} =~ /-arm64-/ ? 'arm64' : 'amd64';
     die "Compiler target does not match $Config{archname}; use the $expected Native Tools prompt\n"
         unless defined $arch && $arch eq $expected;

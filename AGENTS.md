@@ -2,7 +2,7 @@
 
 ## Objective
 
-Maintain the Windows-only GitHub-only Term-ReadLine-GnuWin32 distribution providing
+Maintain the Windows-only GitHub-only Term-ReadLine-Gnu distribution providing
 Term::ReadLine::Gnu, derived
 from Term::ReadLine::Gnu 1.47 and bundled GNU Readline. Require Windows 11+,
 MSVC Perl 5.44+, Visual C++ 2026+, and native x64 or ARM64. Do not introduce

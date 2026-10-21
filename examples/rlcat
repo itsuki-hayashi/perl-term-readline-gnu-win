@@ -1,5 +1,5 @@
 #!/usr/bin/env perl
-# Modified 2026-10-21 by Itsuki Hayashi: Windows-only GnuWin32 fork.
+# Modified 2026-10-21 by Itsuki Hayashi: Windows-only Gnu fork.
 # Fork modifications copyright (c) 2026 Itsuki Hayashi.
 # SPDX-License-Identifier: GPL-3.0-or-later
 # Original upstream copyright and license notices below are retained.

@@ -9,9 +9,9 @@ use ExtUtils::Manifest qw(maniread manicheck filecheck);
 use Pod::Checker;
 use File::Find;
 use lib 'inc';
-use GnuWin32::Build;
+use Gnu::Build;
 my $meta=CPAN::Meta->load_file('META.json');
-is($meta->name,'Term-ReadLine-GnuWin32','independent distribution');
+is($meta->name,'Term-ReadLine-Gnu','distribution name matches GNU backend');
 is($meta->as_struct->{release_status},$meta->version =~ /_/ ? 'unstable' : 'stable','release status matches version');
 is_deeply($meta->as_struct->{license},['gpl_3'],'GPLv3 metadata');
 is($meta->as_struct->{x_spdx_expression},'GPL-3.0-or-later','explicit or-later grant');
@@ -20,7 +20,7 @@ my @missing=manicheck(); is_deeply(\@missing,[],'all manifest entries exist');
 my @extra=filecheck(); is_deeply(\@extra,[],'no unmanifested release files');
 my $files=maniread();
 ok(!(grep {m{^(?:build|blib|dist)/|/\.git/|\.(?:obj|dll|exe|pdb|lib)$}} keys %$files),'source-only archive');
-ok(GnuWin32::Build::verify_vendor(),'vendor hashes match');
+ok(Gnu::Build::verify_vendor(),'vendor hashes match');
 for my $file (qw(lib/Term/ReadLine/Gnu.pm lib/Term/ReadLine/Gnu/XS.pm)) {
     is(podchecker($file),0,"POD valid: $file");
 }
@@ -28,6 +28,6 @@ for my $file (qw(LICENSE COPYING REUSE.toml THIRD_PARTY_NOTICES.md docs/licensin
     ok(exists $files->{$file},"license/notice included: $file");
 }
 my @packages;
-find(sub { return unless /\.pm$/; my $text=GnuWin32::Build::slurp($_); push @packages, $text =~ /^package\s+([\w:]+)/mg },'lib');
+find(sub { return unless /\.pm$/; my $text=Gnu::Build::slurp($_); push @packages, $text =~ /^package\s+([\w:]+)/mg },'lib');
 ok(!(grep {!/^Term::ReadLine::Gnu(?:::|$)/} @packages),'compatible GNU backend packages');
 done_testing;

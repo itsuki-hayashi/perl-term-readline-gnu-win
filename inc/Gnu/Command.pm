@@ -1,6 +1,6 @@
 # SPDX-FileCopyrightText: 2026 Itsuki Hayashi
 # SPDX-License-Identifier: GPL-3.0-or-later
-package GnuWin32::Command;
+package Gnu::Command;
 use 5.044;
 use strict;
 use warnings;

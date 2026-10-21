@@ -1,4 +1,4 @@
-/* Modified 2026-10-21 by Itsuki Hayashi: native Windows GnuWin32 fork.
+/* Modified 2026-10-21 by Itsuki Hayashi: native Windows Gnu fork.
  * Fork modifications copyright (c) 2026 Itsuki Hayashi.
  * SPDX-License-Identifier: GPL-3.0-or-later
  * Original notices below apply to the upstream portions. */

@@ -36,11 +36,11 @@ examples/rltest
 examples/rlversion
 inc/build-native.pl
 inc/compiler-version.c
-inc/GnuWin32/Build.pm
-inc/GnuWin32/Command.pm
-inc/GnuWin32/Patch.pm
-inc/GnuWin32/Platform.pm
-inc/GnuWin32/Toolchain.pm
+inc/Gnu/Build.pm
+inc/Gnu/Command.pm
+inc/Gnu/Patch.pm
+inc/Gnu/Platform.pm
+inc/Gnu/Toolchain.pm
 INSTALL.md
 lib/Term/ReadLine/Gnu.pm
 lib/Term/ReadLine/Gnu/XS.pm
@@ -62,7 +62,7 @@ patches/readline/0002-checked-integer-conversions.patch
 README.md
 REUSE.toml
 script/audit-licenses.pl
-script/perlsh-gnu-win32
+script/perlsh
 script/release.pl
 script/test-archive.pl
 script/update-readline.pl
@@ -263,7 +263,7 @@ win32/config.h
 win32/console.c
 win32/dirent.h
 win32/termcap.c
-xs/GnuWin32.xs
+xs/Gnu.xs
 xs/ppport.h
 xs/typemap
 xt/release.t

@@ -4,5 +4,5 @@ use 5.044;
 use strict;
 use warnings;
 use lib 'inc';
-use GnuWin32::Build;
-GnuWin32::Build::native();
+use Gnu::Build;
+Gnu::Build::native();

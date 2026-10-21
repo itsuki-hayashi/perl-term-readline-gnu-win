@@ -6,7 +6,7 @@ builds it with the same MSVC architecture and shared CRT as the target Perl.
 It needs no MinGW, MSYS2, Cygwin, Unix shell, or network access to build.
 
 This is an independent fork of Hiroo Hayashi's **Term::ReadLine::Gnu 1.47**.
-It is distributed through GitHub as **Term-ReadLine-GnuWin32**, and provides
+It is distributed through GitHub as **Term-ReadLine-Gnu**, and provides
 **`Term::ReadLine::Gnu`** for automatic backend discovery and CPAN command
 completion. Version **1.470_001** identifies this Windows fork of upstream 1.47.
 This project is not published to CPAN or PAUSE.
@@ -55,7 +55,7 @@ See [INSTALL.md](INSTALL.md) for installation options and troubleshooting.
 
 `Term::ReadLine` automatically discovers this backend when `PERL_RL` is unset.
 CPAN recognizes its GNU identity and installs command completion. An explicit
-`PERL_RL=Gnu` also works; remove an old `PERL_RL=GnuWin32` setting.
+`PERL_RL=Gnu` also works.
 Load the backend through the standard interface:
 
 ```perl
@@ -79,7 +79,7 @@ $env:PERL_RL = 'Gnu'
 perl -d your-script.pl
 ```
 
-The installed REPL is **`perlsh-gnu-win32.bat`**. It selects the backend
+The installed REPL is **`perlsh.bat`**. It selects the backend
 itself and uses `HOME`, then `USERPROFILE`, then `HOMEDRIVE` + `HOMEPATH`
 for `.perlsh_history` and `.perlshrc`.
 

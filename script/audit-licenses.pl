@@ -9,11 +9,11 @@ use JSON::PP;
 use File::Path qw(make_path);
 chdir "$FindBin::Bin/.." or die $!;
 use lib "$FindBin::Bin/../inc";
-use GnuWin32::Build;
-my $manifest=GnuWin32::Build::manifest();
+use Gnu::Build;
+my $manifest=Gnu::Build::manifest();
 my %inventory;
 for my $path (sort keys %{$manifest->{files}}) {
-    my $data=GnuWin32::Build::slurp("vendor/readline/$path");
+    my $data=Gnu::Build::slurp("vendor/readline/$path");
     my %entry=(sha256=>$manifest->{files}{$path},notice_source=>"vendor/readline/$path");
     if ($path =~ m{^doc/(readline|rluserman|history)(?:_3)?\.(?:pdf|dvi|ps)$}) {
         $entry{notice_source}="vendor/readline/doc/" . ($1 eq 'readline' ? 'rlman' : $1) . '.texi';

@@ -3,13 +3,13 @@
 ## Layers
 
 1. `lib/Term/ReadLine/Gnu.pm` implements the backend and inherited API.
-2. `xs/GnuWin32.xs`, `xs/typemap`, and private `XS.pm` bind Readline. AutoSplit creates
+2. `xs/Gnu.xs`, `xs/typemap`, and private `XS.pm` bind Readline. AutoSplit creates
    installed AutoLoader routines; opaque classes live under `Pointer`.
 3. `win32/` handles consoles, UTF-8/scalar conversion, directory enumeration,
    Unicode filesystem calls, and a bounded VT capability table.
 4. `vendor/readline/` is pristine upstream source. Ordered patches supply
    minimal Windows hooks in a generated build copy.
-5. `inc/GnuWin32/` holds private build utilities and is never installed.
+5. `inc/Gnu/` holds private build utilities and is never installed.
 
 The extension statically links Readline, avoiding a separate library DLL.
 Both native library and XS use `/MD`, matching the target Perl. Streams,

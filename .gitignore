@@ -7,19 +7,14 @@
 
 # Devel::Cover
 cover_db/
-
 # Devel::NYTProf
 nytprof.out
-
 # Dist::Zilla
 /.build/
-
 # Module::Build
 _build/
 Build
 Build.bat
-
-
 # ExtUtils::MakeMaker
 /blib/
 /_eumm/
@@ -29,25 +24,23 @@ Build.bat
 /MANIFEST.bak
 /pm_to_blib
 /*.zip
-
 # Carton/Carmel
 /local/
 /.carmel/
 # cpanfile.snapshot should generally be ignored for library code, otherwise included
 # cpanfile.snapshot
-
 # Native MSVC build
 /build/
 /dist/
-/Term-ReadLine-GnuWin32-*/
-/GnuWin32.c
-/GnuWin32.xsc
-/xs/GnuWin32.c
+/Term-ReadLine-Gnu*-*/
+/Gnu.c
+/Gnu.xsc
+/xs/Gnu.c
 /xs/*.xsc
 /xs/*.obj
 /xs/*.pdb
-/GnuWin32.def
-/GnuWin32_def.old
+/Gnu.def
+/Gnu_def.old
 /*.obj
 /*.lib
 /*.exp
@@ -56,6 +49,3 @@ Build.bat
 /*.tar
 /*.tar.gz
 /*.tar.gz.sha256
-
-/Gnu.def
-/Gnu_def.old
