@@ -5,7 +5,7 @@ Revision history for Term-ReadLine-GnuWin32
       1.47 and bundled GNU Readline 8.3.
     - Require Windows 11, Perl 5.44, and Visual C++ 2026; target x64/ARM64.
     - Move the fork into independent GnuWin32 packages and pointer classes.
-    - Replace PowerShell builds with MakeMaker and native Perl build helpers.
+    - Build with standard MakeMaker targets and native Perl build helpers.
     - Preserve pristine Readline sources and apply verified local patches.
     - Include console, Unicode, callback, debugger, and REPL regression tests.
     - Add GPLv3-or-later project licensing and upstream component notices.

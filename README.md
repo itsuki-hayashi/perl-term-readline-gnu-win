@@ -41,21 +41,7 @@ For a separate installation, use `perl Makefile.PL INSTALL_BASE="C:\Perl modules
 Configuration checks prerequisites; compilation happens during `nmake`.
 Readline is patched in `build/readline/`, never in the maintained vendor tree.
 
-### Convenience build
-
-The Perl helper discovers Visual Studio with `vswhere`, activates the matching
-toolchain, builds, tests, and installs into `stage/` by default:
-
-```bat
-"%LOCALAPPDATA%\Programs\Perl\bin\perl.exe" script\build.pl
-perl script\build.pl --stage "C:\build output\GnuWin32"
-perl script\build.pl --install
-```
-
-`--install` additionally installs into the invoking Perl after tests pass.
-`--vs-major 18` and `--toolset 14.5` select a toolchain. The invoking Perl
-(`$^X`) always determines the extension ABI; the helper never substitutes
-another interpreter. PowerShell is not required. See [INSTALL.md](INSTALL.md).
+See [INSTALL.md](INSTALL.md) for installation options and troubleshooting.
 
 ## Select the backend
 
@@ -84,17 +70,9 @@ $env:PERL_RL = 'GnuWin32'
 perl -d your-script.pl
 ```
 
-For a staged installation add both directories to `PERL5LIB`:
-
-```powershell
-$arch = perl -MConfig -e 'print $Config{archname}'
-$stage = (Resolve-Path './stage').Path
-$env:PERL5LIB = "$stage/lib/perl5/$arch;$stage/lib/perl5"
-```
-
 The installed REPL is **`perlsh-gnu-win32.bat`**. It selects the backend
 itself and uses `HOME`, then `USERPROFILE`, then `HOMEDRIVE` + `HOMEPATH`
-for `.perlsh_history` and `.perlshrc`. Existing `perlsh.bat` files are untouched.
+for `.perlsh_history` and `.perlshrc`.
 
 ## Behavior and API
 
@@ -171,7 +149,7 @@ including GNU documentation, LGPL and permissive exceptions.
 
 Read [LICENSE](LICENSE), [THIRD_PARTY_NOTICES.md](THIRD_PARTY_NOTICES.md), and
 [the licensing guide](docs/LICENSING.md). Original upstream licensing is not
-erased. The prior Unlicense grant for earlier project contributions is
-preserved in `LICENSES/Unlicense.txt`.
+erased. Component-specific grants are preserved in their source notices and
+the accompanying license texts.
 
 Report fork issues at the [repository tracker](https://github.com/itsuki-hayashi/perl-term-readline-gnu-win/issues).

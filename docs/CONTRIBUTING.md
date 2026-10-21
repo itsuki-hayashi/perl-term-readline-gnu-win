@@ -1,6 +1,7 @@
 # Contributing
 
-Use MSVC Perl 5.44+ and VS 2026+. Start with `perl script/build.pl`; a working
+Use MSVC Perl 5.44+ and VS 2026+. Run `perl Makefile.PL` and `nmake` in the
+matching Native Tools prompt; a working
 Strawberry build does not prove ABI compatibility. Keep platform diagnostics
 specific. Do not add x86 support or shell-tool dependencies to installation.
 

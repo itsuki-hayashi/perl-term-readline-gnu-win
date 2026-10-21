@@ -36,9 +36,8 @@ Build.bat
 # cpanfile.snapshot should generally be ignored for library code, otherwise included
 # cpanfile.snapshot
 
-# Native MSVC build and staged installation
+# Native MSVC build
 /build/
-/stage/
 /dist/
 /Term-ReadLine-GnuWin32-*/
 /GnuWin32.c

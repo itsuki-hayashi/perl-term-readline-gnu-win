@@ -13,8 +13,8 @@ MinGW, MSYS2, Cygwin, or Unix shell dependencies into installation.
   upstream edits in ordered patches applied to build copies by Perl.
 - Match the target Perl's architecture, compiler settings, and CRT.
 - Treat Perl/CRT FILE pointers, descriptors, and memory ownership as ABI boundaries.
-- Build and stage outside the upstream source directories.
-- Default to staging; install into Perl only when explicitly requested.
+- Build outside the upstream source directories.
+- Use standard CPAN build and installation targets.
 - Support modern Windows VT consoles, UTF-8, redirected input, and callbacks.
 - Restore console modes and code pages when editing finishes or is interrupted.
 - Keep public Perl APIs compatible and report unsupported behavior honestly.
@@ -30,5 +30,5 @@ limitations in README.md; never present an untested feature as verified.
 Read existing changes before editing. Do not overwrite unrelated work.
 Use focused portability helpers rather than global compiler impersonation.
 Do not suppress failing tests merely to obtain a passing build.
-Use standard MakeMaker targets; script/build.pl only sets up the environment
-and staging. New code is GPL-3.0-or-later; retain original upstream and prior grants.
+Use standard MakeMaker targets. New code is GPL-3.0-or-later;
+retain original upstream and prior grants.

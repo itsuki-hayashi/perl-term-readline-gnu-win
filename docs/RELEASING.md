@@ -6,18 +6,18 @@ release must be at least `0.002`. Update both main-module and XS.pm versions.
 
 1. Review Changes, API documentation, attribution, licenses, and dependency
    provenance. Review the changes since the prior release.
-2. Run `perl script/build.pl` against the intended MSVC Perl and inspect tests,
-   optional skips, target configuration and console logs.
+2. Run `perl Makefile.PL`, `nmake`, and `nmake test` against the intended MSVC
+   Perl in the matching Native Tools prompt. Inspect optional skips and console logs.
 3. In a developer environment run `perl script/release.pl`. It generates META
    files and MANIFEST, runs release checks, and writes a source archive plus
    checksum under `dist/`, using core Perl archive/compression modules.
    `nmake dist` uses the same implementation.
 4. Run `perl script/test-archive.pl` to rebuild/test/install a fresh extraction
    and check installed behavior and DLL imports outside the source directory.
-   It must not depend on network access or former source directory names.
+   It must build using only the sources and tools included or documented.
 5. Inspect archive members. Include source, patches, full vendor code, docs,
    license texts and build helpers. Exclude binaries, local configuration,
-   private histories, logs and staging trees.
+   private histories, logs and temporary installation trees.
 6. Require green x64 and native ARM64 CI rows; record Perl/toolset/SDK/runner.
    Validate Windows 11 x64 locally until client CI exists. Test optional Tk
    separately if making claims about that integration.

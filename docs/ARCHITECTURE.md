@@ -20,12 +20,11 @@ must not be mixed with another compiler or CRT configuration.
 
 Configuration probes platform data and compiler macros without building
 Readline. The make target verifies vendor hashes, creates `build/readline`,
-applies exact unified hunks, stages headers and builds native objects. The XS
+applies exact unified hunks, copies headers and builds native objects. The XS
 object depends on that target. Generated files remain in `build/`, `blib/`,
 or conventional MakeMaker output names.
 
-The convenience script activates MSVC and invokes those same targets; it is
-not a second compiler implementation. Standard `clean`/`realclean` remove
+Standard `clean`/`realclean` remove
 generated outputs without modifying the vendor baseline.
 
 ## Console boundary

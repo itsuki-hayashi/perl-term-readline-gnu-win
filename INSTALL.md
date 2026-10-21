@@ -28,29 +28,25 @@ includes all library sources and patches; it needs no additional download
 or Unix commands. There is no switch to silently link a system Readline.
 
 Standard MakeMaker options such as `INSTALL_BASE` and `DESTDIR` control Perl
-installation. `perl script/build.pl` instead activates MSVC automatically
-and stages into `stage/`. Unlike the former PowerShell layout, this directory
-is itself the Perl installation base, containing `lib/perl5` and `bin`.
-The helper's `--install` installs into the invoking Perl after tests pass.
+installation. When using a separate `INSTALL_BASE`, add its `lib/perl5` and
+architecture directory to `PERL5LIB`, and its `bin` directory to PATH.
 
-## Migrating from upstream or the prototype
+## Backend selection
 
-| Previous use | This fork |
+| Setting | Value |
 |---|---|
-| `PERL_RL=Gnu` | `PERL_RL=GnuWin32` |
-| `Term::ReadLine::Gnu` | `Term::ReadLine::GnuWin32` |
-| `perlsh.bat` | `perlsh-gnu-win32.bat` |
-| Global pointer classes | `Term::ReadLine::GnuWin32::Pointer::*` |
+| Backend environment variable | `PERL_RL=GnuWin32` |
+| Backend package | `Term::ReadLine::GnuWin32` |
+| Installed REPL | `perlsh-gnu-win32.bat` |
 
-For staging, add `stage/lib/perl5` and its architecture directory to
-`PERL5LIB`, and `stage/bin` to PATH. Set the backend before loading Term::ReadLine.
+Set the backend before loading Term::ReadLine.
 Do not reuse compiled extensions across Perl versions or architectures.
 Run `nmake realclean` before switching target Perl or compiler.
 
 ## Diagnosing failures
 
-- **Missing compiler:** use the matching Native Tools prompt or Perl build
-  helper. Install the C++ workload and Windows SDK.
+- **Missing compiler:** use the matching Native Tools prompt.
+  Install the C++ workload and Windows SDK.
 - **Unsupported CRT/Perl:** this is an ABI requirement, not a flag to override.
   Obtain or build a compatible interpreter.
 - **Stub fallback:** check backend selection, installation paths, and loading
@@ -65,5 +61,5 @@ Run `nmake realclean` before switching target Perl or compiler.
   layers and terminal settings. This module restores caller code pages.
 
 Bug reports should include `perl -V`, Windows build, toolset/SDK,
-`build/configuration.json`, build output, failing TAP, and console logs.
+build output, failing TAP, and console logs.
 Review private history or `.perlshrc` contents before sharing them.

@@ -19,7 +19,7 @@ is($meta->effective_prereqs->requirements_for('runtime','requires')->requirement
 my @missing=manicheck(); is_deeply(\@missing,[],'all manifest entries exist');
 my @extra=filecheck(); is_deeply(\@extra,[],'no unmanifested release files');
 my $files=maniread();
-ok(!(grep {m{^(?:build|stage|blib|dist)/|/\.git/|\.(?:obj|dll|exe|pdb|lib)$}} keys %$files),'source-only archive');
+ok(!(grep {m{^(?:build|blib|dist)/|/\.git/|\.(?:obj|dll|exe|pdb|lib)$}} keys %$files),'source-only archive');
 ok(GnuWin32::Build::verify_vendor(),'vendor hashes match');
 for my $file (qw(lib/Term/ReadLine/GnuWin32.pm lib/Term/ReadLine/GnuWin32/XS.pm)) {
     is(podchecker($file),0,"POD valid: $file");

@@ -65,4 +65,4 @@ SMOKE
 close $smoke or die $!;
 run($^X,'installed-smoke.pl');
 die 'Installed smoke test did not produce evidence' unless -s 'installed-smoke-result.txt';
-print "Archive build, tests, staged installation and DLL imports verified in $work\n";
+print "Archive build, tests, temporary installation and DLL imports verified in $work\n";

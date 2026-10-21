@@ -68,10 +68,8 @@ Use the target Perl in its matching Visual Studio Native Tools prompt:
   nmake install
 
 C<INSTALL_BASE> and other standard MakeMaker options control the destination.
-The optional C<script/build.pl> activates Visual Studio itself and stages
-into C<stage/> by default; C<--install> additionally installs into the invoking
-Perl after tests pass. No PowerShell or Unix build tools are required by CPAN
-installation. Readline sources and patches are included in the archive.
+Readline sources and patches are included in the archive; installation
+requires no Unix build tools or additional source downloads.
 
 =head2 Unicode and terminal state
 

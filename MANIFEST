@@ -63,7 +63,6 @@ ppport.h
 README.md
 REUSE.toml
 script/audit-licenses.pl
-script/build.pl
 script/perlsh-gnu-win32
 script/release.pl
 script/test-archive.pl

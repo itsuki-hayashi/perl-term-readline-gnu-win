@@ -1,5 +1,5 @@
 ^\.git(?:/|$)
-^(?:build|blib|stage|dist|_build|cover_db)(?:/|$)
+^(?:build|blib|dist|_build|cover_db)(?:/|$)
 ^Term-ReadLine-GnuWin32-[^/]+/
 ^(?:Makefile(?:\.old)?|MYMETA\.(?:json|yml)|pm_to_blib|MANIFEST\.bak|\.history_test)$
 ^GnuWin32\.(?:c|xsc|def|exp|lib|obj|pdb|bs)$
