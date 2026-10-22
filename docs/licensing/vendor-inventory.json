@@ -845,7 +845,7 @@
       "notice_evidence" : [
          {
             "line" : 11,
-            "text" : "Copyright © 1988-2025 Free Software Foundation, Inc."
+            "text" : "Copyright \u00c2\u00a9 1988-2025 Free Software Foundation, Inc."
          },
          {
             "line" : 13,
@@ -1177,7 +1177,7 @@
       "notice_evidence" : [
          {
             "line" : 11,
-            "text" : "Copyright © 1988-2025 Free Software Foundation, Inc."
+            "text" : "Copyright \u00c2\u00a9 1988-2025 Free Software Foundation, Inc."
          },
          {
             "line" : 13,
@@ -1471,7 +1471,7 @@
       "notice_evidence" : [
          {
             "line" : 11,
-            "text" : "Copyright © 1988-2025 Free Software Foundation, Inc."
+            "text" : "Copyright \u00c2\u00a9 1988-2025 Free Software Foundation, Inc."
          },
          {
             "line" : 13,
@@ -1598,7 +1598,7 @@
       "notice_evidence" : [
          {
             "line" : 9,
-            "text" : "   Copyright © 1988-2025 Free Software Foundation, Inc."
+            "text" : "   Copyright \u00c2\u00a9 1988-2025 Free Software Foundation, Inc."
          },
          {
             "line" : 11,
@@ -1634,7 +1634,7 @@
          },
          {
             "line" : 1668,
-            "text" : "     Copyright © 2000, 2001, 2002, 2007, 2008 Free Software Foundation, Inc."
+            "text" : "     Copyright \u00c2\u00a9 2000, 2001, 2002, 2007, 2008 Free Software Foundation, Inc."
          },
          {
             "line" : 1672,
@@ -2404,7 +2404,7 @@
          },
          {
             "line" : 99,
-            "text" : "  Copyright (C)�2003-2004 Harold Levy."
+            "text" : "  Copyright (C)\u00a92003-2004 Harold Levy."
          },
          {
             "line" : 102,

@@ -11,7 +11,7 @@ jobs:
   test:
     name: Perl ${{ matrix.perl }} / ${{ matrix.arch }} / VS ${{ matrix.vs }}
     runs-on: ${{ matrix.runner }}
-    timeout-minutes: 60
+    timeout-minutes: 90
     strategy:
       fail-fast: false
       matrix:
@@ -57,16 +57,28 @@ jobs:
           "$env:RUNNER_TEMP/native-perl/bin" | Out-File $env:GITHUB_PATH -Encoding utf8 -Append
           & "$env:RUNNER_TEMP/native-perl/bin/perl.exe" -MConfig -e 'die "Wrong compiler" unless $Config{cc} eq "cl"; die "Wrong architecture" unless $Config{archname} =~ /MSWin32-${{ matrix.arch }}-/; print "$^V $Config{archname}\n"'
           if ($LASTEXITCODE) { throw 'Wrong native Perl configuration' }
-      - name: Build, test and prepare archive
+      - name: Build native backend
         run: |
           perl Makefile.PL
           if ($LASTEXITCODE) { throw 'Configuration failed' }
           nmake /nologo
           if ($LASTEXITCODE) { throw 'Build failed' }
+      - name: Install pinned Perl author tools
+        run: .github/scripts/install-author-tools.ps1
+      - name: Enforce Perl formatting, static analysis, POD and compilation
+        run: |
+          perl script/check-perl.pl
+          if ($LASTEXITCODE) { throw 'Perl quality checks failed' }
+      - name: Test and prepare archive
+        run: |
           nmake /nologo test
           if ($LASTEXITCODE) { throw 'Checkout tests failed' }
           perl script/release.pl
           if ($LASTEXITCODE) { throw 'Release checks failed' }
+      - name: Enforce measured Perl coverage baselines
+        run: |
+          perl script/coverage-perl.pl
+          if ($LASTEXITCODE) { throw 'Perl coverage checks failed' }
       - name: Rebuild and test extracted source archive
         run: |
           perl script/test-archive.pl

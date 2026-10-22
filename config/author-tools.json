@@ -1,0 +1,24 @@
+{
+  "required": {
+    "Module::Pluggable": "6.3",
+    "PPI": "1.291",
+    "Perl::Critic": "1.156",
+    "Perl::Tidy": "20260826",
+    "Perl::Critic::Community": "v1.0.4",
+    "Perl::Critic::Bangs": "1.14",
+    "Perl::Critic::StricterSubs": "0.08",
+    "Perl::Critic::Pulp": "100"
+  },
+  "coverage": { "Devel::Cover": "1.52" },
+  "distributions": {
+    "Module::Pluggable": "S/SI/SIMONW/Module-Pluggable-6.3.tar.gz",
+    "PPI": "M/MI/MITHALDU/PPI-1.291.tar.gz",
+    "Perl::Critic": "P/PE/PETDANCE/Perl-Critic-1.156.tar.gz",
+    "Perl::Tidy": "S/SH/SHANCOCK/Perl-Tidy-20260826.tar.gz",
+    "Perl::Critic::Community": "D/DB/DBOOK/Perl-Critic-Community-v1.0.4.tar.gz",
+    "Perl::Critic::Bangs": "P/PE/PETDANCE/Perl-Critic-Bangs-1.14.tar.gz",
+    "Perl::Critic::StricterSubs": "P/PE/PETDANCE/Perl-Critic-StricterSubs-0.08.tar.gz",
+    "Perl::Critic::Pulp": "K/KR/KRYDE/Perl-Critic-Pulp-100.tar.gz",
+    "Devel::Cover": "P/PJ/PJCJ/Devel-Cover-1.52.tar.gz"
+  }
+}

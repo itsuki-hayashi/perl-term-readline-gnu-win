@@ -1,65 +1,95 @@
 # SPDX-FileCopyrightText: 2026 Itsuki Hayashi
 # SPDX-License-Identifier: GPL-3.0-or-later
-use 5.044;
+use v5.44;
 use strict;
 use warnings;
-use Config;
+use Config qw(%Config);
 use ExtUtils::MakeMaker 7.78;
 use lib 'inc';
-use Gnu::Platform;
-use Gnu::Toolchain;
-use Gnu::Build;
+use Gnu::Platform  ();
+use Gnu::Toolchain ();
+use Gnu::Build     ();
 die "OS unsupported: this distribution targets native Windows only\n" unless $^O eq 'MSWin32';
-Gnu::Platform::validate(Gnu::Platform::current(), msvc => Gnu::Toolchain::compiler_version());
-my $version=MM->parse_version('lib/Term/ReadLine/Gnu.pm');
+Gnu::Platform::validate( Gnu::Platform::current(), msvc => Gnu::Toolchain::compiler_version() );
+my $version = MM->parse_version('lib/Term/ReadLine/Gnu.pm');
 WriteMakefile(
-    NAME => 'Term::ReadLine::Gnu',
-    DISTNAME => 'Term-ReadLine-Gnu',
-    DIR => [],
-    VERSION_FROM => 'lib/Term/ReadLine/Gnu.pm',
-    ABSTRACT => 'Native GNU Readline for Windows 11 and MSVC Perl',
-    AUTHOR => ['Itsuki Hayashi <2121340+itsuki-hayashi@users.noreply.github.com>'],
-    LICENSE => 'gpl_3', MIN_PERL_VERSION => '5.044', PERL => $^X,
-    CONFIGURE_REQUIRES => {'ExtUtils::MakeMaker'=>7.78, 'Win32'=>0},
-    BUILD_REQUIRES => {'ExtUtils::MakeMaker'=>7.78, 'Digest::SHA'=>0, 'JSON::PP'=>0},
-    TEST_REQUIRES => {'Test::More'=>1.302, 'File::Temp'=>0},
-    PREREQ_PM => {'Term::ReadLine'=>1.17, 'Win32'=>0},
-    XS => {'xs/Gnu.xs'=>'xs/Gnu.c'},
-    OBJECT => 'xs/Gnu$(OBJ_EXT)',
-    TYPEMAPS => ['xs/typemap'],
-    PM => {'lib/Term/ReadLine/Gnu.pm'=>'$(INST_LIB)/Term/ReadLine/Gnu.pm',
-           'lib/Term/ReadLine/Gnu/XS.pm'=>'$(INST_LIB)/Term/ReadLine/Gnu/XS.pm'},
+    NAME               => 'Term::ReadLine::Gnu',
+    DISTNAME           => 'Term-ReadLine-Gnu',
+    DIR                => [],
+    VERSION_FROM       => 'lib/Term/ReadLine/Gnu.pm',
+    ABSTRACT           => 'Native GNU Readline for Windows 11 and MSVC Perl',
+    AUTHOR             => ['Itsuki Hayashi <2121340+itsuki-hayashi@users.noreply.github.com>'],
+    LICENSE            => 'gpl_3',
+    MIN_PERL_VERSION   => '5.044',
+    PERL               => $^X,
+    CONFIGURE_REQUIRES => { 'ExtUtils::MakeMaker' => 7.78,  'Win32'       => 0 },
+    BUILD_REQUIRES     => { 'ExtUtils::MakeMaker' => 7.78,  'Digest::SHA' => 0, 'JSON::PP' => 0 },
+    TEST_REQUIRES      => { 'Test::More'          => 1.302, 'File::Temp'  => 0 },
+    PREREQ_PM          => { 'Term::ReadLine'      => 1.17,  'Win32'       => 0 },
+    XS                 => { 'xs/Gnu.xs'           => 'xs/Gnu.c' },
+    OBJECT             => 'xs/Gnu$(OBJ_EXT)',
+    TYPEMAPS           => ['xs/typemap'],
+    PM                 => {
+        'lib/Term/ReadLine/Gnu.pm'    => '$(INST_LIB)/Term/ReadLine/Gnu.pm',
+        'lib/Term/ReadLine/Gnu/XS.pm' => '$(INST_LIB)/Term/ReadLine/Gnu/XS.pm'
+    },
     EXE_FILES => ['script/perlsh'],
-    INC => '-I"xs" -I"build/include"', DEFINE => '-DHAVE_STRING_H -DTRG_READLINE_VERSION=0x0803',
-    MYEXTLIB => 'build/native/readline.lib', LIBS => ['-luser32'],
-    clean => {FILES=>'build xs/*.xsc xs/*.obj xs/*.pdb Gnu.c Gnu.obj Gnu.def Gnu.exp Gnu.lib Gnu_def.old'},
+    INC       => '-I"xs" -I"build/include"',
+    DEFINE    => '-DHAVE_STRING_H -DTRG_READLINE_VERSION=0x0803',
+    MYEXTLIB  => 'build/native/readline.lib',
+    LIBS      => ['-luser32'],
+    clean     => {
+        FILES =>
+            'build xs/*.xsc xs/*.obj xs/*.pdb Gnu.c Gnu.obj Gnu.def Gnu.exp Gnu.lib Gnu_def.old'
+    },
     META_MERGE => {
-        'meta-spec'=>{version=>2},
-        provides=>{
-            'Term::ReadLine::Gnu'=>{file=>'lib/Term/ReadLine/Gnu.pm',version=>$version},
-            'Term::ReadLine::Gnu::XS'=>{file=>'lib/Term/ReadLine/Gnu/XS.pm',version=>$version},
-            'Term::ReadLine::Gnu::Var'=>{file=>'lib/Term/ReadLine/Gnu.pm',version=>$version},
-            'Term::ReadLine::Gnu::AU'=>{file=>'lib/Term/ReadLine/Gnu.pm',version=>$version},
+        'meta-spec' => { version => 2 },
+        provides    => {
+            'Term::ReadLine::Gnu' => { file => 'lib/Term/ReadLine/Gnu.pm', version => $version },
+            'Term::ReadLine::Gnu::XS' =>
+                { file => 'lib/Term/ReadLine/Gnu/XS.pm', version => $version },
+            'Term::ReadLine::Gnu::Var' =>
+                { file => 'lib/Term/ReadLine/Gnu.pm', version => $version },
+            'Term::ReadLine::Gnu::AU' =>
+                { file => 'lib/Term/ReadLine/Gnu.pm', version => $version },
         },
-        resources=>{
-            homepage=>'https://github.com/itsuki-hayashi/perl-term-readline-gnu-win',
-            repository=>{type=>'git',url=>'https://github.com/itsuki-hayashi/perl-term-readline-gnu-win.git',web=>'https://github.com/itsuki-hayashi/perl-term-readline-gnu-win'},
-            bugtracker=>{web=>'https://github.com/itsuki-hayashi/perl-term-readline-gnu-win/issues'},
+        resources => {
+            homepage   => 'https://github.com/itsuki-hayashi/perl-term-readline-gnu-win',
+            repository => {
+                type => 'git',
+                url  => 'https://github.com/itsuki-hayashi/perl-term-readline-gnu-win.git',
+                web  => 'https://github.com/itsuki-hayashi/perl-term-readline-gnu-win'
+            },
+            bugtracker =>
+                { web => 'https://github.com/itsuki-hayashi/perl-term-readline-gnu-win/issues' },
         },
-        no_index=>{directory=>[qw(vendor inc t xt examples script win32 patches docs xs)],namespace=>['Term::ReadLine::Gnu::Pointer']},
-        x_distribution_channel=>'GitHub only; not for PAUSE upload',
-        x_spdx_expression=>'GPL-3.0-or-later',
-        x_support=>{os=>'MSWin32',client=>'Windows 11+',server=>'Windows Server 2025+ (CI)',
-            architectures=>[qw(x64 arm64)],compiler=>'Visual C++ 2026 / v145+',crt=>'release shared /MD'},
-        x_bundled=>{readline=>'8.3',upstream_perl_module=>'Term::ReadLine::Gnu 1.47'},
+        no_index => {
+            directory => [qw(vendor inc t xt examples script win32 patches docs xs)],
+            namespace => ['Term::ReadLine::Gnu::Pointer']
+        },
+        x_distribution_channel => 'GitHub only; not for PAUSE upload',
+        x_spdx_expression      => 'GPL-3.0-or-later',
+        x_support              => {
+            os            => 'MSWin32',
+            client        => 'Windows 11+',
+            server        => 'Windows Server 2025+ (CI)',
+            architectures => [qw(x64 arm64)],
+            compiler      => 'Visual C++ 2026 / v145+',
+            crt           => 'release shared /MD'
+        },
+        x_bundled => { readline => '8.3', upstream_perl_module => 'Term::ReadLine::Gnu 1.47' },
     },
 );
+
 sub MY::postamble {
-    my $vendor=Gnu::Build::manifest();
-    my @inputs=(qw(inc/build-native.pl inc/Gnu/Build.pm inc/Gnu/Patch.pm vendor/manifest.json),
-        @{$vendor->{patches}}, map {"vendor/readline/$_"} sort keys %{$vendor->{files}});
+    my $vendor = Gnu::Build::manifest();
+    my @inputs = (
+        qw(inc/build-native.pl inc/Gnu/Build.pm inc/Gnu/Patch.pm vendor/manifest.json),
+        @{ $vendor->{patches} },
+        map { "vendor/readline/$_" } sort keys %{ $vendor->{files} }
+    );
     push @inputs, glob('win32/*.h'), glob('win32/*.c'), 't/native/native.c';
-    my $dependencies="\nNATIVE_INPUTS = " . join(" \\\n    ", @inputs) . "\n";
+    my $dependencies = "\nNATIVE_INPUTS = " . join( " \\\n    ", @inputs ) . "\n";
     return $dependencies . <<'MAKE';
 
 
@@ -75,6 +105,7 @@ xs/Gnu$(OBJ_EXT): xs/Gnu.c $(MYEXTLIB) xs/ppport.h
 
 MAKE
 }
+
 sub MY::dist_core {
     return <<'MAKE';
 dist : tardist

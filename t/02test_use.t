@@ -1,3 +1,4 @@
+# Modernized 2026-10-23: Perl 5.44 author checks; retain interface contracts.
 # Modified 2026-10-21 by Itsuki Hayashi: Windows-only Gnu fork.
 # Fork modifications copyright (c) 2026 Itsuki Hayashi.
 # SPDX-License-Identifier: GPL-3.0-or-later
@@ -12,35 +13,36 @@
 #       This program is free software; you can redistribute it and/or
 #       modify it under the same terms as Perl itself.
 
+use v5.44;
 use strict;
 use warnings;
 use Test::More tests => 3;
-use vars qw($loaded);
+our ($loaded);
 
 BEGIN {
-    $ENV{PERL_RL} = 'Gnu';      # force to use Term::ReadLine::Gnu
-    $ENV{TERM} = 'dumb';
+    $ENV{PERL_RL} = 'Gnu';     ## no critic (Variables::RequireLocalizedPunctuationVars) -- Process-wide initialization or persistent stream state is intentional. /  force to use Term::ReadLine::Gnu
+    $ENV{TERM}    = 'dumb';    ## no critic (Variables::RequireLocalizedPunctuationVars) -- Process-wide initialization or persistent stream state is intentional.
 }
+
 END {
     unless ($loaded) {
-        ok(0, 'fail before loading');
+        ok( 0, 'fail before loading' );
         diag "\nPlease report the output of \'perl Makefile.PL\'\n";
     }
 }
 
 use Term::ReadLine;
-ok(1, 'load done');
+ok( 1, 'load done' );
 $loaded = 1;
 
-my $t = new Term::ReadLine 'ReadLineTest';
-isa_ok($t, 'Term::ReadLine::Stub');
+my $t = Term::ReadLine->new('ReadLineTest');
+isa_ok( $t, 'Term::ReadLine::Stub' );
 
-print  "# \$TERM=$ENV{TERM}\n";
+print "# \$TERM=$ENV{TERM}\n";
 
-my $e = eval "new Term::ReadLine 'The 2nd new'; 1";
+my $e = eval "Term::ReadLine->new('The 2nd new'); 1";    ## no critic (BuiltinFunctions::ProhibitStringyEval) -- Evaluate user REPL input or test compile-time backend loading.
 {
-    no warnings;
-    ok($e != 1, 'reject the 2nd "new Term::ReadLine"');
+    ok( !defined($e) || $e != 1, 'reject the 2nd "new Term::ReadLine"' );
 }
 
 exit 0;

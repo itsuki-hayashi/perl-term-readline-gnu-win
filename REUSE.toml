@@ -6,3 +6,8 @@ version = 1
 path = ["README.md", "INSTALL.md", "Changes", "MANIFEST", "MANIFEST.SKIP", "META.json", "META.yml", ".gitignore", ".gitattributes", "AGENTS.md", "THIRD_PARTY_NOTICES.md", "docs/ARCHITECTURE.md", "docs/CONTRIBUTING.md", "docs/UPDATING_READLINE.md", "docs/CI.md", "docs/RELEASING.md", "docs/LICENSING.md", "docs/licensing/vendor-inventory.json", "vendor/manifest.json"]
 SPDX-FileCopyrightText = "2026 Itsuki Hayashi"
 SPDX-License-Identifier = "GPL-3.0-or-later"
+
+[[annotations]]
+path = ["config/author-tools.json", "config/coverage-baseline.json", "t/data/perl-api.json", "docs/PERL_QUALITY.md"]
+SPDX-FileCopyrightText = "2026 Itsuki Hayashi"
+SPDX-License-Identifier = "GPL-3.0-or-later"

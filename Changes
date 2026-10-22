@@ -1,5 +1,16 @@
 Revision history for Term-ReadLine-Gnu
 
+Unreleased
+    - Modernize maintained Perl for the 5.44 baseline while preserving public
+      prototypes, dynamic dispatch, tied attributes and REPL evaluation rules.
+    - Add pinned author tooling, explicit severity-1 Critic policy decisions,
+      formatting/POD/AutoLoader compilation gates and measured coverage floors
+      to the existing native Windows CI matrix.
+    - Add compatibility and check-runner regressions; retain pristine vendor
+      sources and normal MakeMaker installation prerequisites.
+    - Emit licensing evidence as valid UTF-8 JSON without changing its recorded
+      source byte values, and validate the inventory during release checks.
+
 1.470_001  2026-10-21
     - Initial Windows-only developer release, based on Term::ReadLine::Gnu
       1.47 and bundled GNU Readline 8.3.

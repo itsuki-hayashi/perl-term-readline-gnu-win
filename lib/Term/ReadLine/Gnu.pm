@@ -1,3 +1,4 @@
+# Modernized 2026-10-23: Perl 5.44 author checks; retain interface contracts.
 # Modified 2026-10-21 by Itsuki Hayashi: Windows-only Gnu fork.
 # Fork modifications copyright (c) 2026 Itsuki Hayashi.
 # SPDX-License-Identifier: GPL-3.0-or-later
@@ -21,9 +22,10 @@ Term::ReadLine::Gnu - Perl extension for the GNU Readline/History Library
 
 =head1 SYNOPSIS
 
-  use Term::ReadLine;   # Do not "use Term::ReadLine::Gnu;"
-  $term = new Term::ReadLine 'ProgramName';
-  while ( defined ($_ = $term->readline('prompt>')) ) {
+  use v5.44;
+  use Term::ReadLine;   # Load the backend through this frontend.
+  my $term = Term::ReadLine->new('ProgramName');
+  while ( defined(my $line = $term->readline('prompt>')) ) {
     ...
   }
 
@@ -101,7 +103,7 @@ do not construct them from integer addresses.
 =head2 Overview
 
 This is an implementation of
-L<Term::ReadLine|http://search.cpan.org/dist/Term-ReadLine/> using
+L<Term::ReadLine|https://metacpan.org/pod/Term::ReadLine> using
 L<the GNU ReadlineE<sol>History
 Library|https://tiswww.cwru.edu/php/chet/readline/rltop.html>.
 
@@ -125,34 +127,34 @@ There are some C<Term::ReadLine::Gnu> original features.  They are
 described in the section L</"C<Term::ReadLine::Gnu> Specific
 Features">
 
-The sample programs under F<eg/> directory and test programs under
-F<t/> directory in L<the C<Term::ReadLine::Gnu> distribution|http://search.cpan.org/dist/Term-ReadLine-Gnu/> include
-many examples of this module.  See F<eg/README.md> for details on F<eg/> directory.
+The sample programs under F<examples/> directory and test programs under
+F<t/> directory in L<the C<Term::ReadLine::Gnu> distribution|https://github.com/itsuki-hayashi/perl-term-readline-gnu-win> include
+many examples of this module.  See F<docs/CONTRIBUTING.md> for details on F<examples/> directory.
 
 =head2 Standard Methods
 
 These are standard methods defined by
-L<Term::ReadLine|http://search.cpan.org/dist/Term-ReadLine/>.
+L<Term::ReadLine|https://metacpan.org/pod/Term::ReadLine>.
 
 =cut
 
 use strict;
 use warnings;
-use Carp;
-# use version TRG-1.22 for perl 5.7.x, or TRG-1.09 for older Perl
-use 5.044;
+use Carp qw(confess croak carp);
+use v5.44;
+
 BEGIN {
     die "OS unsupported: Term::ReadLine::Gnu requires native Windows\n" unless $^O eq 'MSWin32';
     require Win32;
     my @os = Win32::GetOSVersion();
     die "Windows 11 or Windows Server 2025 or later is required\n"
-        unless $os[1] >= 10 && $os[3] >= ($os[8] == 1 ? 22000 : 26100);
+        unless $os[1] >= 10 && $os[3] >= ( $os[8] == 1 ? 22000 : 26100 );
 }
 
 # This module can't be loaded directly.
 BEGIN {
-    if (not defined $Term::ReadLine::VERSION) {
-        croak <<END;
+    if ( not defined $Term::ReadLine::VERSION ) {
+        croak <<'END';
 It is invalid to load Term::ReadLine::Gnu directly.  Please consult
 the Term::ReadLine documentation for more information.
 END
@@ -161,7 +163,7 @@ END
 
 BEGIN {
     # https://bugs.debian.org/cgi-bin/bugreport.cgi?bug=99843
-    $ENV{TERM} = 'win32' unless defined($ENV{TERM});
+    $ENV{TERM} = 'win32' unless defined( $ENV{TERM} );    ## no critic (Variables::RequireLocalizedPunctuationVars) -- Process-wide initialization or persistent stream state is intentional.
 
     # Use Term::ReadLine::Stub in Emacs
     # as bash does not do line-editing in the case.
@@ -169,51 +171,54 @@ BEGIN {
     # https://github.com/hirooih/perl-trg/issues/11
     # https://github.com/hirooih/perl-trg/issues/28
     # https://git.savannah.gnu.org/cgit/bash.git/tree/shell.c#n595
-    my $in_emacs = defined($ENV{INSIDE_EMACS})
-            || (defined($ENV{EMACS})
-                && ($ENV{EMACS} =~ / \(term:/ || $ENV{EMACS} eq "t"));
-    if ($ENV{TERM} eq "emacs" || $in_emacs && $ENV{TERM} eq "dumb") {
+    my $in_emacs = defined( $ENV{INSIDE_EMACS} )
+        || ( defined( $ENV{EMACS} )
+        && ( $ENV{EMACS} =~ / \(term:/ || $ENV{EMACS} eq "t" ) );
+    if ( $ENV{TERM} eq "emacs" || $in_emacs && $ENV{TERM} eq "dumb" ) {
         croak "Use Term::ReadLine::Stub.";
     }
 }
 
 {
-    use Exporter ();
-    use DynaLoader;
+    use Exporter   ();
+    use DynaLoader ();
 
-    our $VERSION = '1.470_001';              # update Gnu::XS::VERSION also.
+    our $VERSION = '1.470_001';    # update Gnu::XS::VERSION also.
 
     # Term::ReadLine::Gnu::AU makes a function in
     # `Term::ReadLine::Gnu::XS' as a method.
     # The namespace of Term::ReadLine::Gnu::AU is searched before ones
     # of other classes
 
-    our @ISA = qw(Term::ReadLine::Gnu::AU Term::ReadLine::Stub
-                  Exporter DynaLoader);
+    ## no critic (ClassHierarchies::ProhibitExplicitISA) -- Preserve parent order without loading packages.
+    our @ISA = qw(Term::ReadLine::Gnu::AU Term::ReadLine::Stub Exporter DynaLoader);
+    ## use critic
 
     our %EXPORT_TAGS = (
-        readerr =>      [qw(READERR)],
-        prompt =>       [qw(RL_PROMPT_START_IGNORE RL_PROMPT_END_IGNORE)],
-        match_type =>   [qw(NO_MATCH SINGLE_MATCH MULT_MATCH)],
-        keymap_type =>  [qw(ISFUNC ISKMAP ISMACR)],
-        undo_code =>    [qw(UNDO_DELETE UNDO_INSERT UNDO_BEGIN UNDO_END)],
-        rl_state =>     [qw(RL_STATE_NONE RL_STATE_INITIALIZING
-                            RL_STATE_INITIALIZED RL_STATE_TERMPREPPED
-                            RL_STATE_READCMD RL_STATE_METANEXT
-                            RL_STATE_DISPATCHING RL_STATE_MOREINPUT
-                            RL_STATE_ISEARCH RL_STATE_NSEARCH
-                            RL_STATE_SEARCH RL_STATE_NUMERICARG
-                            RL_STATE_MACROINPUT RL_STATE_MACRODEF
-                            RL_STATE_OVERWRITE RL_STATE_COMPLETING
-                            RL_STATE_SIGHANDLER RL_STATE_UNDOING
-                            RL_STATE_INPUTPENDING RL_STATE_TTYCSAVED
-                            RL_STATE_CALLBACK RL_STATE_VIMOTION
-                            RL_STATE_MULTIKEY RL_STATE_VICMDONCE
-                            RL_STATE_CHARSEARCH RL_STATE_REDISPLAYING
-                            RL_STATE_DONE RL_STATE_TIMEOUT
-                            RL_STATE_EOF RL_STATE_READSTR
-                            )],
-        );
+        readerr     => [qw(READERR)],
+        prompt      => [qw(RL_PROMPT_START_IGNORE RL_PROMPT_END_IGNORE)],
+        match_type  => [qw(NO_MATCH SINGLE_MATCH MULT_MATCH)],
+        keymap_type => [qw(ISFUNC ISKMAP ISMACR)],
+        undo_code   => [qw(UNDO_DELETE UNDO_INSERT UNDO_BEGIN UNDO_END)],
+        rl_state    => [
+            qw(RL_STATE_NONE RL_STATE_INITIALIZING
+                RL_STATE_INITIALIZED RL_STATE_TERMPREPPED
+                RL_STATE_READCMD RL_STATE_METANEXT
+                RL_STATE_DISPATCHING RL_STATE_MOREINPUT
+                RL_STATE_ISEARCH RL_STATE_NSEARCH
+                RL_STATE_SEARCH RL_STATE_NUMERICARG
+                RL_STATE_MACROINPUT RL_STATE_MACRODEF
+                RL_STATE_OVERWRITE RL_STATE_COMPLETING
+                RL_STATE_SIGHANDLER RL_STATE_UNDOING
+                RL_STATE_INPUTPENDING RL_STATE_TTYCSAVED
+                RL_STATE_CALLBACK RL_STATE_VIMOTION
+                RL_STATE_MULTIKEY RL_STATE_VICMDONCE
+                RL_STATE_CHARSEARCH RL_STATE_REDISPLAYING
+                RL_STATE_DONE RL_STATE_TIMEOUT
+                RL_STATE_EOF RL_STATE_READSTR
+            )
+        ],
+    );
     Exporter::export_ok_tags('readerr');
     Exporter::export_ok_tags('prompt');
     Exporter::export_ok_tags('match_type');
@@ -227,7 +232,7 @@ require Term::ReadLine::Gnu::XS;
 
 #       Global Variables
 
-our($readline_version);
+our ($readline_version);
 
 # Each variable in the GNU Readline Library is tied to an entry of
 # this hash (%Attribs).  By accessing the hash entry, you can read
@@ -236,21 +241,28 @@ our($readline_version);
 # for further details.
 
 # Normal (non-tied) entries
-our %Attribs  = (
-    MinLength => 1,
-    do_expand => 0,
+our %Attribs = (
+    MinLength       => 1,
+    do_expand       => 0,
     completion_word => [],
-    term_set => ['', '', '', ''],
-    );
+    term_set        => [ '', '', '', '' ],
+);
 our %Features = (
-    appname => 1, minline => 1, autohistory => 1,
-    getHistory => 1, setHistory => 1, addHistory => 1,
-    readHistory => 1, writeHistory => 1,
-    preput => 1, attribs => 1, newTTY => 1,
-    tkRunning => Term::ReadLine::Stub->Features->{'tkRunning'},
-    ornaments => Term::ReadLine::Stub->Features->{'ornaments'},
+    appname       => 1,
+    minline       => 1,
+    autohistory   => 1,
+    getHistory    => 1,
+    setHistory    => 1,
+    addHistory    => 1,
+    readHistory   => 1,
+    writeHistory  => 1,
+    preput        => 1,
+    attribs       => 1,
+    newTTY        => 1,
+    tkRunning     => Term::ReadLine::Stub->Features->{'tkRunning'},
+    ornaments     => Term::ReadLine::Stub->Features->{'ornaments'},
     stiflehistory => 1,
-    );
+);
 
 #
 #       GNU Readline/History Library constant definition
@@ -258,16 +270,16 @@ our %Features = (
 
 # I can define these variables in XS code to use the value defined in
 # readline.h, etc.  But it needs some calling convention change and
-# will cause compatiblity problem. I hope the definition of these
+# would change the existing calling convention. I hope the definition of these
 # constant value will not be changed.
 
 # Input error; can be returned by (*rl_getc_function) if readline is reading
 # a top-level command (RL_ISSTATE (RL_STATE_READCMD)).
-sub READERR      { -2; }
+sub READERR { -2; }
 
 # for non-printing characters in prompt string
-sub RL_PROMPT_START_IGNORE      { "\001"; }
-sub RL_PROMPT_END_IGNORE        { "\002"; }
+sub RL_PROMPT_START_IGNORE { "\001"; }    ## no critic (ValuesAndExpressions::ProhibitEscapedCharacters) -- Readline prompt markers are literal control bytes.
+sub RL_PROMPT_END_IGNORE   { "\002"; }    ## no critic (ValuesAndExpressions::ProhibitEscapedCharacters) -- Readline prompt markers are literal control bytes.
 
 # for rl_filename_quoting_function
 sub NO_MATCH     { 0; }
@@ -275,9 +287,9 @@ sub SINGLE_MATCH { 1; }
 sub MULT_MATCH   { 2; }
 
 # for rl_generic_bind, rl_function_of_keyseq
-sub ISFUNC      { 0; }
-sub ISKMAP      { 1; }
-sub ISMACR      { 2; }
+sub ISFUNC { 0; }
+sub ISKMAP { 1; }
+sub ISMACR { 2; }
 
 # for rl_add_undo
 sub UNDO_DELETE { 0; }
@@ -286,42 +298,45 @@ sub UNDO_BEGIN  { 2; }
 sub UNDO_END    { 3; }
 
 # for rl_readline_state which was implemented since 4.2
-sub RL_STATE_NONE               { 0x00000; } # no state; before first call
-sub RL_STATE_INITIALIZING       { 0x00001; } # initializing
-sub RL_STATE_INITIALIZED        { 0x00002; } # initialization done
-sub RL_STATE_TERMPREPPED        { 0x00004; } # terminal is prepped
-sub RL_STATE_READCMD            { 0x00008; } # reading a command key
-sub RL_STATE_METANEXT           { 0x00010; } # reading input after ESC
-sub RL_STATE_DISPATCHING        { 0x00020; } # dispatching to a command
-sub RL_STATE_MOREINPUT          { 0x00040; } # reading more input in a command function
-sub RL_STATE_ISEARCH            { 0x00080; } # doing incremental search
-sub RL_STATE_NSEARCH            { 0x00100; } # doing non-inc search
-sub RL_STATE_SEARCH             { 0x00200; } # doing a history search
-sub RL_STATE_NUMERICARG         { 0x00400; } # reading numeric argument
-sub RL_STATE_MACROINPUT         { 0x00800; } # getting input from a macro
-sub RL_STATE_MACRODEF           { 0x01000; } # defining keyboard macro
-sub RL_STATE_OVERWRITE          { 0x02000; } # overwrite mode
-sub RL_STATE_COMPLETING         { 0x04000; } # doing completion
-sub RL_STATE_SIGHANDLER         { 0x08000; } # in readline sighandler
-sub RL_STATE_UNDOING            { 0x10000; } # doing an undo
-sub RL_STATE_INPUTPENDING       { 0x02_0000; } # rl_execute_next called
-sub RL_STATE_TTYCSAVED          { 0x04_0000; } # tty special chars saved [5.0]
-sub RL_STATE_CALLBACK           { 0x08_0000; } # using the callback interface [5.1]
-sub RL_STATE_VIMOTION           { 0x10_0000; } # reading vi motion arg [5.1]
-sub RL_STATE_MULTIKEY           { 0x20_0000; } # reading multiple-key command [5.1]
-sub RL_STATE_VICMDONCE          { 0x40_0000; } # entered vi command mode at least once [5.1]
-sub RL_STATE_CHARSEARCH         { 0x80_0000; } # vi mode char search [7.0]
-sub RL_STATE_REDISPLAYING       {              # updating terminal display [6.1]
+sub RL_STATE_NONE         { 0x00000; }      # no state; before first call
+sub RL_STATE_INITIALIZING { 0x00001; }      # initializing
+sub RL_STATE_INITIALIZED  { 0x00002; }      # initialization done
+sub RL_STATE_TERMPREPPED  { 0x00004; }      # terminal is prepped
+sub RL_STATE_READCMD      { 0x00008; }      # reading a command key
+sub RL_STATE_METANEXT     { 0x00010; }      # reading input after ESC
+sub RL_STATE_DISPATCHING  { 0x00020; }      # dispatching to a command
+sub RL_STATE_MOREINPUT    { 0x00040; }      # reading more input in a command function
+sub RL_STATE_ISEARCH      { 0x00080; }      # doing incremental search
+sub RL_STATE_NSEARCH      { 0x00100; }      # doing non-inc search
+sub RL_STATE_SEARCH       { 0x00200; }      # doing a history search
+sub RL_STATE_NUMERICARG   { 0x00400; }      # reading numeric argument
+sub RL_STATE_MACROINPUT   { 0x00800; }      # getting input from a macro
+sub RL_STATE_MACRODEF     { 0x01000; }      # defining keyboard macro
+sub RL_STATE_OVERWRITE    { 0x02000; }      # overwrite mode
+sub RL_STATE_COMPLETING   { 0x04000; }      # doing completion
+sub RL_STATE_SIGHANDLER   { 0x08000; }      # in readline sighandler
+sub RL_STATE_UNDOING      { 0x10000; }      # doing an undo
+sub RL_STATE_INPUTPENDING { 0x02_0000; }    # rl_execute_next called
+sub RL_STATE_TTYCSAVED    { 0x04_0000; }    # tty special chars saved [5.0]
+sub RL_STATE_CALLBACK     { 0x08_0000; }    # using the callback interface [5.1]
+sub RL_STATE_VIMOTION     { 0x10_0000; }    # reading vi motion arg [5.1]
+sub RL_STATE_MULTIKEY     { 0x20_0000; }    # reading multiple-key command [5.1]
+sub RL_STATE_VICMDONCE    { 0x40_0000; }    # entered vi command mode at least once [5.1]
+sub RL_STATE_CHARSEARCH   { 0x80_0000; }    # vi mode char search [7.0]
+
+sub RL_STATE_REDISPLAYING {    # updating terminal display [6.1]
     $readline_version < 0x0700 ? 0x80_0000 : 0x100_0000;
 }
-sub RL_STATE_DONE {                            # done; accepted line
-    $readline_version < 0x0501 ? 0x8_0000 :
-    $readline_version < 0x0601 ? 0x80_0000 :
-    $readline_version < 0x0700 ? 0x100_0000 : 0x200_0000;
+
+sub RL_STATE_DONE {    # done; accepted line
+          $readline_version < 0x0501 ? 0x8_0000
+        : $readline_version < 0x0601 ? 0x80_0000
+        : $readline_version < 0x0700 ? 0x100_0000
+        :                              0x200_0000;
 }
-sub RL_STATE_TIMEOUT            { 0x400_0000; } # [8.2]
-sub RL_STATE_EOF                { 0x800_0000; } # [8.2]
-sub RL_STATE_READSTR            { 0x1000_0000; } # [8.3] reading a string for M-x
+sub RL_STATE_TIMEOUT { 0x400_0000; }     # [8.2]
+sub RL_STATE_EOF     { 0x800_0000; }     # [8.2]
+sub RL_STATE_READSTR { 0x1000_0000; }    # [8.3] reading a string for M-x
 
 #
 #       Methods Definition
@@ -349,8 +364,9 @@ should be globs.
 
 # The origin of this function is Term::ReadLine::Perl.pm by Ilya Zakharevich.
 our $has_been_initialized = 0;
+
 sub new {
-    my $this = shift;           # Package
+    my $this  = shift;                 # Package
     my $class = ref($this) || $this;
 
     # Debian Bug Report #204362
@@ -361,7 +377,7 @@ sub new {
     bless $self, $class;
 
     if ($has_been_initialized) {
-        croak "Only one Term::ReadLine::Gnu instance is allowed."
+        croak "Only one Term::ReadLine::Gnu instance is allowed.";
     }
     $has_been_initialized = 1;
 
@@ -369,35 +385,36 @@ sub new {
     $Attribs{readline_name} = $name;
 
     # on MSWin32 setting $ENV{TERM} does not affect on getenv() in XS
-    if ($^O eq 'MSWin32') {
+    if ( $^O eq 'MSWin32' ) {
         $Attribs{terminal_name} = $ENV{TERM};
     }
 
     # some version of Perl cause segmentation fault, if XS module
     # calls setenv() before the 1st assignment to $ENV{}.
-    $ENV{_TRL_DUMMY} = '';
+    $ENV{_TRL_DUMMY} = '';    ## no critic (Variables::RequireLocalizedPunctuationVars) -- Process-wide initialization or persistent stream state is intentional.
 
-    # UTF-8 condition conpatible with Term:ReadLine
+    # Match the frontend UTF-8 selection while preserving explicit caller state.
     $Attribs{utf8_mode} ||= ${^UNICODE} & 1 || defined ${^ENCODING};
+
     #printf "\${^UNICODE}: 0x%X, ", ${^UNICODE};
     #print "\${^ENCODING}: ", defined ${^ENCODING} ? 'defined' : 'undef', "\n";
 
-    # set tty before calling rl_initialize() not to output some
-    # charactores to STDIO.
+    # Set streams before rl_initialize() so startup output uses the chosen handles.
     # https://rt.cpan.org/Ticket/Display.html?id=96569
-    if (!@_) {
-        my ($in, $out) = $self->findConsole();
-        open(my $IN,"<$in")   || croak "Cannot open $in for read";
-        open(my $OUT,">$out") || croak "Cannot open $out for write";
-        if ($Attribs{utf8_mode}) {
-            binmode $IN,  ':encoding(UTF-8)'; # not necessary
+    if ( !@_ ) {
+        my ( $in, $out ) = $self->findConsole();
+        open( my $IN,  "<$in" )  || croak "Cannot open $in for read";      ## no critic (InputOutput::ProhibitTwoArgOpen) -- findConsole subclasses may return handle-duplication expressions.
+        open( my $OUT, ">$out" ) || croak "Cannot open $out for write";    ## no critic (InputOutput::ProhibitTwoArgOpen) -- findConsole subclasses may return handle-duplication expressions.
+        if ( $Attribs{utf8_mode} ) {
+            binmode $IN,  ':encoding(UTF-8)';                              # not necessary
             binmode $OUT, ':encoding(UTF-8)';
         }
-        $self->newTTY($IN, $OUT);
-    } else {
+        $self->newTTY( $IN, $OUT );
+    }
+    else {
         # enable UTF-8 mode if input stream has the utf8 layer.
-        my @layers = PerlIO::get_layers($_[0]);
-        $Attribs{utf8_mode} ||= ($layers[$#layers] eq 'utf8');
+        my @layers = PerlIO::get_layers( $_[0] );
+        $Attribs{utf8_mode} ||= ( $layers[-1] eq 'utf8' );
 
         $self->newTTY(@_);
     }
@@ -406,9 +423,9 @@ sub new {
     # This calls tgetent().
     $self->initialize();
 
-    # enable ornaments to be compatible with perl5.004_05(?)
+    # Keep ornaments enabled unless the caller explicitly disables them.
     # This calls tgetstr().
-    $self->ornaments(1) unless ($ENV{PERL_RL} and $ENV{PERL_RL} =~ /\bo\w*=0/);
+    $self->ornaments(1) unless ( $ENV{PERL_RL} and $ENV{PERL_RL} =~ /\bo\w*=0/ );
 
     # keep rl_readline_version value for efficiency
     $readline_version = $Attribs{readline_version};
@@ -416,14 +433,15 @@ sub new {
     # bind operate-and-get-next to \C-o by default for the compatibility
     # with bash and Term::ReadLine::Perl
     # GNU Readline 8.1 and later support operate-and-get-next natively.
-    Term::ReadLine::Gnu::XS::rl_add_defun('operate-and-get-next',
-                                          \&Term::ReadLine::Gnu::XS::operate_and_get_next, ord "\co")
-        if ($readline_version < 0x801);
+    Term::ReadLine::Gnu::XS::rl_add_defun( 'operate-and-get-next',
+        \&Term::ReadLine::Gnu::XS::operate_and_get_next,
+        ord "\co" )
+        if ( $readline_version < 0x801 );
 
     $self;
 }
 
-sub DESTROY {}
+sub DESTROY { }
 
 =item C<readline(PROMPT[,PREPUT])>
 
@@ -443,9 +461,9 @@ characters, and C<RL_PROMPT_END_IGNORE> to end the sequence.
 # to peacify -w
 $Term::ReadLine::registered = $Term::ReadLine::registered;
 
-sub readline {                  # should be ReadLine
+sub readline {    ## no critic (Subroutines::ProhibitBuiltinHomonyms) -- readline is the existing Term::ReadLine method name. /  should be ReadLine
     my $self = shift;
-    my ($prompt, $preput) = @_;
+    my ( $prompt, $preput ) = @_;
 
     # A contributed fix for Perl debugger
     # make sure the outstream fd inside the readline library is
@@ -456,7 +474,7 @@ sub readline {                  # should be ReadLine
     $Attribs{outstream} = $Attribs{outstream};
 
     # ornament support (now prompt only)
-    $prompt = ${$Attribs{term_set}}[0] . $prompt . ${$Attribs{term_set}}[1];
+    $prompt = ${ $Attribs{term_set} }[0] . $prompt . ${ $Attribs{term_set} }[1];
 
     # `completion_function' support for compatibility with
     # Term:ReadLine::Perl.  Prefer $completion_entry_function, since a
@@ -464,19 +482,21 @@ sub readline {                  # should be ReadLine
     # Term::ReadLine::Gnu and have better completion function using
     # the variable.
     $Attribs{completion_entry_function} = $Attribs{_trp_completion_function}
-        if (!defined $Attribs{completion_entry_function}
-            && defined $Attribs{completion_function});
+        if ( !defined $Attribs{completion_entry_function}
+        && defined $Attribs{completion_function} );
 
     # TkRunning support
-    if (not $Term::ReadLine::registered and $Term::ReadLine::toloop
-        and defined &Tk::DoOneEvent) {
+    if (    not $Term::ReadLine::registered
+        and $Term::ReadLine::toloop
+        and defined &Tk::DoOneEvent )
+    {
         $self->register_Tk;
         $Attribs{getc_function} = $Attribs{Tk_getc};
     }
 
     # call readline()
     my $line;
-    if (defined $preput) {
+    if ( defined $preput ) {
         my $saved_startup_hook = $Attribs{startup_hook};
         $Attribs{startup_hook} = sub {
             $self->rl_insert_text($preput);
@@ -485,28 +505,30 @@ sub readline {                  # should be ReadLine
         };
         $line = $self->rl_readline($prompt);
         $Attribs{startup_hook} = $saved_startup_hook;
-    } else {
+    }
+    else {
         $line = $self->rl_readline($prompt);
     }
     return undef unless defined $line;
 
     # history expansion
-    if ($Attribs{do_expand}) {
+    if ( $Attribs{do_expand} ) {
         my $result;
-        ($result, $line) = $self->history_expand($line);
+        ( $result, $line ) = $self->history_expand($line);
         my $outstream = $Attribs{outstream};
-        print $outstream "$line\n" if ($result);
+        print {$outstream} "$line\n" if ($result);
 
         # return without adding line into history
-        if ($result < 0 || $result == 2) {
-            return '';          # don't return `undef' which means EOF.
+        if ( $result < 0 || $result == 2 ) {
+            return '';    # don't return `undef' which means EOF.
         }
     }
 
     # add to history buffer
     $self->add_history($line)
-        if (defined $self->{MinLength} && $self->{MinLength} > 0
-            && length($line) >= $self->{MinLength});
+        if ( defined $self->{MinLength}
+        && $self->{MinLength} > 0
+        && length($line) >= $self->{MinLength} );
 
     return $line;
 }
@@ -519,7 +541,7 @@ the actual C<readline> is present.
 =cut
 
 #use vars '*addhistory';
-*addhistory = \&AddHistory;     # for backward compatibility
+*addhistory = \&AddHistory;    # for backward compatibility
 
 sub AddHistory {
     my $self = shift;
@@ -547,7 +569,7 @@ anything into history.  Returns the old value.
 =cut
 
 sub MinLine {
-    my $self = shift;
+    my $self          = shift;
     my $old_minlength = $self->{MinLength};
     $self->{MinLength} = shift;
     $old_minlength;
@@ -604,7 +626,7 @@ C<readline> method).
 =item C<event_loop>
 
 See the description of C<event_loop> on
-L<Term::ReadLine|http://search.cpan.org/dist/Term-ReadLine/>.
+L<Term::ReadLine|https://metacpan.org/pod/Term::ReadLine>.
 
 =item C<ornaments>
 
@@ -630,12 +652,12 @@ Switches to use these filehandles.
 
 # used by a program (ex. perldb5.pl) who changes input/output stream.
 sub newTTY {
-    my ($self, $in, $out) = @_;
+    my ( $self, $in, $out ) = @_;
 
     # borrowed from Term/ReadLine.pm
-    my $sel = select($out);
-    $| = 1;                     # for DB::OUT
-    select($sel);
+    my $sel = select($out);    ## no critic (InputOutput::ProhibitOneArgSelect) -- Preserve persistent autoflush on the caller-selected Readline stream.
+    $| = 1;                    ## no critic (Variables::RequireLocalizedPunctuationVars) -- Process-wide initialization or persistent stream state is intentional. /  for DB::OUT
+    select($sel);              ## no critic (InputOutput::ProhibitOneArgSelect) -- Preserve persistent autoflush on the caller-selected Readline stream.
 
     $Attribs{instream}  = $in;
     $Attribs{outstream} = $out;
@@ -657,7 +679,7 @@ This is an original method of C<Term::ReadLine:Gnu>.
 sub enableUTF8 {
     my $self = shift;
     $Attribs{utf8_mode} = 1;
-    binmode $self->IN,  ':encoding(UTF-8)'; # not necessary
+    binmode $self->IN,  ':encoding(UTF-8)';    # not necessary
     binmode $self->OUT, ':encoding(UTF-8)';
 }
 
@@ -668,22 +690,20 @@ sub enableUTF8 {
 # documented later
 sub CallbackHandlerInstall {
     my $self = shift;
-    my ($prompt, $lhandler) = @_;
+    my ( $prompt, $lhandler ) = @_;
 
     $Attribs{_callback_handler} = $lhandler;
 
     # ornament support (now prompt only)
-    $prompt = ${$Attribs{term_set}}[0] . $prompt . ${$Attribs{term_set}}[1];
+    $prompt = ${ $Attribs{term_set} }[0] . $prompt . ${ $Attribs{term_set} }[1];
 
     $Attribs{completion_entry_function} = $Attribs{_trp_completion_function}
-        if (!defined $Attribs{completion_entry_function}
-            && defined $Attribs{completion_function});
+        if ( !defined $Attribs{completion_entry_function}
+        && defined $Attribs{completion_function} );
 
-    $self->rl_callback_handler_install($prompt,
-                                       \&Term::ReadLine::Gnu::XS::_ch_wrapper);
+    $self->rl_callback_handler_install( $prompt, \&Term::ReadLine::Gnu::XS::_ch_wrapper );    ## no critic (Variables::ProtectPrivateVars) -- The tied-variable map is shared by packages within this backend.
 }
 
-
 #
 #       Additional Supported Methods
 #
@@ -691,11 +711,11 @@ sub CallbackHandlerInstall {
 # Documentation is after '__END__' for efficiency.
 
 # for backward compatibility
-#use vars qw(*AddDefun *BindKey *UnbindKey *ParseAndBind *StifleHistory);
-*AddDefun = \&add_defun;
-*BindKey = \&bind_key;
-*UnbindKey = \&unbind_key;
-*ParseAndBind = \&parse_and_bind;
+#our (*AddDefun, *BindKey, *UnbindKey, *ParseAndBind, *StifleHistory);
+*AddDefun      = \&add_defun;
+*BindKey       = \&bind_key;
+*UnbindKey     = \&unbind_key;
+*ParseAndBind  = \&parse_and_bind;
 *StifleHistory = \&stifle_history;
 
 sub SetHistory {
@@ -711,134 +731,133 @@ sub GetHistory {
 
 sub ReadHistory {
     my $self = shift;
-    ! $self->read_history_range(@_);
+    !$self->read_history_range(@_);
 }
 
 sub WriteHistory {
     my $self = shift;
-    ! $self->write_history(@_);
+    !$self->write_history(@_);
 }
-
+
 #
 #       Access Routines for GNU Readline/History Library Variables
 #
 package Term::ReadLine::Gnu::Var;
-use Carp;
+use Carp qw(confess croak carp);
 use strict;
 use warnings;
 our %_rl_vars;
 
-%_rl_vars
-    = (
-       rl_line_buffer                           => ['S', 0],
-       rl_prompt                                => ['S', 1],
-       rl_library_version                       => ['S', 2],
-       rl_terminal_name                         => ['S', 3],
-       rl_readline_name                         => ['S', 4],
-       rl_basic_word_break_characters           => ['S', 5],
-       rl_basic_quote_characters                => ['S', 6],
-       rl_completer_word_break_characters       => ['S', 7],
-       rl_completer_quote_characters            => ['S', 8],
-       rl_filename_quote_characters             => ['S', 9],
-       rl_special_prefixes                      => ['S', 10],
-       history_no_expand_chars                  => ['S', 11],
-       history_search_delimiter_chars           => ['S', 12],
-       rl_executing_macro                       => ['S', 13], # GRL 4.2
-       history_word_delimiters                  => ['S', 14], # GRL 4.2
-       rl_display_prompt                        => ['S', 15], # GRL 6.0
-       rl_executing_keyseq                      => ['S', 16], # GRL 6.3
+%_rl_vars = (
+    rl_line_buffer                     => [ 'S', 0 ],
+    rl_prompt                          => [ 'S', 1 ],
+    rl_library_version                 => [ 'S', 2 ],
+    rl_terminal_name                   => [ 'S', 3 ],
+    rl_readline_name                   => [ 'S', 4 ],
+    rl_basic_word_break_characters     => [ 'S', 5 ],
+    rl_basic_quote_characters          => [ 'S', 6 ],
+    rl_completer_word_break_characters => [ 'S', 7 ],
+    rl_completer_quote_characters      => [ 'S', 8 ],
+    rl_filename_quote_characters       => [ 'S', 9 ],
+    rl_special_prefixes                => [ 'S', 10 ],
+    history_no_expand_chars            => [ 'S', 11 ],
+    history_search_delimiter_chars     => [ 'S', 12 ],
+    rl_executing_macro                 => [ 'S', 13 ],    # GRL 4.2
+    history_word_delimiters            => [ 'S', 14 ],    # GRL 4.2
+    rl_display_prompt                  => [ 'S', 15 ],    # GRL 6.0
+    rl_executing_keyseq                => [ 'S', 16 ],    # GRL 6.3
 
-       rl_point                                 => ['I', 0],
-       rl_end                                   => ['I', 1],
-       rl_mark                                  => ['I', 2],
-       rl_done                                  => ['I', 3],
-       rl_pending_input                         => ['I', 4],
-       rl_completion_query_items                => ['I', 5],
-       rl_completion_append_character           => ['C', 6],
-       rl_ignore_completion_duplicates          => ['I', 7],
-       rl_filename_completion_desired           => ['I', 8],
-       rl_filename_quoting_desired              => ['I', 9],
-       rl_inhibit_completion                    => ['I', 10],
-       history_base                             => ['I', 11],
-       history_length                           => ['I', 12],
-       history_max_entries                      => ['I', 13],
-       max_input_history                        => ['I', 13], # before GRL 4.2
-       history_write_timestamps                 => ['I', 14], # GRL 5.0
-       history_expansion_char                   => ['C', 15],
-       history_subst_char                       => ['C', 16],
-       history_comment_char                     => ['C', 17],
-       history_quotes_inhibit_expansion         => ['I', 18],
-       rl_erase_empty_line                      => ['I', 19], # GRL 4.0
-       rl_catch_signals                         => ['I', 20], # GRL 4.0
-       rl_catch_sigwinch                        => ['I', 21], # GRL 4.0
-       rl_already_prompted                      => ['I', 22], # GRL 4.1
-       rl_num_chars_to_read                     => ['I', 23], # GRL 4.1
-       rl_dispatching                           => ['I', 24], # GRL 4.2
-       rl_gnu_readline_p                        => ['I', 25], # GRL 4.1
-       rl_readline_state                        => ['I', 26], # GRL 4.2
-       rl_explicit_arg                          => ['I', 27], # GRL 4.2
-       rl_numeric_arg                           => ['I', 28], # GRL 4.2
-       rl_editing_mode                          => ['I', 29], # GRL 4.2
-       rl_attempted_completion_over             => ['I', 30], # GRL 4.2
-       rl_completion_type                       => ['I', 31], # GRL 4.2
-       rl_readline_version                      => ['I', 32], # GRL 4.2a
-       rl_completion_suppress_append            => ['I', 33], # GRL 4.3
-       rl_completion_quote_character            => ['C', 34], # GRL 5.0
-       rl_completion_suppress_quote             => ['I', 35], # GRL 5.0
-       rl_completion_found_quote                => ['I', 36], # GRL 5.0
-       rl_completion_mark_symlink_dirs          => ['I', 37], # GRL 4.3
-       rl_prefer_env_winsize                    => ['I', 38], # GRL 5.1
-       rl_sort_completion_matches               => ['I', 39], # GRL 6.0
-       rl_completion_invoking_key               => ['C', 40], # GRL 6.0
-       rl_executing_key                         => ['I', 41], # GRL 6.3
-       rl_key_sequence_length                   => ['I', 42], # GRL 6.3
-       rl_change_environment                    => ['I', 43], # GRL 6.3
-       rl_persistent_signal_handlers            => ['I', 44], # GRL 7.0
-       history_quoting_state                    => ['I', 45], # GRL 8.0
-       utf8_mode                                => ['I', 46], # internal
-       rl_eof_found                             => ['I', 47], # GRL 8.2
-       rl_full_quoting_desired                  => ['I', 48], # GRL 8.3
+    rl_point                         => [ 'I', 0 ],
+    rl_end                           => [ 'I', 1 ],
+    rl_mark                          => [ 'I', 2 ],
+    rl_done                          => [ 'I', 3 ],
+    rl_pending_input                 => [ 'I', 4 ],
+    rl_completion_query_items        => [ 'I', 5 ],
+    rl_completion_append_character   => [ 'C', 6 ],
+    rl_ignore_completion_duplicates  => [ 'I', 7 ],
+    rl_filename_completion_desired   => [ 'I', 8 ],
+    rl_filename_quoting_desired      => [ 'I', 9 ],
+    rl_inhibit_completion            => [ 'I', 10 ],
+    history_base                     => [ 'I', 11 ],
+    history_length                   => [ 'I', 12 ],
+    history_max_entries              => [ 'I', 13 ],
+    max_input_history                => [ 'I', 13 ],    # before GRL 4.2
+    history_write_timestamps         => [ 'I', 14 ],    # GRL 5.0
+    history_expansion_char           => [ 'C', 15 ],
+    history_subst_char               => [ 'C', 16 ],
+    history_comment_char             => [ 'C', 17 ],
+    history_quotes_inhibit_expansion => [ 'I', 18 ],
+    rl_erase_empty_line              => [ 'I', 19 ],    # GRL 4.0
+    rl_catch_signals                 => [ 'I', 20 ],    # GRL 4.0
+    rl_catch_sigwinch                => [ 'I', 21 ],    # GRL 4.0
+    rl_already_prompted              => [ 'I', 22 ],    # GRL 4.1
+    rl_num_chars_to_read             => [ 'I', 23 ],    # GRL 4.1
+    rl_dispatching                   => [ 'I', 24 ],    # GRL 4.2
+    rl_gnu_readline_p                => [ 'I', 25 ],    # GRL 4.1
+    rl_readline_state                => [ 'I', 26 ],    # GRL 4.2
+    rl_explicit_arg                  => [ 'I', 27 ],    # GRL 4.2
+    rl_numeric_arg                   => [ 'I', 28 ],    # GRL 4.2
+    rl_editing_mode                  => [ 'I', 29 ],    # GRL 4.2
+    rl_attempted_completion_over     => [ 'I', 30 ],    # GRL 4.2
+    rl_completion_type               => [ 'I', 31 ],    # GRL 4.2
+    rl_readline_version              => [ 'I', 32 ],    # GRL 4.2a
+    rl_completion_suppress_append    => [ 'I', 33 ],    # GRL 4.3
+    rl_completion_quote_character    => [ 'C', 34 ],    # GRL 5.0
+    rl_completion_suppress_quote     => [ 'I', 35 ],    # GRL 5.0
+    rl_completion_found_quote        => [ 'I', 36 ],    # GRL 5.0
+    rl_completion_mark_symlink_dirs  => [ 'I', 37 ],    # GRL 4.3
+    rl_prefer_env_winsize            => [ 'I', 38 ],    # GRL 5.1
+    rl_sort_completion_matches       => [ 'I', 39 ],    # GRL 6.0
+    rl_completion_invoking_key       => [ 'C', 40 ],    # GRL 6.0
+    rl_executing_key                 => [ 'I', 41 ],    # GRL 6.3
+    rl_key_sequence_length           => [ 'I', 42 ],    # GRL 6.3
+    rl_change_environment            => [ 'I', 43 ],    # GRL 6.3
+    rl_persistent_signal_handlers    => [ 'I', 44 ],    # GRL 7.0
+    history_quoting_state            => [ 'I', 45 ],    # GRL 8.0
+    utf8_mode                        => [ 'I', 46 ],    # internal
+    rl_eof_found                     => [ 'I', 47 ],    # GRL 8.2
+    rl_full_quoting_desired          => [ 'I', 48 ],    # GRL 8.3
 
-       rl_startup_hook                          => ['F', 0],
-       rl_event_hook                            => ['F', 1],
-       rl_getc_function                         => ['F', 2],
-       rl_redisplay_function                    => ['F', 3],
-       rl_completion_entry_function             => ['F', 4],
-       rl_attempted_completion_function         => ['F', 5],
-       rl_filename_quoting_function             => ['F', 6],
-       rl_filename_dequoting_function           => ['F', 7],
-       rl_char_is_quoted_p                      => ['F', 8],
-       rl_ignore_some_completions_function      => ['F', 9],
-       rl_directory_completion_hook             => ['F', 10],
-       history_inhibit_expansion_function       => ['F', 11],
-       rl_pre_input_hook                        => ['F', 12], # GRL 4.0
-       rl_completion_display_matches_hook       => ['F', 13], # GRL 4.0
-       rl_completion_word_break_hook            => ['F', 14], # GRL 5.0
-       rl_prep_term_function                    => ['F', 15], # GRL 4.2
-       rl_deprep_term_function                  => ['F', 16], # GRL 4.2
-       rl_directory_rewrite_hook                => ['F', 17], # GRL 4.2
-       rl_filename_rewrite_hook                 => ['F', 18], # GRL 6.1
-       rl_signal_event_hook                     => ['F', 19], # GRL 6.3
-       rl_input_available_hook                  => ['F', 20], # GRL 6.3
-       rl_filename_stat_hook                    => ['F', 21], # GRL 6.3
-       rl_timeout_event_hook                    => ['F', 22], # GRL 8.2
-       rl_macro_display_hook                    => ['F', 23], # GRL 8.3
-       rl_completion_rewrite_hook               => ['F', 24], # GRL 8.3
+    rl_startup_hook                     => [ 'F', 0 ],
+    rl_event_hook                       => [ 'F', 1 ],
+    rl_getc_function                    => [ 'F', 2 ],
+    rl_redisplay_function               => [ 'F', 3 ],
+    rl_completion_entry_function        => [ 'F', 4 ],
+    rl_attempted_completion_function    => [ 'F', 5 ],
+    rl_filename_quoting_function        => [ 'F', 6 ],
+    rl_filename_dequoting_function      => [ 'F', 7 ],
+    rl_char_is_quoted_p                 => [ 'F', 8 ],
+    rl_ignore_some_completions_function => [ 'F', 9 ],
+    rl_directory_completion_hook        => [ 'F', 10 ],
+    history_inhibit_expansion_function  => [ 'F', 11 ],
+    rl_pre_input_hook                   => [ 'F', 12 ],    # GRL 4.0
+    rl_completion_display_matches_hook  => [ 'F', 13 ],    # GRL 4.0
+    rl_completion_word_break_hook       => [ 'F', 14 ],    # GRL 5.0
+    rl_prep_term_function               => [ 'F', 15 ],    # GRL 4.2
+    rl_deprep_term_function             => [ 'F', 16 ],    # GRL 4.2
+    rl_directory_rewrite_hook           => [ 'F', 17 ],    # GRL 4.2
+    rl_filename_rewrite_hook            => [ 'F', 18 ],    # GRL 6.1
+    rl_signal_event_hook                => [ 'F', 19 ],    # GRL 6.3
+    rl_input_available_hook             => [ 'F', 20 ],    # GRL 6.3
+    rl_filename_stat_hook               => [ 'F', 21 ],    # GRL 6.3
+    rl_timeout_event_hook               => [ 'F', 22 ],    # GRL 8.2
+    rl_macro_display_hook               => [ 'F', 23 ],    # GRL 8.3
+    rl_completion_rewrite_hook          => [ 'F', 24 ],    # GRL 8.3
 
-       rl_instream                              => ['IO', 0],
-       rl_outstream                             => ['IO', 1],
+    rl_instream  => [ 'IO', 0 ],
+    rl_outstream => [ 'IO', 1 ],
 
-       rl_executing_keymap                      => ['K', 0],
-       rl_binding_keymap                        => ['K', 1],
+    rl_executing_keymap => [ 'K', 0 ],
+    rl_binding_keymap   => [ 'K', 1 ],
 
-       rl_last_func                             => ['LF', 0],
-      );
+    rl_last_func => [ 'LF', 0 ],
+);
 
 my @stream;
 
 sub TIESCALAR {
     my $class = shift;
-    my $name = shift;
+    my $name  = shift;
     return bless \$name, $class;
 }
 
@@ -847,28 +866,35 @@ sub FETCH {
     confess "wrong type" unless ref $self;
 
     my $name = $$self;
-    if (! defined $_rl_vars{$name}) {
+    if ( !defined $_rl_vars{$name} ) {
         confess "Term::ReadLine::Gnu::Var::FETCH: Unknown variable name `$name'\n";
-        return undef ;
     }
 
-    my ($type, $id) = @{$_rl_vars{$name}};
-    if ($type eq 'S') {
+    my ( $type, $id ) = @{ $_rl_vars{$name} };
+    if ( $type eq 'S' ) {
         return _rl_fetch_str($id);
-    } elsif ($type eq 'I') {
+    }
+    elsif ( $type eq 'I' ) {
         return _rl_fetch_int($id);
-    } elsif ($type eq 'C') {
-        return chr(_rl_fetch_int($id));
-    } elsif ($type eq 'F') {
+    }
+    elsif ( $type eq 'C' ) {
+        return chr( _rl_fetch_int($id) );
+    }
+    elsif ( $type eq 'F' ) {
         return _rl_fetch_function($id);
-    } elsif ($type eq 'IO') {
+    }
+    elsif ( $type eq 'IO' ) {
+
         # STORE was called in new() before coming here
         return $stream[$id];
-    } elsif ($type eq 'K') {
+    }
+    elsif ( $type eq 'K' ) {
         return _rl_fetch_keymap($id);
-    } elsif ($type eq 'LF') {
+    }
+    elsif ( $type eq 'LF' ) {
         return _rl_fetch_last_func();
-    } else {
+    }
+    else {
         carp "Term::ReadLine::Gnu::Var::FETCH: Illegal type `$type'\n";
         return undef;
     }
@@ -879,27 +905,32 @@ sub STORE {
     confess "wrong type" unless ref $self;
 
     my $name = $$self;
-    if (! defined $_rl_vars{$name}) {
+    if ( !defined $_rl_vars{$name} ) {
         confess "Term::ReadLine::Gnu::Var::STORE: Unknown variable name `$name'\n";
-        return undef ;
     }
 
     my $value = shift;
-    my ($type, $id) = @{$_rl_vars{$name}};
-    if ($type eq 'S') {
-        if ($name eq 'rl_line_buffer') {
+    my ( $type, $id ) = @{ $_rl_vars{$name} };
+    if ( $type eq 'S' ) {
+        if ( $name eq 'rl_line_buffer' ) {
             return _rl_store_rl_line_buffer($value);
-        } else {
-            return _rl_store_str($value, $id);
         }
-    } elsif ($type eq 'I') {
-        return _rl_store_int($value, $id);
-    } elsif ($type eq 'C') {
-        return chr(_rl_store_int(ord($value), $id));
-    } elsif ($type eq 'F') {
-        return _rl_store_function($value, $id);
-    } elsif ($type eq 'IO') {
-        _rl_store_iostream($value, $id);
+        else {
+            return _rl_store_str( $value, $id );
+        }
+    }
+    elsif ( $type eq 'I' ) {
+        return _rl_store_int( $value, $id );
+    }
+    elsif ( $type eq 'C' ) {
+        return chr( _rl_store_int( ord($value), $id ) );
+    }
+    elsif ( $type eq 'F' ) {
+        return _rl_store_function( $value, $id );
+    }
+    elsif ( $type eq 'IO' ) {
+        _rl_store_iostream( $value, $id );
+
         # _rl_store_iostream() calls PerlIO_findFILE().  It pushes the
         # 'stdio' layer on perl 5.10 and later. We must pop the stdio
         # layer.
@@ -907,24 +938,26 @@ sub STORE {
         # But we must pop the 'stdio' layer only when utf8 layer is
         # included for remote debugging.
         #   https://rt.cpan.org/Ticket/Display.html?id=110121
-        if ($] >= 5.010) {
+        if ( $] >= 5.010 ) {
             my @layers = PerlIO::get_layers($value);
-            if ((grep /^utf8$/, @layers) > 0 && $layers[$#layers] eq 'stdio') {
-                binmode($value,  ":pop");
+            if ( ( scalar grep { $_ eq 'utf8' } @layers ) > 0 && $layers[-1] eq 'stdio' ) {
+                binmode( $value, ":pop" );
             }
         }
         return $stream[$id] = $value;
-    } elsif ($type eq 'K' || $type eq 'LF') {
+    }
+    elsif ( $type eq 'K' || $type eq 'LF' ) {
         carp "Term::ReadLine::Gnu::Var::STORE: read only variable `$name'\n";
         return undef;
-    } else {
+    }
+    else {
         carp "Term::ReadLine::Gnu::Var::STORE: Illegal type `$type'\n";
         return undef;
     }
 }
-
+
 package Term::ReadLine::Gnu;
-use Carp;
+use Carp qw(confess croak carp);
 use strict;
 use warnings;
 
@@ -933,57 +966,64 @@ use warnings;
 #
 
 #       Tie all Readline/History variables
-foreach (keys %Term::ReadLine::Gnu::Var::_rl_vars) {
+foreach ( keys %Term::ReadLine::Gnu::Var::_rl_vars ) {    ## no critic (Variables::ProtectPrivateVars) -- The tied-variable map is shared by packages within this backend.
     my $name;
-    ($name = $_) =~ s/^rl_//;   # strip leading `rl_'
-    tie $Attribs{$name},  'Term::ReadLine::Gnu::Var', $_;
+    ( $name = $_ ) =~ s/^rl_//;                             # strip leading `rl_'
+    tie $Attribs{$name}, 'Term::ReadLine::Gnu::Var', $_;    ## no critic (Miscellanea::ProhibitTies) -- Tied scalars are the public Readline attribute interface.
 }
 
 #       add reference to some functions
 {
-    my ($name, $fname);
-    no strict 'refs';           # allow symbolic reference
-    map {
-        ($name = $_) =~ s/^rl_//; # strip leading `rl_'
+    my ( $name, $fname );
+    no strict 'refs';                                       ## no critic (TestingAndDebugging::ProhibitNoStrict) -- Bounded symbolic lookup implements inherited dispatch or completion. /  allow symbolic reference
+    for (
+        qw(rl_getc rl_redisplay rl_callback_read_char rl_display_match_list
+        rl_filename_completion_function rl_username_completion_function
+        list_completion_function _trp_completion_function)
+        )
+    {
+        ( $name = $_ ) =~ s/^rl_//;                           # strip leading `rl_'
         $fname = 'Term::ReadLine::Gnu::XS::' . $_;
-        $Attribs{$name} = \&$fname; # symbolic reference
-    } qw(rl_getc
-         rl_redisplay
-         rl_callback_read_char
-         rl_display_match_list
-         rl_filename_completion_function
-         rl_username_completion_function
-         list_completion_function
-         _trp_completion_function);
+        $Attribs{$name} = \&$fname;                           # symbolic reference
+    }
+
     # auto-splited subroutines cannot be processed in the map loop above
     use strict 'refs';
-    $Attribs{shadow_redisplay} = \&Term::ReadLine::Gnu::XS::shadow_redisplay;
-    $Attribs{Tk_getc} = \&Term::ReadLine::Gnu::XS::Tk_getc;
+    $Attribs{shadow_redisplay}         = \&Term::ReadLine::Gnu::XS::shadow_redisplay;
+    $Attribs{Tk_getc}                  = \&Term::ReadLine::Gnu::XS::Tk_getc;
     $Attribs{list_completion_function} = \&Term::ReadLine::Gnu::XS::list_completion_function;
 }
-
+
 package Term::ReadLine::Gnu::AU;
-use Carp;
-no strict qw(refs vars);
+use Carp qw(confess croak carp);
+our $AUTOLOAD;
 use warnings;
 
-sub AUTOLOAD {
-    { $AUTOLOAD =~ s/.*:://; }  # preserve match data
+sub AUTOLOAD {    ## no critic (ClassHierarchies::ProhibitAutoloading) -- Lazy XS method discovery is an existing public interface.
+
+    # Readline methods are installed lazily in this package, preserving
+    # upstream lookup order, argument aliasing and caller context.
+    no strict 'refs';             ## no critic (TestingAndDebugging::ProhibitNoStrict, TestingAndDebugging::ProhibitProlongedStrictureOverride) -- Bounded symbolic lookup implements inherited dispatch or completion. Symbol-table reflection is confined to this dispatch/completion scope.
+    { $AUTOLOAD =~ s/.*:://; }    # preserve match data
     my $name;
-    if (exists $Term::ReadLine::Gnu::XS::{"rl_$AUTOLOAD"}) {
+    if ( exists $Term::ReadLine::Gnu::XS::{"rl_$AUTOLOAD"} ) {
         $name = "Term::ReadLine::Gnu::XS::rl_$AUTOLOAD";
-    } elsif (exists $Term::ReadLine::Gnu::XS::{"$AUTOLOAD"}) {
+    }
+    elsif ( exists $Term::ReadLine::Gnu::XS::{"$AUTOLOAD"} ) {
         $name = "Term::ReadLine::Gnu::XS::$AUTOLOAD";
-    } else {
+    }
+    else {
         croak "Cannot do `$AUTOLOAD' in Term::ReadLine::Gnu";
     }
-    no warnings 'redefine';     # Why is this line necessary ???
+
+    # Reinstalling a previously resolved wrapper is valid during lazy dispatch.
+    no warnings 'redefine';    ## no critic (TestingAndDebugging::ProhibitNoWarnings) -- Only the named category is suppressed for intentional symbol replacement.
     *$AUTOLOAD = sub { shift; &$name(@_); };
     goto &$AUTOLOAD;
 }
 1;
 __END__
-
+
 
 =head2 C<Term::ReadLine::Gnu> Functions
 
@@ -2038,7 +2078,7 @@ in Gnu.pm.  You can use it as follows;
 
     use Term::ReadLine;
     ...
-    my $term = new Term::ReadLine 'sample';
+    my $term = Term::ReadLine->new('sample');
     my $attribs = $term->Attribs;
     ...
     $attribs->{completion_entry_function} =
@@ -2069,7 +2109,7 @@ The default value of this variable is C<undef>.  You can use it as follows;
 
     use Term::ReadLine;
     ...
-    my $term = new Term::ReadLine 'sample';
+    my $term = Term::ReadLine->new('sample');
     my $attribs = $term->Attribs;
     ...
     sub sample_completion {
@@ -2110,12 +2150,12 @@ C<completion_entry_function>.
 A variable whose content is a reference to a function which returns a
 list of candidates to complete.
 
-This variable is compatible with L<Term::ReadLine::Perl|http://search.cpan.org/dist/Term-ReadLine-Perl/> and very easy
+This variable is compatible with L<Term::ReadLine::Perl|https://metacpan.org/pod/Term::ReadLine::Perl> and very easy
 to use.
 
     use Term::ReadLine;
     ...
-    my $term = new Term::ReadLine 'sample';
+    my $term = Term::ReadLine->new('sample');
     my $attribs = $term->Attribs;
     ...
     $attribs->{completion_function} = sub {
@@ -2141,7 +2181,7 @@ function.
 
 This method provides the function C<rl_callback_handler_install()>
 with the following additional feature compatible with C<readline>
-method; ornament feature, L<Term::ReadLine::Perl|http://search.cpan.org/dist/Term-ReadLine-Perl/> compatible
+method; ornament feature, L<Term::ReadLine::Perl|https://metacpan.org/pod/Term::ReadLine::Perl> compatible
 completion function, history expansion, and addition to history
 buffer.
 
@@ -2164,7 +2204,7 @@ A redisplay function for password input.  You can use it as follows;
 
 Returns candidates of filenames to complete.  This function can be used
 with C<completion_function> and is implemented for the compatibility
-with L<Term::ReadLine::Perl|http://search.cpan.org/dist/Term-ReadLine-Perl/>.
+with L<Term::ReadLine::Perl|https://metacpan.org/pod/Term::ReadLine::Perl>.
 
 =item C<list_completion_function>
 
@@ -2205,7 +2245,7 @@ The equivalent of the Korn shell C<operate-and-get-next-history-line>
 editing command and the Bash C<operate-and-get-next>.
 
 This command is bound to C<\C-o> by default for the compatibility with
-the Bash and L<Term::ReadLine::Perl|http://search.cpan.org/dist/Term-ReadLine-Perl/>.
+the Bash and L<Term::ReadLine::Perl|https://metacpan.org/pod/Term::ReadLine::Perl>.
 
 =item C<display-readline-version>
 
@@ -2236,7 +2276,7 @@ application construct.
 For example, when your program calls C<new> method as follows;
 
         ...
-        $term = new Term::ReadLine 'PerlSh';
+        $term = Term::ReadLine->new('PerlSh');
         ...
 
 your F<~/.inputrc> can define key bindings only for the program as
@@ -2307,14 +2347,14 @@ They can be exported as follows;
 
         use Term::ReadLine;
         BEGIN {
-            import Term::ReadLine::Gnu qw(:keymap_type RL_STATE_INITIALIZED);
+            Term::ReadLine::Gnu->import(qw(:keymap_type RL_STATE_INITIALIZED));
         }
 
 =head1 ENVIRONMENT
 
 The environment variable C<PERL_RL> governs which ReadLine clone is
 loaded.  See the ENVIRONMENT section on
-L<Term::ReadLine|http://search.cpan.org/dist/Term-ReadLine/> for
+L<Term::ReadLine|https://metacpan.org/pod/Term::ReadLine> for
 further details.
 
 If the environment variable C<TERM> is set to C<"emacs">
@@ -2339,11 +2379,11 @@ L<GNU History Library Manual|https://tiswww.cwru.edu/php/chet/readline/history.h
 
 =item *
 
-Sample and test programs (F<eg/*> and F<t/*>) in L<the C<Term::ReadLine::Gnu> distribution|http://search.cpan.org/dist/Term-ReadLine-Gnu/>
+Sample and test programs (F<examples/*> and F<t/*>) in L<the C<Term::ReadLine::Gnu> distribution|https://github.com/itsuki-hayashi/perl-term-readline-gnu-win>
 
 =item *
 
-L<Term::ReadLine|http://search.cpan.org/dist/Term-ReadLine/>
+L<Term::ReadLine|https://metacpan.org/pod/Term::ReadLine>
 
 =item *
 
@@ -2418,7 +2458,7 @@ Original Perl wrapper:
 
 Hiroo Hayashi C<E<lt>hiroo.hayashi@computer.orgE<gt>>
 
-L<http://search.cpan.org/~hayashi/>
+L<https://metacpan.org/author/HAYASHI>
 
 =head1 TODO
 

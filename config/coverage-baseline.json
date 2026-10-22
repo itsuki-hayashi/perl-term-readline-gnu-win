@@ -1,0 +1,12 @@
+{
+  "measured_with": "MSVC Perl 5.44.0 x64 / Devel::Cover 1.52 / Windows 11, 2026-10-23",
+  "minimum_percent": {
+    "inc/Gnu/Build.pm": { "statement": 58.82, "branch": 0 },
+    "inc/Gnu/Command.pm": { "statement": 100, "branch": 0 },
+    "inc/Gnu/Patch.pm": { "statement": 100, "branch": 13.63 },
+    "inc/Gnu/Platform.pm": { "statement": 86.36, "branch": 25 },
+    "inc/Gnu/Quality.pm": { "statement": 100, "branch": 0 },
+    "lib/Term/ReadLine/Gnu.pm": { "statement": 75.75, "branch": 36.27 },
+    "lib/Term/ReadLine/Gnu/XS.pm": { "statement": 70.30, "branch": 32.97 }
+  }
+}

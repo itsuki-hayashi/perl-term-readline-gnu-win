@@ -134,6 +134,19 @@ unset, and DLL inspection found no MinGW, MSYS2 or Cygwin dependencies.
 ARM64 library cross-compilation passed; native ARM64 runtime tests and
 hosted GitHub Actions runs remain pending. Optional Tk was unavailable.
 
+Perl modernization was revalidated on 2026-10-23 on Windows 11 x64 with
+MSVC Perl 5.44.0 and Visual Studio 2026. All **607 checkout tests** passed,
+including native C/console integration; the instrumented suite passed
+**621 tests** including author-check regressions. All **35 maintained Perl
+sources** passed formatting, configured severity-1 analysis, POD and staged
+compilation. The 25 release checks and a fresh archive build, test, temporary
+installation and DLL dependency inspection also passed. Pinned author tools
+were installed with their dependency tests into a contained local library.
+Coverage calibration and the measured per-module floors passed; partial
+coverage and instrumentation limitations are documented in
+[PERL_QUALITY.md](docs/PERL_QUALITY.md). Native ARM64, hosted CI and optional
+Tk validation for these changes remain unavailable locally.
+
 Before release, run `perl script/release.pl` and `perl script/test-archive.pl`
 in the developer environment. The latter rebuilds a fresh archive, installs
 into a prefix containing spaces, inspects DLL imports, and exercises the
@@ -141,6 +154,12 @@ installed module outside its source directory. These tools do not publish releas
 `build/`; candidate archives are under `dist/`.
 
 ## Limitations
+
+Maintained Perl has mandatory formatting, severity-1 static analysis, POD,
+compilation and measured coverage gates in the existing native CI jobs.
+Author dependencies are separate from installation prerequisites. See
+[the Perl quality guide](docs/PERL_QUALITY.md) for commands, compatibility
+exceptions, excluded examples and coverage limitations.
 
 This release excludes x86, legacy non-VT rendering, POSIX job control,
 POSIX alarm/select timeouts, static-CRT/debug Perl, and MinGW/Cygwin ABIs.

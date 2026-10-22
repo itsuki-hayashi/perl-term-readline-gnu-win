@@ -1,0 +1,89 @@
+# SPDX-FileCopyrightText: 2026 Itsuki Hayashi
+# SPDX-License-Identifier: GPL-3.0-or-later
+# All installed core policies, severity 1; author tools are version-pinned.
+# Exceptions are policy choices, not a baseline of existing violations.
+severity = 1
+theme = core
+include = Community::(?:ConditionalDeclarations|Each|IndirectObjectNotation|MultidimensionalArrayEmulation|POSIXImports|StrictWarnings)$ Bangs::(?:ProhibitNoPlan|ProhibitRefProtoOrProto|ProhibitUselessRegexModifiers)$ Subroutines::ProhibitExportingUndeclaredSubs$ Documentation::(?:ProhibitDuplicateSeeAlso|RequireFinalCut)$
+verbose = %f:%l:%c: %m [%p]\n
+
+# Tidy is checked directly, including AutoLoader bodies, with .perltidyrc.
+[-CodeLayout::RequireTidyCode]
+# Formatting and spelling choices that add no correctness guarantee.
+[-CodeLayout::ProhibitParensWithBuiltins]
+[-CodeLayout::RequireTrailingCommas]
+[-ControlStructures::ProhibitCStyleForLoops]
+[-ControlStructures::ProhibitCascadingIfElse]
+[-ControlStructures::ProhibitPostfixControls]
+[-ControlStructures::ProhibitUnlessBlocks]
+[-ControlStructures::ProhibitNegativeExpressionsInUnlessAndUntilConditions]
+[-ValuesAndExpressions::ProhibitEmptyQuotes]
+[-ValuesAndExpressions::ProhibitInterpolationOfLiterals]
+[-ValuesAndExpressions::ProhibitMagicNumbers]
+[-ValuesAndExpressions::ProhibitNoisyQuotes]
+[-ValuesAndExpressions::RequireNumberSeparators]
+[-ValuesAndExpressions::ProhibitLongChainsOfMethodCalls]
+# Dotted minimum versions and octal file modes are unambiguous modern Perl.
+[-ValuesAndExpressions::ProhibitVersionStrings]
+[-ValuesAndExpressions::ProhibitLeadingZeros]
+# MakeMaker placeholders and literal backslash sequences must not interpolate.
+[-ValuesAndExpressions::RequireInterpolationOfMetachars]
+# Prefer postfix dereferencing for new code; neither spelling is unsafe.
+[-References::ProhibitDoubleSigils]
+# Explicit $_ can clarify nested callbacks; regex substitution aliases are used.
+[-BuiltinFunctions::ProhibitUselessTopic]
+[-RegularExpressions::ProhibitUselessTopic]
+# Both grep/map expression forms and multi-statement mappings are valid Perl.
+[-BuiltinFunctions::RequireBlockGrep]
+[-BuiltinFunctions::ProhibitComplexMappings]
+[-RegularExpressions::ProhibitEscapedMetacharacters]
+[-RegularExpressions::ProhibitUnusualDelimiters]
+[-RegularExpressions::RequireDotMatchAnything]
+[-RegularExpressions::RequireExtendedFormatting]
+[-RegularExpressions::RequireLineBoundaryMatching]
+# Existing regex flags and character classes define accepted bytes/text.
+[-RegularExpressions::ProhibitEnumeratedClasses]
+# Perl builtins and Win32/XS error text are part of existing diagnostics.
+[-ErrorHandling::RequireCarping]
+# Implicit return, undef/list semantics and @_ aliasing are API contracts.
+[-Subroutines::RequireFinalReturn]
+[-Subroutines::RequireArgUnpacking]
+[-Subroutines::ProhibitExplicitReturnUndef]
+# Existing package names and package variables are externally accessible.
+[-NamingConventions::Capitalization]
+[-Variables::ProhibitPackageVars]
+[-Variables::ProhibitPunctuationVars]
+[-Variables::RequireInitializationForLocalVars]
+# Multi-package backend and scripts/tests are intentional, not CPAN modules.
+[-Modules::ProhibitMultiplePackages]
+[-Modules::RequireExplicitPackage]
+[-Modules::RequireVersionVar]
+[-Modules::RequireFilenameMatchesPackage]
+[-Modules::ProhibitExcessMainComplexity]
+[-Modules::RequireEndWithOne]
+# API documentation stays beside methods; scripts/tests need not be manuals.
+[-Documentation::RequirePodAtEnd]
+[-Documentation::RequirePodSections]
+# Long-lived console handles and output selection belong to Term::ReadLine.
+[-InputOutput::RequireBriefOpen]
+# Require output checks in file-producing tools separately; console output
+# retains upstream error/return behavior. Open/close remain checked policies.
+[InputOutput::RequireCheckedSyscalls]
+functions = open close
+
+[Subroutines::ProhibitExcessComplexity]
+max_mccabe = 20
+
+# Explicit selections prevent ambient plugin installations changing the gate.
+[Community::ConditionalDeclarations]
+[Community::Each]
+[Community::IndirectObjectNotation]
+[Community::MultidimensionalArrayEmulation]
+[Community::POSIXImports]
+[Community::StrictWarnings]
+[Bangs::ProhibitNoPlan]
+[Bangs::ProhibitRefProtoOrProto]
+[Bangs::ProhibitUselessRegexModifiers]
+[Subroutines::ProhibitExportingUndeclaredSubs]
+[Documentation::ProhibitDuplicateSeeAlso]
+[Documentation::RequireFinalCut]

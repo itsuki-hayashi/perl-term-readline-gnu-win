@@ -1,3 +1,4 @@
+# Modernized 2026-10-23: Perl 5.44 author checks; retain interface contracts.
 # Modified 2026-10-21 by Itsuki Hayashi: Windows-only Gnu fork.
 # Fork modifications copyright (c) 2026 Itsuki Hayashi.
 # SPDX-License-Identifier: GPL-3.0-or-later
@@ -12,38 +13,41 @@
 
 package Term::ReadLine::Gnu::XS;
 
-use Carp;
+use Carp qw(confess croak carp);
+use v5.44;
+
+# Existing callback/wrapper prototypes are caller-visible contracts.
+no feature 'signatures';
 use strict;
 use warnings;
 use AutoLoader 'AUTOLOAD';
 
 our $VERSION;
-$VERSION='1.470_001';        # keep in sync with the main module
+$VERSION = '1.470_001';    # keep in sync with the main module
 
 # make aliases
 our %Attribs;
 *Attribs = \%Term::ReadLine::Gnu::Attribs;
 
-#use vars qw(*read_history);
+#our (*read_history);
 *read_history = \&read_history_range;
 
 # alias for 8 characters limitation imposed by AutoSplit
-#use vars qw(*rl_unbind_key *rl_unbind_function *rl_unbind_command
-#           *history_list *history_arg_extract);
-*rl_unbind_key = \&unbind_key;
-*rl_unbind_function = \&unbind_function;
-*rl_unbind_command = \&unbind_command;
-*history_list = \&hist_list;
+#our (*rl_unbind_key, *rl_unbind_function, *rl_unbind_command, #, *history_list, *history_arg_extract);
+*rl_unbind_key       = \&unbind_key;
+*rl_unbind_function  = \&unbind_function;
+*rl_unbind_command   = \&unbind_command;
+*history_list        = \&hist_list;
 *history_arg_extract = \&hist_arg_extract;
 
 # For backward compatibility.  Using these name (*_in_map) is deprecated.
-#use vars qw(*rl_unbind_function_in_map *rl_unbind_command_in_map);
+#our (*rl_unbind_function_in_map, *rl_unbind_command_in_map);
 *rl_unbind_function_in_map = \&unbind_function;
 *rl_unbind_command_in_map  = \&unbind_command;
 
-rl_add_defun('history-expand-line',      \&history_expand_line);
-rl_add_defun('display-readline-version', \&display_readline_version);
-rl_add_defun('change-ornaments',         \&change_ornaments);
+rl_add_defun( 'history-expand-line',      \&history_expand_line );
+rl_add_defun( 'display-readline-version', \&display_readline_version );
+rl_add_defun( 'change-ornaments',         \&change_ornaments );
 
 # for ornaments()
 
@@ -51,6 +55,7 @@ rl_add_defun('change-ornaments',         \&change_ornaments);
 #     -- zero-width beautifies to emit around prompt and the command line.
 # string encoded:
 our @rl_term_set;
+our $rl_term_set; # ornaments() historically reads this package scalar before setting a local value.
 *rl_term_set = \@Term::ReadLine::TermCap::rl_term_set;
 
 # These variables are used by completion functions.  Don't use for
@@ -62,11 +67,10 @@ my $_tstrs_init = 0;
 
 1;
 
-# Uncomment the following line to enable AutoSplit.  If you are using
-# AutoLoader.pm distributed with Perl 5.004 or earlier, you must
-# update AutoLoader.pm due to its bug.
-# 2016/06/07: now it is time to uncomment. Ignore the warning message,
-# "... some names are not unique ...", during make.
+# MakeMaker AutoSplit installs the routines below __END__. Preserve the
+# boundary and aliases: these routines are compiled lazily in package scope.
+# Supported Windows filesystems retain full names even when the historical
+# eight-character uniqueness check emits a warning during the build.
 
 =head1 NAME
 
@@ -91,273 +95,290 @@ COPYING and THIRD_PARTY_NOTICES.md.
 =cut
 
 __END__
-
 
 #
 #       Readline Library function wrappers
 #
 
 # Convert keymap name to Keymap if the argument is not reference to Keymap
-sub _str2map ($) {
-    return ref $_[0] ? $_[0]
-        : (rl_get_keymap_by_name($_[0]) || carp "unknown keymap name \`$_[0]\'\n");
+sub _str2map ($) {    ## no critic (Subroutines::ProhibitSubroutinePrototypes) -- Retain the caller-visible upstream prototype; signatures differ.
+    return ref $_[0]
+        ? $_[0]
+        : ( rl_get_keymap_by_name( $_[0] ) || carp "unknown keymap name \`$_[0]\'\n" );
 }
 
 # Convert function name to Function if the argument is not reference
 # to Function
-sub _str2fn ($) {
-    return ref $_[0] ? $_[0]
-        : (rl_named_function($_[0]) || carp "unknown function name \`$_[0]\'\n");
+sub _str2fn ($) {    ## no critic (Subroutines::ProhibitSubroutinePrototypes) -- Retain the caller-visible upstream prototype; signatures differ.
+    return ref $_[0]
+        ? $_[0]
+        : ( rl_named_function( $_[0] ) || carp "unknown function name \`$_[0]\'\n" );
 }
 
-sub rl_copy_keymap ($)    { return _rl_copy_keymap(_str2map($_[0])); }
-sub rl_discard_keymap ($) { return _rl_discard_keymap(_str2map($_[0])); }
-sub rl_free_keymap ($)    { return _rl_free_keymap(_str2map($_[0])); }
-sub rl_empty_keymap ($)   { return _rl_empty_keymap(_str2map($_[0])); }
-sub rl_set_keymap ($)     { return _rl_set_keymap(_str2map($_[0])); }
-sub rl_set_keymap_name ($$) {
-    return _rl_set_keymap_name($_[0], _str2map($_[1]));
+sub rl_copy_keymap ($)    { return _rl_copy_keymap( _str2map( $_[0] ) ); }       ## no critic (Subroutines::ProhibitSubroutinePrototypes) -- Retain the caller-visible upstream prototype; signatures differ.
+sub rl_discard_keymap ($) { return _rl_discard_keymap( _str2map( $_[0] ) ); }    ## no critic (Subroutines::ProhibitSubroutinePrototypes) -- Retain the caller-visible upstream prototype; signatures differ.
+sub rl_free_keymap ($)    { return _rl_free_keymap( _str2map( $_[0] ) ); }       ## no critic (Subroutines::ProhibitSubroutinePrototypes) -- Retain the caller-visible upstream prototype; signatures differ.
+sub rl_empty_keymap ($)   { return _rl_empty_keymap( _str2map( $_[0] ) ); }      ## no critic (Subroutines::ProhibitSubroutinePrototypes) -- Retain the caller-visible upstream prototype; signatures differ.
+sub rl_set_keymap ($)     { return _rl_set_keymap( _str2map( $_[0] ) ); }        ## no critic (Subroutines::ProhibitSubroutinePrototypes) -- Retain the caller-visible upstream prototype; signatures differ.
+
+sub rl_set_keymap_name ($$) {    ## no critic (Subroutines::ProhibitSubroutinePrototypes) -- Retain the caller-visible upstream prototype; signatures differ.
+    return _rl_set_keymap_name( $_[0], _str2map( $_[1] ) );
 }
 
 # rl_bind_key
-sub rl_bind_key ($$;$) {
-    if (defined $_[2]) {
-        return _rl_bind_key($_[0], _str2fn($_[1]), _str2map($_[2]));
-    } else {
-        return _rl_bind_key($_[0], _str2fn($_[1]));
+sub rl_bind_key ($$;$) {    ## no critic (Subroutines::ProhibitSubroutinePrototypes) -- Retain the caller-visible upstream prototype; signatures differ.
+    if ( defined $_[2] ) {
+        return _rl_bind_key( $_[0], _str2fn( $_[1] ), _str2map( $_[2] ) );
+    }
+    else {
+        return _rl_bind_key( $_[0], _str2fn( $_[1] ) );
     }
 }
 
 # rl_bind_key_if_unbound
-sub rl_bind_key_if_unbound ($$;$) {
-    my ($version) = $Attribs{library_version}
-        =~ /(\d+\.\d+)/;
-    if ($version < 5.0) {
+sub rl_bind_key_if_unbound ($$;$) {    ## no critic (Subroutines::ProhibitSubroutinePrototypes) -- Retain the caller-visible upstream prototype; signatures differ.
+    my ($version) = $Attribs{library_version} =~ /(\d+\.\d+)/;
+    if ( $version < 5.0 ) {
         carp "rl_bind_key_if_unbound() is not supported.  Ignored\n";
         return;
     }
-    if (defined $_[2]) {
-        return _rl_bind_key_if_unbound($_[0], _str2fn($_[1]), _str2map($_[2]));
-    } else {
-        return _rl_bind_key_if_unbound($_[0], _str2fn($_[1]));
+    if ( defined $_[2] ) {
+        return _rl_bind_key_if_unbound( $_[0], _str2fn( $_[1] ), _str2map( $_[2] ) );
+    }
+    else {
+        return _rl_bind_key_if_unbound( $_[0], _str2fn( $_[1] ) );
     }
 }
 
 # rl_unbind_key
-sub unbind_key ($;$) {
-    if (defined $_[1]) {
-        return _rl_unbind_key($_[0], _str2map($_[1]));
-    } else {
-        return _rl_unbind_key($_[0]);
+sub unbind_key ($;$) {    ## no critic (Subroutines::ProhibitSubroutinePrototypes) -- Retain the caller-visible upstream prototype; signatures differ.
+    if ( defined $_[1] ) {
+        return _rl_unbind_key( $_[0], _str2map( $_[1] ) );
+    }
+    else {
+        return _rl_unbind_key( $_[0] );
     }
 }
 
 # rl_unbind_function
-sub unbind_function ($;$) {
+sub unbind_function ($;$) {    ## no critic (Subroutines::ProhibitSubroutinePrototypes) -- Retain the caller-visible upstream prototype; signatures differ.
+
     # libreadline.* in Debian GNU/Linux 2.0 tells wrong value as '2.1-bash'
-    my ($version) = $Attribs{library_version}
-        =~ /(\d+\.\d+)/;
-    if ($version < 2.2) {
+    my ($version) = $Attribs{library_version} =~ /(\d+\.\d+)/;
+    if ( $version < 2.2 ) {
         carp "rl_unbind_function() is not supported.  Ignored\n";
         return;
     }
-    if (defined $_[1]) {
-        return _rl_unbind_function($_[0], _str2map($_[1]));
-    } else {
-        return _rl_unbind_function($_[0]);
+    if ( defined $_[1] ) {
+        return _rl_unbind_function( $_[0], _str2map( $_[1] ) );
+    }
+    else {
+        return _rl_unbind_function( $_[0] );
     }
 }
 
 # rl_unbind_command
-sub unbind_command ($;$) {
-    my ($version) = $Attribs{library_version}
-        =~ /(\d+\.\d+)/;
-    if ($version < 2.2) {
+sub unbind_command ($;$) {    ## no critic (Subroutines::ProhibitSubroutinePrototypes) -- Retain the caller-visible upstream prototype; signatures differ.
+    my ($version) = $Attribs{library_version} =~ /(\d+\.\d+)/;
+    if ( $version < 2.2 ) {
         carp "rl_unbind_command() is not supported.  Ignored\n";
         return;
     }
-    if (defined $_[1]) {
-        return _rl_unbind_command($_[0], _str2map($_[1]));
-    } else {
-        return _rl_unbind_command($_[0]);
+    if ( defined $_[1] ) {
+        return _rl_unbind_command( $_[0], _str2map( $_[1] ) );
+    }
+    else {
+        return _rl_unbind_command( $_[0] );
     }
 }
 
 # rl_bind_keyseq
-sub rl_bind_keyseq ($$;$) {
-    my ($version) = $Attribs{library_version}
-        =~ /(\d+\.\d+)/;
-    if ($version < 5.0) {
+sub rl_bind_keyseq ($$;$) {    ## no critic (Subroutines::ProhibitSubroutinePrototypes) -- Retain the caller-visible upstream prototype; signatures differ.
+    my ($version) = $Attribs{library_version} =~ /(\d+\.\d+)/;
+    if ( $version < 5.0 ) {
         carp "rl_bind_keyseq() is not supported.  Ignored\n";
         return;
     }
-    if (defined $_[2]) {
-        return _rl_bind_keyseq($_[0], _str2fn($_[1]), _str2map($_[2]));
-    } else {
-        return _rl_bind_keyseq($_[0], _str2fn($_[1]));
+    if ( defined $_[2] ) {
+        return _rl_bind_keyseq( $_[0], _str2fn( $_[1] ), _str2map( $_[2] ) );
+    }
+    else {
+        return _rl_bind_keyseq( $_[0], _str2fn( $_[1] ) );
     }
 }
 
-sub rl_set_key ($$;$) {
-    my ($version) = $Attribs{library_version}
-        =~ /(\d+\.\d+)/;
-    if ($version < 4.2) {
+sub rl_set_key ($$;$) {    ## no critic (Subroutines::ProhibitSubroutinePrototypes) -- Retain the caller-visible upstream prototype; signatures differ.
+    my ($version) = $Attribs{library_version} =~ /(\d+\.\d+)/;
+    if ( $version < 4.2 ) {
         carp "rl_set_key() is not supported.  Ignored\n";
         return;
     }
-    if (defined $_[2]) {
-        return _rl_set_key($_[0], _str2fn($_[1]), _str2map($_[2]));
-    } else {
-        return _rl_set_key($_[0], _str2fn($_[1]));
+    if ( defined $_[2] ) {
+        return _rl_set_key( $_[0], _str2fn( $_[1] ), _str2map( $_[2] ) );
+    }
+    else {
+        return _rl_set_key( $_[0], _str2fn( $_[1] ) );
     }
 }
 
 # rl_bind_keyseq_if_unbound
-sub rl_bind_keyseq_if_unbound ($$;$) {
-    my ($version) = $Attribs{library_version}
-        =~ /(\d+\.\d+)/;
-    if ($version < 5.0) {
+sub rl_bind_keyseq_if_unbound ($$;$) {    ## no critic (Subroutines::ProhibitSubroutinePrototypes) -- Retain the caller-visible upstream prototype; signatures differ.
+    my ($version) = $Attribs{library_version} =~ /(\d+\.\d+)/;
+    if ( $version < 5.0 ) {
         carp "rl_bind_keyseq_if_unbound() is not supported.  Ignored\n";
         return;
     }
-    if (defined $_[2]) {
-        return _rl_bind_keyseq_if_unbound($_[0], _str2fn($_[1]), _str2map($_[2]));
-    } else {
-        return _rl_bind_keyseq_if_unbound($_[0], _str2fn($_[1]));
+    if ( defined $_[2] ) {
+        return _rl_bind_keyseq_if_unbound( $_[0], _str2fn( $_[1] ), _str2map( $_[2] ) );
+    }
+    else {
+        return _rl_bind_keyseq_if_unbound( $_[0], _str2fn( $_[1] ) );
     }
 }
 
-sub rl_macro_bind ($$;$) {
-    my ($version) = $Attribs{library_version}
-        =~ /(\d+\.\d+)/;
-    if (defined $_[2]) {
-        return _rl_macro_bind($_[0], $_[1], _str2map($_[2]));
-    } else {
-        return _rl_macro_bind($_[0], $_[1]);
+sub rl_macro_bind ($$;$) {    ## no critic (Subroutines::ProhibitSubroutinePrototypes) -- Retain the caller-visible upstream prototype; signatures differ.
+    my ($version) = $Attribs{library_version} =~ /(\d+\.\d+)/;
+    if ( defined $_[2] ) {
+        return _rl_macro_bind( $_[0], $_[1], _str2map( $_[2] ) );
+    }
+    else {
+        return _rl_macro_bind( $_[0], $_[1] );
     }
 }
 
-sub rl_generic_bind ($$$;$) {
-    if      ($_[0] == Term::ReadLine::Gnu::ISFUNC) {
-        if (defined $_[3]) {
-            _rl_generic_bind_function($_[1], _str2fn($_[2]), _str2map($_[3]));
-        } else {
-            _rl_generic_bind_function($_[1], _str2fn($_[2]));
+sub rl_generic_bind ($$$;$) {    ## no critic (Subroutines::ProhibitSubroutinePrototypes) -- Retain the caller-visible upstream prototype; signatures differ.
+    if ( $_[0] == Term::ReadLine::Gnu::ISFUNC ) {
+        if ( defined $_[3] ) {
+            _rl_generic_bind_function( $_[1], _str2fn( $_[2] ), _str2map( $_[3] ) );
         }
-    } elsif ($_[0] == Term::ReadLine::Gnu::ISKMAP) {
-        if (defined $_[3]) {
-            _rl_generic_bind_keymap($_[1], _str2map($_[2]), _str2map($_[3]));
-        } else {
-            _rl_generic_bind_keymap($_[1], _str2map($_[2]));
+        else {
+            _rl_generic_bind_function( $_[1], _str2fn( $_[2] ) );
         }
-    } elsif ($_[0] == Term::ReadLine::Gnu::ISMACR) {
-        if (defined $_[3]) {
-            _rl_generic_bind_macro($_[1], $_[2], _str2map($_[3]));
-        } else {
-            _rl_generic_bind_macro($_[1], $_[2]);
+    }
+    elsif ( $_[0] == Term::ReadLine::Gnu::ISKMAP ) {
+        if ( defined $_[3] ) {
+            _rl_generic_bind_keymap( $_[1], _str2map( $_[2] ), _str2map( $_[3] ) );
         }
-    } else {
+        else {
+            _rl_generic_bind_keymap( $_[1], _str2map( $_[2] ) );
+        }
+    }
+    elsif ( $_[0] == Term::ReadLine::Gnu::ISMACR ) {
+        if ( defined $_[3] ) {
+            _rl_generic_bind_macro( $_[1], $_[2], _str2map( $_[3] ) );
+        }
+        else {
+            _rl_generic_bind_macro( $_[1], $_[2] );
+        }
+    }
+    else {
         carp("Term::ReadLine::Gnu::rl_generic_bind: invalid \`type\'\n");
     }
 }
 
-sub rl_call_function ($;$$) {
-    if (defined $_[2]) {
-        return _rl_call_function(_str2fn($_[0]), $_[1], $_[2]);
-    } elsif (defined $_[1]) {
-        return _rl_call_function(_str2fn($_[0]), $_[1]);
-    } else {
-        return _rl_call_function(_str2fn($_[0]));
+sub rl_call_function ($;$$) {    ## no critic (Subroutines::ProhibitSubroutinePrototypes) -- Retain the caller-visible upstream prototype; signatures differ.
+    if ( defined $_[2] ) {
+        return _rl_call_function( _str2fn( $_[0] ), $_[1], $_[2] );
+    }
+    elsif ( defined $_[1] ) {
+        return _rl_call_function( _str2fn( $_[0] ), $_[1] );
+    }
+    else {
+        return _rl_call_function( _str2fn( $_[0] ) );
     }
 }
 
-sub rl_function_of_keyseq ($;$) {
-    if (defined $_[1]) {
-        return _rl_function_of_keyseq($_[0], _str2map($_[1]));
-    } else {
-        return _rl_function_of_keyseq($_[0]);
+sub rl_function_of_keyseq ($;$) {    ## no critic (Subroutines::ProhibitSubroutinePrototypes) -- Retain the caller-visible upstream prototype; signatures differ.
+    if ( defined $_[1] ) {
+        return _rl_function_of_keyseq( $_[0], _str2map( $_[1] ) );
+    }
+    else {
+        return _rl_function_of_keyseq( $_[0] );
     }
 }
 
-sub rl_trim_arg_from_keyseq ($;$) {
-    if (defined $_[1]) {
-        return _rl_trim_arg_from_keyseq($_[0], _str2map($_[1]));
-    } else {
-        return _rl_trim_arg_from_keyseq($_[0]);
+sub rl_trim_arg_from_keyseq ($;$) {    ## no critic (Subroutines::ProhibitSubroutinePrototypes) -- Retain the caller-visible upstream prototype; signatures differ.
+    if ( defined $_[1] ) {
+        return _rl_trim_arg_from_keyseq( $_[0], _str2map( $_[1] ) );
+    }
+    else {
+        return _rl_trim_arg_from_keyseq( $_[0] );
     }
 }
 
-sub rl_invoking_keyseqs ($;$) {
-    if (defined $_[1]) {
-        return _rl_invoking_keyseqs(_str2fn($_[0]), _str2map($_[1]));
-    } else {
-        return _rl_invoking_keyseqs(_str2fn($_[0]));
+sub rl_invoking_keyseqs ($;$) {    ## no critic (Subroutines::ProhibitSubroutinePrototypes) -- Retain the caller-visible upstream prototype; signatures differ.
+    if ( defined $_[1] ) {
+        return _rl_invoking_keyseqs( _str2fn( $_[0] ), _str2map( $_[1] ) );
+    }
+    else {
+        return _rl_invoking_keyseqs( _str2fn( $_[0] ) );
     }
 }
 
-sub rl_print_keybinding ($;$$) {
-    if (defined $_[2]) {
-        return _rl_print_keybinding($_[0], _str2map($_[1]), $_[2]);
-    } elsif (defined $_[1]) {
-        return _rl_print_keybinding($_[0], _str2map($_[1]));
-    } else {
-        return _rl_print_keybinding($_[0]);
+sub rl_print_keybinding ($;$$) {    ## no critic (Subroutines::ProhibitSubroutinePrototypes) -- Retain the caller-visible upstream prototype; signatures differ.
+    if ( defined $_[2] ) {
+        return _rl_print_keybinding( $_[0], _str2map( $_[1] ), $_[2] );
+    }
+    elsif ( defined $_[1] ) {
+        return _rl_print_keybinding( $_[0], _str2map( $_[1] ) );
+    }
+    else {
+        return _rl_print_keybinding( $_[0] );
     }
 }
 
-sub rl_add_funmap_entry ($$) {
-    my ($version) = $Attribs{library_version}
-        =~ /(\d+\.\d+)/;
-    if ($version < 4.2) {
+sub rl_add_funmap_entry ($$) {    ## no critic (Subroutines::ProhibitSubroutinePrototypes) -- Retain the caller-visible upstream prototype; signatures differ.
+    my ($version) = $Attribs{library_version} =~ /(\d+\.\d+)/;
+    if ( $version < 4.2 ) {
         carp "rl_add_funmap_entry() is not supported.  Ignored\n";
         return;
     }
-    return _rl_add_funmap_entry($_[0], _str2fn($_[1]));
+    return _rl_add_funmap_entry( $_[0], _str2fn( $_[1] ) );
 }
 
-sub rl_tty_set_default_bindings (;$) {
-    my ($version) = $Attribs{library_version}
-        =~ /(\d+\.\d+)/;
-    if ($version < 4.2) {
+sub rl_tty_set_default_bindings (;$) {    ## no critic (Subroutines::ProhibitSubroutinePrototypes) -- Retain the caller-visible upstream prototype; signatures differ.
+    my ($version) = $Attribs{library_version} =~ /(\d+\.\d+)/;
+    if ( $version < 4.2 ) {
         carp "rl_tty_set_default_bindings() is not supported.  Ignored\n";
         return;
     }
-    if (defined $_[0]) {
-        return _rl_tty_set_defaut_bindings(_str2map($_[1]));
-    } else {
+    if ( defined $_[0] ) {
+        return _rl_tty_set_defaut_bindings( _str2map( $_[1] ) );
+    }
+    else {
         return _rl_tty_set_defaut_bindings();
     }
 }
 
-sub rl_tty_unset_default_bindings (;$) {
-    my ($version) = $Attribs{library_version}
-        =~ /(\d+\.\d+)/;
-    if ($version < 5.0) {
+sub rl_tty_unset_default_bindings (;$) {    ## no critic (Subroutines::ProhibitSubroutinePrototypes) -- Retain the caller-visible upstream prototype; signatures differ.
+    my ($version) = $Attribs{library_version} =~ /(\d+\.\d+)/;
+    if ( $version < 5.0 ) {
         carp "rl_tty_unset_default_bindings() is not supported.  Ignored\n";
         return;
     }
-    if (defined $_[0]) {
-        return _rl_tty_unset_defaut_bindings(_str2map($_[1]));
-    } else {
+    if ( defined $_[0] ) {
+        return _rl_tty_unset_defaut_bindings( _str2map( $_[1] ) );
+    }
+    else {
         return _rl_tty_unset_defaut_bindings();
     }
 }
 
 sub rl_message {
-    my $fmt = shift;
-    my $line = sprintf($fmt, @_);
+    my $fmt  = shift;
+    my $line = sprintf( $fmt, @_ );
     _rl_message($line);
 }
 
 sub rl_completion_mode {
+
     # libreadline.* in Debian GNU/Linux 2.0 tells wrong value as '2.1-bash'
-    my ($version) = $Attribs{library_version}
-        =~ /(\d+\.\d+)/;
-    if ($version < 4.3) {
+    my ($version) = $Attribs{library_version} =~ /(\d+\.\d+)/;
+    if ( $version < 4.3 ) {
         carp "rl_completion_mode() is not supported.  Ignored\n";
         return;
     }
-    return _rl_completion_mode(_str2fn($_[0]));
+    return _rl_completion_mode( _str2fn( $_[0] ) );
 }
 
 #
@@ -365,17 +386,17 @@ sub rl_completion_mode {
 #
 sub SETSTATE {
     my ($x) = @_;
-    return ($Attribs{readline_state} |= $x);
+    return ( $Attribs{readline_state} |= $x );
 }
 
 sub UNSETSTATE {
     my ($x) = @_;
-    return ($Attribs{readline_state} &= ~$x);
+    return ( $Attribs{readline_state} &= ~$x );
 }
 
 sub ISSTATE {
     my ($x) = @_;
-    return ($Attribs{readline_state} & $x);
+    return ( $Attribs{readline_state} & $x );
 }
 
 #
@@ -385,8 +406,7 @@ sub rl_filename_list {
     my ($text) = @_;
 
     # lcd : lowest common denominator
-    my ($lcd, @matches) = rl_completion_matches($text,
-                                                \&rl_filename_completion_function);
+    my ( $lcd, @matches ) = rl_completion_matches( $text, \&rl_filename_completion_function );
     return @matches ? @matches : $lcd;
 }
 
@@ -395,28 +415,28 @@ sub rl_filename_list {
 #
 # history_list
 sub hist_list () {
-    my ($i, $history_base, $history_length, @d);
+    my ( $i, $history_base, $history_length, @d );
     $history_base   = $Attribs{history_base};
     $history_length = $Attribs{history_length};
-    for ($i = $history_base; $i < $history_base + $history_length; $i++) {
-        push(@d, history_get($i));
+    for ( $i = $history_base ; $i < $history_base + $history_length ; $i++ ) {
+        push( @d, history_get($i) );
     }
     @d;
 }
 
 # history_arg_extract
-sub hist_arg_extract ( ;$$$ ) {
-    my ($line, $first, $last) = @_;
-    $line  = $_      unless defined $line;
-    $first = 0       unless defined $first;
-    $last  = ord '$' unless defined $last; # '
-    $first = ord '$' if defined $first and $first eq '$'; # '
-    $last  = ord '$' if defined $last  and $last  eq '$'; # '
-    &_history_arg_extract($line, $first, $last);
+sub hist_arg_extract ( ;$$$ ) {    ## no critic (Subroutines::ProhibitSubroutinePrototypes) -- Retain the caller-visible upstream prototype; signatures differ.
+    my ( $line, $first, $last_word ) = @_;
+    $line      = $_      unless defined $line;
+    $first     = 0       unless defined $first;
+    $last_word = ord '$' unless defined $last_word;                      # '
+    $first     = ord '$' if defined $first     and $first eq '$';        # '
+    $last_word = ord '$' if defined $last_word and $last_word eq '$';    # '
+    &_history_arg_extract( $line, $first, $last_word );                  ## no critic (Subroutines::ProhibitAmpersandSigils) -- Preserve upstream argument forwarding and prototype bypass.
 }
 
-sub get_history_event ( $$;$ ) {
-    _get_history_event($_[0], $_[1], defined $_[2] ? ord $_[2] : 0);
+sub get_history_event ( $$;$ ) {    ## no critic (Subroutines::ProhibitSubroutinePrototypes) -- Retain the caller-visible upstream prototype; signatures differ.
+    _get_history_event( $_[0], $_[1], defined $_[2] ? ord $_[2] : 0 );
 }
 
 #
@@ -437,23 +457,23 @@ our %term_no_ue = ( kterm => 1 );
 
 sub ornaments {
     return $rl_term_set unless @_;
-    my $rl_term_set = shift;
-    $rl_term_set ||= ',,,';
-    $rl_term_set = $term_no_ue{$ENV{TERM}} ? 'us,me,md,me' : 'us,ue,md,me'
-        if $rl_term_set eq '1';
-    my @ts = split /,/, $rl_term_set, 4;
-    @rl_term_set
-        = map {
-            # non-printing characters must be informed to readline
-            my $t;
-            ($_ and $t = tgetstr($_))
-                ? (Term::ReadLine::Gnu::RL_PROMPT_START_IGNORE
-                   . $t
-                   . Term::ReadLine::Gnu::RL_PROMPT_END_IGNORE)
-                    : '';
-        } @ts;
+    my $ornament_spec = shift;
+    $ornament_spec ||= ',,,';
+    $ornament_spec = $term_no_ue{ $ENV{TERM} } ? 'us,me,md,me' : 'us,ue,md,me'
+        if $ornament_spec eq '1';
+    my @ts = split /,/, $ornament_spec, 4;
+    @rl_term_set = map {
+
+        # non-printing characters must be informed to readline
+        my $t;
+        ( $_ and $t = tgetstr($_) )
+            ? ( Term::ReadLine::Gnu::RL_PROMPT_START_IGNORE
+                . $t
+                . Term::ReadLine::Gnu::RL_PROMPT_END_IGNORE )
+            : '';
+    } @ts;
     $Attribs{term_set} = \@rl_term_set;
-    return $rl_term_set;
+    return $ornament_spec;
 }
 
 #
@@ -465,16 +485,17 @@ sub ornaments {
 
 # This routine was borrowed from bash.
 sub history_expand_line {
-    my ($count, $key) = @_;
-    my ($expanded, $new_line) = history_expand($Attribs{line_buffer});
-    if ($expanded > 0) {
-        rl_modifying(0, $Attribs{end}); # save undo information
+    my ( $count,    $key )      = @_;
+    my ( $expanded, $new_line ) = history_expand( $Attribs{line_buffer} );
+    if ( $expanded > 0 ) {
+        rl_modifying( 0, $Attribs{end} );    # save undo information
         $Attribs{line_buffer} = $new_line;
-    } elsif ($expanded < 0) {
+    }
+    elsif ( $expanded < 0 ) {
         my $OUT = $Attribs{outstream};
-        print $OUT "\n$new_line\n";
+        print {$OUT} "\n$new_line\n";
         rl_on_new_line();
-    }                           # $expanded == 0 : no change
+    }    # $expanded == 0 : no change
 }
 
 # The equivalent of the Korn shell C-o operate-and-get-next-history-line
@@ -482,63 +503,65 @@ sub history_expand_line {
 
 # This routine was borrowed from bash.
 sub operate_and_get_next {
-    my ($count, $key) = @_;
+    my ( $count, $key ) = @_;
 
     my $saved_history_line_to_use = -1;
     my $old_rl_startup_hook;
 
     # Accept the current line.
-    rl_call_function('accept-line', 1, $key);
+    rl_call_function( 'accept-line', 1, $key );
 
     # Find the current line, and find the next line to use. */
     my $where = where_history();
-    if ((history_is_stifled()
-         && ($Attribs{history_length} >= $Attribs{max_input_history}))
-        || ($where >= $Attribs{history_length} - 1)) {
+    if (   ( history_is_stifled() && ( $Attribs{history_length} >= $Attribs{max_input_history} ) )
+        || ( $where >= $Attribs{history_length} - 1 ) )
+    {
         $saved_history_line_to_use = $where;
-    } else {
+    }
+    else {
         $saved_history_line_to_use = $where + 1;
     }
     $old_rl_startup_hook = $Attribs{startup_hook};
     $Attribs{startup_hook} = sub {
-        if ($saved_history_line_to_use >= 0) {
-            rl_call_function('previous-history',
-                             $Attribs{history_length}
-                             - $saved_history_line_to_use,
-                             0);
+        if ( $saved_history_line_to_use >= 0 ) {
+            rl_call_function( 'previous-history',
+                $Attribs{history_length} - $saved_history_line_to_use, 0 );
             $Attribs{startup_hook} = $old_rl_startup_hook;
             $saved_history_line_to_use = -1;
         }
     };
 }
 
-sub display_readline_version {  # show version
-    my($count, $key) = @_;      # ignored in this function
+sub display_readline_version {    # show version
+    my ( $count, $key ) = @_;     # ignored in this function
     my $OUT = $Attribs{outstream};
-    print $OUT
-        ("\nTerm::ReadLine::Gnu version: $Term::ReadLine::Gnu::VERSION");
-    print $OUT
-        ("\nGNU Readline Library version: $Attribs{library_version}\n");
+    print {$OUT} ("\nTerm::ReadLine::Gnu version: $Term::ReadLine::Gnu::VERSION");
+    print {$OUT} ("\nGNU Readline Library version: $Attribs{library_version}\n");
     rl_on_new_line();
 }
 
 # sample function of rl_message()
 sub change_ornaments {
-    my($count, $key) = @_;      # ignored in this function
+    my ( $count, $key ) = @_;     # ignored in this function
     rl_save_prompt;
     rl_message("[S]tandout, [U]nderlining, [B]old, [R]everse, [V]isible bell: ");
     my $c = chr rl_read_key;
-    if ($c =~ /s/i) {
+    if ( $c =~ /s/i ) {
         ornaments('so,me,,');
-    } elsif ($c =~ /u/i) {
+    }
+    elsif ( $c =~ /u/i ) {
         ornaments('us,me,,');
-    } elsif ($c =~ /b/i) {
+    }
+    elsif ( $c =~ /b/i ) {
         ornaments('md,me,,');
-    } elsif ($c =~ /r/i) {
+    }
+    elsif ( $c =~ /r/i ) {
         ornaments('mr,me,,');
-    } elsif ($c =~ /v/i) {
+    }
+    elsif ( $c =~ /v/i ) {
         ornaments('vb,,,');
-    } else {
+    }
+    else {
         rl_ding;
     }
     rl_restore_prompt;
@@ -549,7 +572,7 @@ sub change_ornaments {
 #       for tkRunning
 #
 sub Tk_getc {
-    &Term::ReadLine::Tk::Tk_loop
+    &Term::ReadLine::Tk::Tk_loop    ## no critic (Subroutines::ProhibitAmpersandSigils) -- Preserve upstream argument forwarding and prototype bypass.
         if $Term::ReadLine::toloop && defined &Tk::DoOneEvent;
     my $FILE = $Attribs{instream};
     return rl_getc($FILE);
@@ -561,69 +584,86 @@ sub Tk_getc {
 #       $line = $t->readline("password> ");
 sub shadow_redisplay {
     @_tstrs = _tgetstrs() unless $_tstrs_init;
+
     # remove prompt start/end mark from prompt string
-    my $prompt = $Attribs{prompt}; my $s;
-    $s = Term::ReadLine::Gnu::RL_PROMPT_START_IGNORE; $prompt =~ s/$s//g;
-    $s = Term::ReadLine::Gnu::RL_PROMPT_END_IGNORE;   $prompt =~ s/$s//g;
-    my $OUT = $Attribs{outstream};
-    my $oldfh = select($OUT); $| = 1; select($oldfh);
-    print $OUT ($_tstrs[0],     # carriage return
-                $_tstrs[1],     # clear to EOL
-                $prompt, '*' x length($Attribs{line_buffer}));
-    print $OUT ($_tstrs[2]      # cursor left
-                x (length($Attribs{line_buffer}) - $Attribs{point}));
-    $oldfh = select($OUT); $| = 0; select($oldfh);
+    my $prompt = $Attribs{prompt};
+    my $s;
+    $s = Term::ReadLine::Gnu::RL_PROMPT_START_IGNORE;
+    $prompt =~ s/$s//g;
+    $s = Term::ReadLine::Gnu::RL_PROMPT_END_IGNORE;
+    $prompt =~ s/$s//g;
+    my $OUT   = $Attribs{outstream};
+    my $oldfh = select($OUT);          ## no critic (InputOutput::ProhibitOneArgSelect) -- Preserve persistent autoflush on the caller-selected Readline stream.
+    $| = 1;                            ## no critic (Variables::RequireLocalizedPunctuationVars) -- Process-wide initialization or persistent stream state is intentional.
+    select($oldfh);                    ## no critic (InputOutput::ProhibitOneArgSelect) -- Preserve persistent autoflush on the caller-selected Readline stream.
+    print {$OUT} (
+        $_tstrs[0],                    # carriage return
+        $_tstrs[1],                    # clear to EOL
+        $prompt, '*' x length( $Attribs{line_buffer} )
+    );
+    print {$OUT} (
+        $_tstrs[2]                     # cursor left
+            x ( length( $Attribs{line_buffer} ) - $Attribs{point} )
+    );
+    $oldfh = select($OUT);             ## no critic (InputOutput::ProhibitOneArgSelect) -- Preserve persistent autoflush on the caller-selected Readline stream.
+    $|     = 0;                        ## no critic (Variables::RequireLocalizedPunctuationVars) -- Process-wide initialization or persistent stream state is intentional.
+    select($oldfh);                    ## no critic (InputOutput::ProhibitOneArgSelect) -- Preserve persistent autoflush on the caller-selected Readline stream.
 }
 
 sub _tgetstrs {
-    my @s = (tgetstr('cr'),     # carriage return
-             tgetstr('ce'),     # clear to EOL
-             tgetstr('le'));    # cursor left
-    warn <<"EOM" unless (defined($s[0]) && defined($s[1]) && defined($s[2]));
+    my @s = (
+        tgetstr('cr'),    # carriage return
+        tgetstr('ce'),    # clear to EOL
+        tgetstr('le')
+    );                    # cursor left
+    warn <<"EOM" unless ( defined( $s[0] ) && defined( $s[1] ) && defined( $s[2] ) );
 Your terminal 'TERM=$ENV{TERM}' does not support enough function.
 Check if your environment variable 'TERM' is set correctly.
 EOM
+
     # suppress warning "Use of uninitialized value in print at ..."
-    $s[0] = $s[0] || ''; $s[1] = $s[1] || ''; $s[2] = $s[2] || '';
+    $s[0]        = $s[0] || '';
+    $s[1]        = $s[1] || '';
+    $s[2]        = $s[2] || '';
     $_tstrs_init = 1;
     return @s;
 }
 
 # callback handler wrapper function for CallbackHandlerInstall method
-sub _ch_wrapper {
+sub _ch_wrapper {    ## no critic (Subroutines::ProhibitUnusedPrivateSubroutines) -- Invoked across packages through the existing callback adapter.
     my $line = shift;
 
-    if (defined $line) {
-        if ($Attribs{do_expand}) {
+    if ( defined $line ) {
+        if ( $Attribs{do_expand} ) {
             my $result;
-            ($result, $line) = history_expand($line);
+            ( $result, $line ) = history_expand($line);
             my $outstream = $Attribs{outstream};
-            print $outstream "$line\n" if ($result);
+            print {$outstream} "$line\n" if ($result);
 
             # return without adding line into history
-            if ($result < 0 || $result == 2) {
-                return '';      # don't return `undef' which means EOF.
+            if ( $result < 0 || $result == 2 ) {
+                return '';    # don't return `undef' which means EOF.
             }
         }
 
         # add to history buffer
         add_history($line)
-            if ($Attribs{MinLength} > 0
-                && length($line) >= $Attribs{MinLength});
+            if ( $Attribs{MinLength} > 0
+            && length($line) >= $Attribs{MinLength} );
     }
-    &{$Attribs{_callback_handler}}($line);
+    &{ $Attribs{_callback_handler} }($line);
 }
 
 #
 #       List Completion Function
 #
-sub list_completion_function ( $$ ) {
-    my($text, $state) = @_;
+sub list_completion_function ( $$ ) {    ## no critic (Subroutines::ProhibitSubroutinePrototypes) -- Retain the caller-visible upstream prototype; signatures differ.
+    my ( $text, $state ) = @_;
 
-    $_i = $state ? $_i + 1 : 0; # clear counter at the first call
+    $_i = $state ? $_i + 1 : 0;          # clear counter at the first call
     my $cw = $Attribs{completion_word};
-    for (; $_i <= $#{$cw}; $_i++) {
-        return $cw->[$_i] if ($cw->[$_i] =~ /^\Q$text/);
+    for ( ; $_i <= $#{$cw} ; $_i++ ) {
+        return $cw->[$_i] if ( $cw->[$_i] =~ /^\Q$text/ );
     }
     return undef;
 }
@@ -632,33 +672,34 @@ sub list_completion_function ( $$ ) {
 #       wrapper completion function of 'completion_function'
 #       for compatibility with Term::ReadLine::Perl
 #
-sub _trp_completion_function ( $$ ) {
-    my($text, $state) = @_;
+sub _trp_completion_function ( $$ ) {    ## no critic (Subroutines::ProhibitSubroutinePrototypes, Subroutines::ProhibitUnusedPrivateSubroutines) -- Retain the caller-visible upstream prototype; signatures differ. Invoked across packages through the existing callback adapter.
+    my ( $text, $state ) = @_;
 
     my $cf;
-    if (not defined ($cf = $Attribs{completion_function})) {
+    if ( not defined( $cf = $Attribs{completion_function} ) ) {
         carp "_trp_comletion_fuction: internal error\n";
         return undef;
     }
 
     if ($state) {
         $_i++;
-    } else {
+    }
+    else {
         # the first call
-        $_i = 0;                # clear index
-        @_matches = &$cf($text,
-                         $Attribs{line_buffer},
-                         $Attribs{point} - length($text));
+        $_i       = 0;    # clear index
+        @_matches = &$cf( $text, $Attribs{line_buffer}, $Attribs{point} - length($text) );
+
         # return here since $#_matches is 0 instead of -1 when
         # @_matches = undef
         return undef unless defined $_matches[0];
     }
 
-    for (; $_i <= $#_matches; $_i++) {
+    for ( ; $_i <= $#_matches ; $_i++ ) {
+
         # case insensitive match to be compatible with
         # Term::ReadLine::Perl.
         # https://rt.cpan.org/Ticket/Display.html?id=72378
-        return $_matches[$_i] if ($_matches[$_i] =~ /^\Q$text/i);
+        return $_matches[$_i] if ( $_matches[$_i] =~ /^\Q$text/i );
     }
     return undef;
 }

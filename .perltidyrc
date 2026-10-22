@@ -1,0 +1,9 @@
+# SPDX-FileCopyrightText: 2026 Itsuki Hayashi
+# SPDX-License-Identifier: GPL-3.0-or-later
+-l=100
+-i=4
+-ci=4
+-noll
+-ole=unix
+-utf8
+-lal
