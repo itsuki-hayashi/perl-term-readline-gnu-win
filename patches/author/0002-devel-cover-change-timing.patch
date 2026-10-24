@@ -1,0 +1,16 @@
+SPDX-FileCopyrightText: 2026 Itsuki Hayashi
+SPDX-License-Identifier: GPL-3.0-or-later
+
+Devel::Cover 1.52 merges runs in creation order using one-second timestamps
+(lib/Devel/Cover/DB.pm, merge_runs). change.t rewrites its source between two
+runs, so a half-second delay allows the runs to sort in the wrong order.
+Wait longer than one timestamp tick. Keep every assertion and runtime source.
+Original upstream Perl license notices remain intact.
+
+--- a/tests/change.t
++++ b/tests/change.t
+@@ -48 +48,3 @@
+-    delay_after_run => 0.50,
++    # merge_runs orders databases by whole seconds; changed source versions
++    # must not share that timestamp, regardless of process ID ordering.
++    delay_after_run => 1.10,

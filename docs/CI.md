@@ -79,6 +79,16 @@ Patched Path::Tiny installs in a separate cpanm invocation before the other
 tools. Its failure stops installation immediately, so a dependent distribution
 cannot retry an unpatched Path::Tiny release and obscure the first failure.
 
+Devel::Cover 1.52's changed-source test also receives a test-only patch,
+`patches/author/0002-devel-cover-change-timing.patch`. Its database merges runs
+by whole-second creation timestamps, but the test originally waited only half
+a second between source versions. Fast runs can then merge in PID order instead
+of creation order and lose the newer measurements. The test now waits 1.10
+seconds. All golden-output assertions and native instrumentation tests remain
+enabled. Its checksum-pinned archive uses the same fresh-copy patch process;
+runtime modules and XS sources remain pristine. Every author patch participates
+in completion-marker validation and the exact cache key.
+
 An invalid cache fails explicitly and names its key. Delete that author-tool
 entry under the repository's Actions caches and rerun. To refresh transitive
 dependencies without changing direct pins, bump the `author-tools-v1` revision

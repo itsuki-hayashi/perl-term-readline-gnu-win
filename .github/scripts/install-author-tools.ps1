@@ -34,23 +34,32 @@ function Initialize-AuthorBootstrap {
 
 function Initialize-AuthorPathTiny {
     param([string]$Root, [string]$Log)
-    $directory = Join-Path $Root ('build/author-path-tiny/' + [IO.Path]::GetRandomFileName())
+    Initialize-AuthorPatchedDistribution -Root $Root -Log $Log -Name 'Path-Tiny-0.150' -Distribution 'D/DA/DAGOLDEN/Path-Tiny-0.150.tar.gz' -Sha256 'ff20713d1a14d257af9c78209001f40dc177e4b9d1496115cbd8726d577946c7' -Patch '0001-path-tiny-windows-tests.patch'
+}
+
+function Initialize-AuthorCover {
+    param([string]$Root, [string]$Log)
+    Initialize-AuthorPatchedDistribution -Root $Root -Log $Log -Name 'Devel-Cover-1.52' -Distribution 'P/PJ/PJCJ/Devel-Cover-1.52.tar.gz' -Sha256 '9d90b44ab602ca373fa221255708de4d19df86026f4d7110bef608846eed44fb' -Patch '0002-devel-cover-change-timing.patch'
+}
+
+function Initialize-AuthorPatchedDistribution {
+    param([string]$Root, [string]$Log, [string]$Name, [string]$Distribution, [string]$Sha256, [string]$Patch)
+    $directory = Join-Path $Root ('build/author-patched/' + [IO.Path]::GetRandomFileName())
     New-Item -ItemType Directory -Force $directory | Out-Null
-    $archive = Join-Path $directory 'Path-Tiny-0.150.tar.gz'
-    Invoke-WebRequest 'https://cpan.metacpan.org/authors/id/D/DA/DAGOLDEN/Path-Tiny-0.150.tar.gz' -OutFile $archive
-    if ((Get-FileHash -LiteralPath $archive -Algorithm SHA256).Hash.ToLowerInvariant() -ne
-        'ff20713d1a14d257af9c78209001f40dc177e4b9d1496115cbd8726d577946c7') {
-        throw 'Path::Tiny archive checksum mismatch'
+    $archive = Join-Path $directory "$Name.tar.gz"
+    Invoke-WebRequest "https://cpan.metacpan.org/authors/id/$Distribution" -OutFile $archive
+    if ((Get-FileHash -LiteralPath $archive -Algorithm SHA256).Hash.ToLowerInvariant() -ne $Sha256) {
+        throw "$Name archive checksum mismatch"
     }
     Invoke-AuthorNative -Program "$env:SystemRoot/System32/tar.exe" -Arguments @('-xzf', $archive, '-C', $directory) -Log $Log
-    $source = Join-Path $directory 'Path-Tiny-0.150'
-    # Only test expectations change: preserve symlink coverage and runtime code.
+    $source = Join-Path $directory $Name
+    # Only test fixtures change: preserve all assertions and runtime code.
     Invoke-AuthorNative -Program 'perl' -Arguments @("-I$Root/inc", '-MGnu::Patch', '-e',
-        'Gnu::Patch::apply(@ARGV)', $source, "$Root/patches/author/0001-path-tiny-windows-tests.patch") -Log $Log
+        'Gnu::Patch::apply(@ARGV)', $source, "$Root/patches/author/$Patch") -Log $Log
     # cpanm 1.7049 recognizes absolute Windows files, but not drive-letter
     # directory arguments. Repack only this fresh, patched build copy.
-    $patched = Join-Path $directory 'Path-Tiny-0.150-windows.tar.gz'
-    Invoke-AuthorNative -Program "$env:SystemRoot/System32/tar.exe" -Arguments @('-czf', $patched, '-C', $directory, 'Path-Tiny-0.150') -Log $Log
+    $patched = Join-Path $directory "$Name-windows.tar.gz"
+    Invoke-AuthorNative -Program "$env:SystemRoot/System32/tar.exe" -Arguments @('-czf', $patched, '-C', $directory, $Name) -Log $Log
     return $patched
 }
 
@@ -64,6 +73,8 @@ function Install-AuthorDependencies {
             if (-not $distribution) { throw "Missing pinned distribution for $($entry.Name)" }
             if ($entry.Name -eq 'Path::Tiny') {
                 $patchedPathTiny = Initialize-AuthorPathTiny -Root $Root -Log $Log
+            } elseif ($entry.Name -eq 'Devel::Cover') {
+                $modules += Initialize-AuthorCover -Root $Root -Log $Log
             } else { $modules += $distribution.Value }
         }
     }
@@ -258,7 +269,8 @@ function Invoke-AuthorTools {
         $result.scratch = $shortScratch
         $identity = Get-AuthorIdentity -Scripts $scripts -Directory $scratch -Log $log
         $manifest = Join-Path $Root 'config/author-tools.json'
-        $configuration = (@($manifest, "$Root/patches/author/0001-path-tiny-windows-tests.patch", "$Root/inc/Gnu/Patch.pm") |
+        $patches = @(Get-ChildItem -LiteralPath "$Root/patches/author" -Filter '*.patch' | Sort-Object Name | ForEach-Object FullName)
+        $configuration = (@($manifest, "$Root/inc/Gnu/Patch.pm") + $patches |
             ForEach-Object { (Get-FileHash -LiteralPath $_ -Algorithm SHA256).Hash }) -join ':'
         $installer = (Get-FileHash -LiteralPath (Join-Path $Root '.github/scripts/install-author-tools.ps1') -Algorithm SHA256).Hash
         $result.perl = $identity

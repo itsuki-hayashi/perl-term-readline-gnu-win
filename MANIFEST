@@ -66,6 +66,7 @@ MANIFEST.SKIP
 META.json
 META.yml
 patches/author/0001-path-tiny-windows-tests.patch
+patches/author/0002-devel-cover-change-timing.patch
 patches/readline/0001-native-msvc.patch
 patches/readline/0002-checked-integer-conversions.patch
 README.md

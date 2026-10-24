@@ -95,7 +95,7 @@ try {
         Assert-Author ([Environment]::GetEnvironmentVariable($name, 'Process') -ceq $expected[$name]) "$name restored on success"
     }
     $completed = Get-Content -LiteralPath $marker -Raw
-    foreach ($inputFile in @("$fixture/patches/author/0001-path-tiny-windows-tests.patch", "$fixture/inc/Gnu/Patch.pm")) {
+    foreach ($inputFile in @("$fixture/patches/author/0001-path-tiny-windows-tests.patch", "$fixture/patches/author/0002-devel-cover-change-timing.patch", "$fixture/inc/Gnu/Patch.pm")) {
         $bytes = [IO.File]::ReadAllBytes($inputFile)
         try {
             [IO.File]::AppendAllText($inputFile, "`nfixture change`n")
@@ -150,6 +150,7 @@ try {
 & {
     function Initialize-AuthorBootstrap { param($Root, $Log); return @{ library = 'fixture-library'; cpanm = 'fixture-cpanm' } }
     function Initialize-AuthorPathTiny { param($Root, $Log); return "$Root/staged-Path-Tiny-0.150.tar.gz" }
+    function Initialize-AuthorCover { param($Root, $Log); return "$Root/staged-Devel-Cover-1.52.tar.gz" }
     $script:dependencyCalls = 0
     function Invoke-AuthorNative {
         param($Program, $Arguments, $Log)
@@ -159,6 +160,9 @@ try {
         $expectedCount = if ($script:dependencyCalls -eq 1) { 1 } else { 9 }
         Assert-Author (($Arguments | Where-Object { $_ -like '*.tar.gz' }).Count -eq $expectedCount) 'patched dependency installs separately before nine tools'
         Assert-Author (($Arguments -contains "$fixture/staged-Path-Tiny-0.150.tar.gz") -eq ($script:dependencyCalls -eq 1)) 'patched archive is the first isolated installation'
+        if ($script:dependencyCalls -eq 2) {
+            Assert-Author ($Arguments -contains "$fixture/staged-Devel-Cover-1.52.tar.gz" -and $Arguments -notcontains 'P/PJ/PJCJ/Devel-Cover-1.52.tar.gz') 'coverage uses the patched test archive'
+        }
     }
     $tools = Get-Content -LiteralPath "$fixture/config/author-tools.json" -Raw | ConvertFrom-Json
     Install-AuthorDependencies -Root $fixture -Prefix "$fixture/build/author" -Tools $tools -Log "$fixture/cpanm.log"
@@ -195,9 +199,18 @@ Assert-Author ((Get-Content "$patchSource/t/rel-abs.t" -Raw) -match '\$expect = 
 Assert-Author ((Get-Content "$patchSource/t/rel-abs.t" -Raw) -notmatch '\$deep->parent') 'POSIX-only physical path assumption removed'
 Assert-Author ((Get-Content "$patchSource/lib/runtime.txt" -Raw).Trim() -eq 'unchanged runtime') 'dependency runtime files remain unchanged'
 Assert-AuthorFailure { Invoke-AuthorNative -Program 'perl' -Arguments $patchArguments -Log "$fixture/patch.log" } 'Author command failed'
+New-Item -ItemType Directory -Path "$patchSource/tests" -Force | Out-Null
+$change = (@('') * 47) + '    delay_after_run => 0.50,'
+[IO.File]::WriteAllText("$patchSource/tests/change.t", ($change -join "`n") + "`n")
+$coverPatchArguments = @("-I$root/inc", '-MGnu::Patch', '-e', 'Gnu::Patch::apply(@ARGV)',
+    $patchSource, "$root/patches/author/0002-devel-cover-change-timing.patch")
+Invoke-AuthorNative -Program 'perl' -Arguments $coverPatchArguments -Log "$fixture/patch.log"
+Assert-Author ((Get-Content "$patchSource/tests/change.t" -Raw) -match 'delay_after_run => 1[.]10,') 'changed-source runs are separated by more than the database timestamp tick'
+Assert-AuthorFailure { Invoke-AuthorNative -Program 'perl' -Arguments $coverPatchArguments -Log "$fixture/patch.log" } 'Author command failed'
 & {
     function Invoke-WebRequest { param($Uri, $OutFile); 'invalid archive' | Set-Content -LiteralPath $OutFile }
     Assert-AuthorFailure { Initialize-AuthorPathTiny -Root $fixture -Log "$fixture/patch.log" } 'archive checksum mismatch'
+    Assert-AuthorFailure { Initialize-AuthorCover -Root $fixture -Log "$fixture/patch.log" } 'Devel-Cover-1[.]52 archive checksum mismatch'
 }
 & {
     function Invoke-WebRequest { param($Uri, $OutFile); throw 'fixture Path::Tiny download failure' }

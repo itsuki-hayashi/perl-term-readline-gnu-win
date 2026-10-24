@@ -177,30 +177,28 @@ Both CI architectures now use exact-match caches for tested author dependencies;
 hosted cache service behavior and native ARM64 execution remain unverified
 locally. See [CI.md](docs/CI.md#author-dependency-cache) for cache recovery.
 
-The subsequent hosted x64 run exposed Path::Tiny 0.150 symlink test assumptions
-that the local account could not exercise. Author installation now pins this
-dependency and applies a checksum-verified, test-only Windows patch without
-disabling assertions. Local revalidation passed 130 installer checks, all 54
-maintained Perl quality checks, and Path::Tiny's 30-file suite (1,795 tests).
-The patched archive installed through cpanm with normal tests, all ten pinned
-modules and native coverage calibration verified, and 1,161 project tests plus
-180 author/release checks, the fresh archive build/test/install and DLL
-inspection passed.
-The local account lacks symlink privileges, so the patched symlink cases still
-require a hosted run; native ARM64 also remains unverified. Evidence is in
-`build/quality/ci-installer-fixtures.log`, `ci-fix-quality.log` and
-`path-tiny-tests.log`, `ci-path-install-console.log`, `ci-path-verification.json`
-and `ci-fix-archive.log`.
+Hosted x64 CI confirmed the patched Path::Tiny 0.150 build passes its symlink
+tests. It then exposed a Devel::Cover 1.52 changed-source test race: database
+runs have whole-second ordering, but the test waited only half a second between
+source versions. A second test-only patch waits 1.10 seconds. Both dependency
+archives are checksum verified, patched in fresh copies and tested normally;
+runtime modules and XS remain pristine. Local validation passed 142 installer
+checks, Devel::Cover's 86-file suite (6,225 assertions with upstream optional
+dependency skips), ten repeated runs of
+the changed-source test, and verification of all ten pinned modules and native
+coverage calibration. A controlled reverse-order database reproduction produced
+the same 40 assertion failures and missing-structure warning as hosted CI.
+Evidence is in `build/ci-cover-race-repro.pl.log`, `build/quality/ci-cover-fixtures.log`,
+`ci-cover-install-console.log` and `ci-cover-verification.json`. Native ARM64
+and hosted execution of the latest timing patch remain unverified.
 
-A further hosted run confirmed the patched symlink target comparisons pass,
-but exposed an incorrect POSIX-specific relative-path expectation in the patch.
-That expectation now uses the actual resolved base directory. Local validation
-passed 137 installer checks and a Windows junction regression that reproduces
-the old mismatch and passes the corrected expectation. Patched Path::Tiny now
-installs separately and stops immediately on failure, preventing an unpatched
-dependency retry. Actual symlink traversal still requires the next hosted run;
-the local account lacks symlink privileges. Evidence is in
-`build/quality/ci-retry-fixtures.log` and `ci-retry-traversal.log`.
+The complete project gate with the rebuilt coverage tool also passed: 1,342
+instrumented tests, 180 author/release checks, all 54 maintained Perl quality
+checks, and 1,161 fresh-archive tests including temporary installation, native
+console checks and DLL inspection. All 17 targets retain 100% statement and
+branch coverage, with unchanged floors. Evidence is in
+`build/quality/ci-cover-native-full.log`, `coverage-tests.log` and
+`coverage-target.json`.
 
 The full coverage command is `perl script/coverage-perl.pl --require-full`.
 It includes real configuration, native build, release and fresh archive
