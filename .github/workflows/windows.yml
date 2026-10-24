@@ -43,12 +43,18 @@ jobs:
       - name: Select MSVC and Windows SDK
         id: compiler
         run: .github/scripts/toolchain.ps1 -Architecture '${{ matrix.arch }}' -VisualStudio ${{ matrix.vs }} -Toolset '${{ matrix.toolset }}'
+      - name: Compute native dependency cache keys
+        id: cache-keys
+        run: |
+          $native = 'native-perl-v2-${{ runner.os }}-${{ matrix.arch }}-${{ matrix.perl_sha256 }}-${{ steps.compiler.outputs.tools }}-${{ steps.compiler.outputs.sdk }}-shared-threaded-release'
+          "perl=$native" | Out-File $env:GITHUB_OUTPUT -Append -Encoding utf8
+          "author=author-tools-v1-$native-${{ matrix.cctype }}-${{ hashFiles('config/author-tools.json', '.github/scripts/install-author-tools.ps1', '.github/scripts/bootstrap-perl.ps1') }}" | Out-File $env:GITHUB_OUTPUT -Append -Encoding utf8
       - name: Cache native MSVC Perl
         id: perl-cache
         uses: actions/cache@55cc8345863c7cc4c66a329aec7e433d2d1c52a9 # v6.1.0
         with:
           path: ${{ runner.temp }}/native-perl
-          key: native-perl-v2-${{ runner.os }}-${{ matrix.arch }}-${{ matrix.perl_sha256 }}-${{ steps.compiler.outputs.tools }}-${{ steps.compiler.outputs.sdk }}-shared-threaded-release
+          key: ${{ steps.cache-keys.outputs.perl }}
       - name: Build matching native Perl
         if: steps.perl-cache.outputs.cache-hit != 'true'
         run: .github/scripts/bootstrap-perl.ps1 -Version '${{ matrix.perl }}' -Sha256 '${{ matrix.perl_sha256 }}' -Prefix "$env:RUNNER_TEMP/native-perl" -Cctype '${{ matrix.cctype }}'
@@ -63,8 +69,30 @@ jobs:
           if ($LASTEXITCODE) { throw 'Configuration failed' }
           nmake /nologo
           if ($LASTEXITCODE) { throw 'Build failed' }
-      - name: Install pinned Perl author tools
+      - name: Test author installer contracts
+        run: .github/scripts/test-author-tools.ps1
+      - name: Restore tested Perl author tools
+        id: author-cache
+        uses: actions/cache/restore@55cc8345863c7cc4c66a329aec7e433d2d1c52a9 # v6.1.0
+        with:
+          path: build/author
+          key: ${{ steps.cache-keys.outputs.author }}
+      - name: Install and verify pinned Perl author tools
+        if: steps.author-cache.outputs.cache-hit != 'true'
+        env:
+          AUTHOR_TOOLS_CACHE_KEY: ${{ steps.cache-keys.outputs.author }}
         run: .github/scripts/install-author-tools.ps1
+      - name: Verify restored Perl author tools
+        if: steps.author-cache.outputs.cache-hit == 'true'
+        env:
+          AUTHOR_TOOLS_CACHE_KEY: ${{ steps.cache-keys.outputs.author }}
+        run: .github/scripts/install-author-tools.ps1 -VerifyOnly
+      - name: Save tested Perl author tools
+        if: success() && steps.author-cache.outputs.cache-hit != 'true'
+        uses: actions/cache/save@55cc8345863c7cc4c66a329aec7e433d2d1c52a9 # v6.1.0
+        with:
+          path: build/author
+          key: ${{ steps.cache-keys.outputs.author }}
       - name: Enforce Perl formatting, static analysis, POD and compilation
         run: |
           perl script/check-perl.pl

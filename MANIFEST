@@ -1,6 +1,7 @@
 .gitattributes
 .github/scripts/bootstrap-perl.ps1
 .github/scripts/install-author-tools.ps1
+.github/scripts/test-author-tools.ps1
 .github/scripts/toolchain.ps1
 .github/workflows/windows.yml
 .gitignore

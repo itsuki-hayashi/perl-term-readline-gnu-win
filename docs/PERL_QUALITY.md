@@ -7,7 +7,7 @@ are development dependencies, not installation prerequisites.
 
 ## Running the gates
 
-In a matching Visual Studio Native Tools PowerShell session:
+In a matching Visual Studio Native Tools PowerShell 7 (`pwsh`) session:
 
 ```powershell
 $env:LC_ALL = 'C'
@@ -31,6 +31,26 @@ The contained installation also avoids relying on author modules already in
 the developer's site library. Module::Pluggable is pinned to 6.3 because 6.4's
 extra install hook fails native installation here. Color-test preferences are
 cleared temporarily during dependency tests and restored afterwards.
+
+The installer also temporarily removes repository author/release/extended-test
+flags and inherited Perl library, installation and instrumentation overrides.
+`AUTOMATED_TESTING` remains enabled in CI. This runs dependencies' normal
+installation tests without demanding their optional maintainer-test modules;
+it does not disable this project's author or release checks. Temporary files
+use a dedicated controlled directory and its Windows short spelling when
+available, limiting nested DESTDIR paths in dependency tests. All original
+environment values, including unset versus empty values, are restored after
+success or failure.
+Dependency tests are never forced or bypassed.
+
+CI caches the tested author library separately from Perl. Use
+`.github/scripts/install-author-tools.ps1 -VerifyOnly` to validate an existing
+completed installation without network access. A missing or stale completion
+marker requires a normal installation; it must not be fabricated to bless a
+partial library. The verifier uses only the contained author library and Perl's
+core libraries, checks exact tool versions, exercises the Critic/PPI/Tidy stack
+and calibrates native Devel::Cover. See [CI.md](CI.md#author-dependency-cache)
+for cache keys, invalidation, reports and failure recovery.
 
 `script/check-perl.pl` discovers `Makefile.PL`, maintained `.pm`, `.pl` and `.t`
 files under `lib`, `inc`, `script`, `t` and `xt`, and extensionless

@@ -13,6 +13,9 @@ the installed archive through `script/test-archive.pl` before release.
 Maintained Perl must also pass `perl script/check-perl.pl` and
 `perl script/coverage-perl.pl --require-full`. Install pinned author dependencies with
 `.github/scripts/install-author-tools.ps1` in the same Native Tools environment.
+Validate an already completed author installation offline with the same command
+and `-VerifyOnly`. Run `.github/scripts/test-author-tools.ps1` for the installer
+fixtures; they require native Perl and PowerShell, with no CPAN downloads.
 See [the Perl quality guide](PERL_QUALITY.md) for policy decisions, formatting,
 AutoLoader checks and exact 100% statement/branch requirements. Inherited examples are excluded
 from the initial author gates; vendor sources must not be reformatted.

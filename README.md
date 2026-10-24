@@ -162,6 +162,21 @@ Evidence is in `build/quality/coverage-target.json`, `coverage-tests.log` and
 ARM64, hosted CI and real Tk validation were not performed locally. C/XS
 coverage is outside the Perl percentage.
 
+Author dependency setup was revalidated on 2026-10-24 on Windows 11 x64 with
+MSVC Perl 5.44.0. All **119 PowerShell installer checks** passed. A clean
+contained installation built and tested **73 CPAN distributions**, including
+all nine pinned tools, in **791.7 seconds**. Offline verification after copying
+only the author-library cache payload to a fresh location took **5.5 seconds**;
+the local copy took another **6.0 seconds**. These timings exclude GitHub cache
+transfer and extraction. The verifier rejected a deliberately missing module
+without falling back to another installed library, then passed after repair.
+The complete Perl quality/coverage, native, release and fresh archive checks
+also passed with the counts above and unchanged coverage floors. Evidence is
+in `build/quality/author-cache-validation.json` and `author-cache-full-coverage.log`.
+Both CI architectures now use exact-match caches for tested author dependencies;
+hosted cache service behavior and native ARM64 execution remain unverified
+locally. See [CI.md](docs/CI.md#author-dependency-cache) for cache recovery.
+
 The full coverage command is `perl script/coverage-perl.pl --require-full`.
 It includes real configuration, native build, release and fresh archive
 installation. Missing measurements, changed site totals, partial coverage and
