@@ -40,11 +40,32 @@ sub activate {
     print {$batch} "\@echo off\ncall $command >nul\nif errorlevel 1 exit /b 1\nset\n";
     close $batch or die $!;
     open $p, '-|', ( $ENV{COMSPEC} || 'cmd.exe' ), '/d', '/c', 'call', $path or die $!;
-    while (<$p>) { chomp; $ENV{$1} = $2 if /^([^=]+)=(.*)$/; }    ## no critic (Variables::RequireLocalizedPunctuationVars) -- Process-wide initialization or persistent stream state is intentional.
-    close $p or die "Cannot initialize the $target MSVC environment\n";
+    my @diagnostics;
+    while (<$p>) {
+        chomp;
+
+        # Keep captures independent of branch instrumentation and callbacks.
+        my ( $name, $value ) = /^([^=]+)=(.*)$/;
+        if ( defined $name ) {
+            $ENV{$name} = $value;    ## no critic (Variables::RequireLocalizedPunctuationVars) -- Activation intentionally imports the selected compiler environment.
+        }
+        else {
+            push @diagnostics, $_;
+        }
+    }
+    close $p
+        or die "Cannot initialize the $target MSVC environment using $command\n"
+        . join( "\n", @diagnostics ) . "\n";
     require File::Basename;
-    $ENV{PATH} = File::Basename::dirname($^X) . ';' . $ENV{PATH};    ## no critic (Variables::RequireLocalizedPunctuationVars) -- Process-wide initialization or persistent stream state is intentional.
+    $ENV{PATH} = unique_path( File::Basename::dirname($^X) . ';' . $ENV{PATH} );    ## no critic (Variables::RequireLocalizedPunctuationVars) -- Process-wide initialization or persistent stream state is intentional.
     return $vs;
+}
+
+# Repeated activation must not grow PATH past cmd.exe's line limit. Keep the
+# first occurrence, including an empty current-directory entry, in Windows order.
+sub unique_path ($path) {
+    my %seen;
+    return join ';', grep { !$seen{ lc $_ }++ } split /;/, $path, -1;
 }
 
 sub compiler_version {

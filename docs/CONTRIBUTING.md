@@ -11,10 +11,10 @@ to make CI green. Optional integrations must explain their skips. Validate
 the installed archive through `script/test-archive.pl` before release.
 
 Maintained Perl must also pass `perl script/check-perl.pl` and
-`perl script/coverage-perl.pl`. Install pinned author dependencies with
+`perl script/coverage-perl.pl --require-full`. Install pinned author dependencies with
 `.github/scripts/install-author-tools.ps1` in the same Native Tools environment.
 See [the Perl quality guide](PERL_QUALITY.md) for policy decisions, formatting,
-AutoLoader checks and measured coverage floors. Inherited examples are excluded
+AutoLoader checks and exact 100% statement/branch requirements. Inherited examples are excluded
 from the initial author gates; vendor sources must not be reformatted.
 
 Keep vendor sources pristine. Upstream hooks belong in patches; Windows

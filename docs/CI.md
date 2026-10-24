@@ -31,7 +31,10 @@ Creating a workflow file is not itself an ARM64 test result.
 
 Both rows install pinned author tools separately from the cached native Perl,
 then enforce Perl formatting, severity-1 static analysis, POD, staged compilation
-and measured statement/branch coverage. Native tests, release checks and archive
+and literal 100% statement/branch coverage with
+`perl script/coverage-perl.pl --require-full`. The gate includes all maintained
+production Perl and rejects missing measurements or changed site totals; tests
+run under instrumentation but are excluded from the denominator. Native tests, release checks and archive
 installation remain mandatory. `build/quality` reports join the existing
 artifacts. See [PERL_QUALITY.md](PERL_QUALITY.md) for exact scope and exceptions.
 Configuring required merge statuses is a repository branch-protection setting.

@@ -147,6 +147,27 @@ coverage and instrumentation limitations are documented in
 [PERL_QUALITY.md](docs/PERL_QUALITY.md). Native ARM64, hosted CI and optional
 Tk validation for these changes remain unavailable locally.
 
+Coverage validation on 2026-10-24 used the same Windows 11 x64 / MSVC Perl
+5.44.0 / Visual Studio 2026 toolchain. The strict `--require-full` gate passed
+**1,342 instrumented tests** across 29 files, **180 release/author checks**,
+and **1,161 fresh-archive tests** across 26 files. All **54 maintained Perl
+sources**, including tests, passed formatting, configured severity-1 analysis,
+POD and isolated compilation. All **17 production Perl sources** measured
+**100% statements (1,597/1,597) and branches (710/710)**, with no sites marked
+uncoverable and exact per-source totals frozen in the coverage configuration.
+Native C/console tests, a fresh archive build and installation in paths with
+spaces, installed-backend smoke tests and DLL dependency inspection passed.
+Evidence is in `build/quality/coverage-target.json`, `coverage-tests.log` and
+`require-full-verified.log`; CI uploads quality and native evidence. Native
+ARM64, hosted CI and real Tk validation were not performed locally. C/XS
+coverage is outside the Perl percentage.
+
+The full coverage command is `perl script/coverage-perl.pl --require-full`.
+It includes real configuration, native build, release and fresh archive
+installation. Missing measurements, changed site totals, partial coverage and
+failed subprocesses fail the gate. See [the coverage guide](docs/PERL_QUALITY.md#coverage-and-limits)
+for instrumentation calibration, exact scope and contributor commands.
+
 Before release, run `perl script/release.pl` and `perl script/test-archive.pl`
 in the developer environment. The latter rebuilds a fresh archive, installs
 into a prefix containing spaces, inspects DLL imports, and exercises the
@@ -156,7 +177,9 @@ installed module outside its source directory. These tools do not publish releas
 ## Limitations
 
 Maintained Perl has mandatory formatting, severity-1 static analysis, POD,
-compilation and measured coverage gates in the existing native CI jobs.
+compilation and exact 100% statement/branch coverage gates for all maintained
+production Perl in the existing native CI jobs. Tests run under coverage and
+pass the same static checks, but are excluded from the coverage denominator.
 Author dependencies are separate from installation prerequisites. See
 [the Perl quality guide](docs/PERL_QUALITY.md) for commands, compatibility
 exceptions, excluded examples and coverage limitations.

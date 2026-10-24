@@ -29,6 +29,94 @@ sub sources ($root) {
     return sort @files;    ## no critic (Subroutines::ProhibitReturnSort) -- Source discovery is an explicitly list-valued internal interface.
 }
 
+# Tests are executed but are not part of the production coverage denominator.
+# Reuse lint discovery so newly added helpers and extensionless perlsh cannot
+# silently disappear from the coverage inventory.
+sub coverage_sources ($root) {
+    return grep { !m{\A(?:t|xt)/} } sources($root);
+}
+
+# Devel::Cover merges byte-identical copies by digest and may retain the
+# absolute filename of a staged or installed copy as its canonical name.
+# Map such copies only after comparing bytes with a discovered source.
+sub coverage_source_name ( $root, $file, $targets ) {
+    my $path = $file;
+    $path =~ tr{\\}{/};
+    for my $target ( $targets->@* ) {
+        next
+            unless $path eq $target
+            || $path =~ m{/(?:blib/)?\Q$target\E\z}
+            || $path eq "blib/$target";
+        my $original = File::Spec->catfile( $root, $target );
+        next unless -f $file && -f $original;
+        return $target if Gnu::Build::slurp($file) eq Gnu::Build::slurp($original);
+    }
+    return undef;
+}
+
+# Full coverage uses integer counts, never rounded display percentages.
+# A branch-free file must still have an explicit, valid zero measurement.
+sub full_coverage_errors ( $targets, $actual, $expected = undef ) {
+    my @errors;
+    for my $file ( $targets->@* ) {
+        for my $criterion (qw(statement branch)) {
+            my $value = ( $actual->{$file} // {} )->{$criterion};
+            if ( !$value ) {
+                push @errors, "Missing $criterion coverage for $file\n";
+                next;
+            }
+            my ( $covered, $total ) = $value->@{qw(covered total)};
+            if (   !defined $covered
+                || !defined $total
+                || $covered !~ /\A[0-9]+\z/
+                || $total   !~ /\A[0-9]+\z/
+                || $covered > $total
+                || ( $criterion eq 'statement' && !$total )
+                || ( $covered == $total && ( $value->{error} // 0 ) )
+                || ( $value->{uncoverable} // 0 ) )
+            {
+                push @errors, "Invalid $criterion measurement for $file\n";
+                next;
+            }
+            push @errors, "$file $criterion coverage $covered/$total below 100%\n"
+                if $covered != $total;
+        }
+    }
+    push @errors, "Empty coverage target inventory\n" unless $targets->@*;
+    push @errors, coverage_total_errors( $targets, $actual, $expected ) if defined $expected;
+    return @errors;
+}
+
+# A pruned optree can otherwise produce an apparent 100% with fewer sites.
+# Frozen per-file totals make that loss explicit instead of accepting it.
+sub coverage_total_errors ( $targets, $actual, $expected ) {
+    return "Invalid expected coverage totals\n" unless ref($expected) eq 'HASH';
+    my @errors;
+    my %wanted = map { $_ => 1 } $targets->@*;
+    for my $file ( sort keys $expected->%* ) {
+        push @errors, "Unexpected coverage target $file in expected totals\n" unless $wanted{$file};
+    }
+    for my $file ( $targets->@* ) {
+        if ( ref( $expected->{$file} ) ne 'HASH' ) {
+            push @errors, "Missing or invalid expected totals for $file\n";
+            next;
+        }
+        for my $criterion (qw(statement branch)) {
+            my $total = $expected->{$file}{$criterion};
+            if ( !defined $total || $total !~ /\A[0-9]+\z/ ) {
+                push @errors, "Missing or invalid expected $criterion total for $file\n";
+                next;
+            }
+            my $value = ( $actual->{$file} // {} )->{$criterion};
+            next unless $value && defined $value->{total};
+            push @errors,
+                "Unexpected $criterion total for $file: $value->{total} instead of $total\n"
+                if $value->{total} != $total;
+        }
+    }
+    return @errors;
+}
+
 # PPI otherwise treats executable AutoLoader routines as opaque data.
 # Replacing only the marker keeps diagnostic source line numbers unchanged.
 sub analysis_source ( $path, $text ) {

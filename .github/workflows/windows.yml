@@ -75,9 +75,9 @@ jobs:
           if ($LASTEXITCODE) { throw 'Checkout tests failed' }
           perl script/release.pl
           if ($LASTEXITCODE) { throw 'Release checks failed' }
-      - name: Enforce measured Perl coverage baselines
+      - name: Require 100% Perl statement and branch coverage
         run: |
-          perl script/coverage-perl.pl
+          perl script/coverage-perl.pl --require-full
           if ($LASTEXITCODE) { throw 'Perl coverage checks failed' }
       - name: Rebuild and test extracted source archive
         run: |

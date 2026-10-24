@@ -22,6 +22,17 @@ my $profile = abs_path('.perltidyrc');
 my $valid   = "use v5.44;\nuse strict;\nuse warnings;\nprint qq(hello\\n);\n";
 my @good    = Gnu::Quality::inspect( 'fixture.pl', $valid, $critic, $profile );
 is_deeply( \@good, [], 'valid fixture passes' );
+my @commented = Gnu::Quality::inspect(
+    'fixture.pl',
+    $valid
+        . "\n# ordinary comment\n## no critic (Subroutines::ProhibitReturnSort) -- Fixture exercises accepted annotation syntax.\n",
+    $critic,
+    $profile
+);
+ok(
+    !grep( { /blanket Critic suppression/ } @commented ),
+    'ordinary comments and named annotations accepted'
+);
 my @untidy = Gnu::Quality::inspect( 'fixture.pl', "use v5.44; print(  1 );\n", $critic, $profile );
 ok( grep( { /formatting/ } @untidy ), 'formatting drift fails' );
 my @lint = Gnu::Quality::inspect( 'fixture.pl', "$valid\nmy \$unused;\n", $critic, $profile );
@@ -53,4 +64,94 @@ like( join( '', Gnu::Quality::coverage_errors( $minimum, $passing ) ),
     qr/below 50/, 'coverage regression fails' );
 like( join( '', Gnu::Quality::coverage_errors( $minimum, {} ) ),
     qr/Missing/, 'missing coverage fails' );
+my @targets = Gnu::Quality::coverage_sources( abs_path('.') );
+ok( grep( { $_ eq 'script/perlsh' } @targets ),        'REPL has a coverage target' );
+ok( grep( { $_ eq 'Makefile.PL' } @targets ),          'configuration has a coverage target' );
+ok( grep( { $_ eq 'inc/Gnu/Toolchain.pm' } @targets ), 'toolchain has a coverage target' );
+ok( !grep( { m{^(?:t|xt)/} } @targets ),               'test code is outside denominator' );
+is( Gnu::Quality::coverage_source_name( abs_path('.'), abs_path('script/perlsh'), \@targets ),
+    'script/perlsh', 'absolute source name resolves against inventory' );
+is( Gnu::Quality::coverage_source_name( abs_path('.'), "$dir/missing.pl", \@targets ),
+    undef, 'unknown source is not credited' );
+mkdir("$dir/script") or die $!;
+my $staged = "$dir/script/perlsh";
+open my $copy, '>:raw', $staged or die $!;
+print {$copy} Gnu::Build::slurp('script/perlsh') or die $!;
+close $copy                                      or die $!;
+is( Gnu::Quality::coverage_source_name( abs_path('.'), $staged, \@targets ),
+    'script/perlsh', 'identical staged script resolves' );
+is( Gnu::Quality::coverage_source_name( "$dir/missing", $staged, \@targets ),
+    undef, 'absent original source cannot be credited' );
+open $copy, '>>:raw', $staged or die $!;
+print {$copy} "\n# modified copy\n" or die $!;
+close $copy                         or die $!;
+is( Gnu::Quality::coverage_source_name( abs_path('.'), $staged, \@targets ),
+    undef, 'modified staged script cannot be credited' );
+my $complete = {
+    'fixture.pl' => {
+        statement => { covered => 3, total => 3 },
+        branch    => { covered => 0, total => 0 },
+    }
+};
+is_deeply( [ Gnu::Quality::full_coverage_errors( ['fixture.pl'], $complete ) ],
+    [], 'full statements and explicit branch-free measurement pass' );
+like( join( '', Gnu::Quality::full_coverage_errors( [], $complete ) ),
+    qr/Empty/, 'empty target inventory fails' );
+like( join( '', Gnu::Quality::full_coverage_errors( ['missing.pl'], $complete ) ),
+    qr/Missing/, 'unloaded target fails' );
+$complete->{'fixture.pl'}{statement} = { covered => 999999, total => 1000000, percentage => 100 };
+like( join( '', Gnu::Quality::full_coverage_errors( ['fixture.pl'], $complete ) ),
+    qr/below 100%/, 'rounded percentage cannot hide a missed statement' );
+
+for my $invalid (
+    {},
+    { covered => -1, total => 2 },
+    { covered =>  3, total => 2 },
+    { covered =>  0, total => 0 },
+    { covered =>  1, total => 1, error       => 1 },
+    { covered =>  1, total => 1, uncoverable => 1 },
+    )
+{
+    $complete->{'fixture.pl'}{statement} = $invalid;
+    like( join( '', Gnu::Quality::full_coverage_errors( ['fixture.pl'], $complete ) ),
+        qr/Invalid/, 'invalid or excluded measurement fails' );
+}
+my $totals = { 'fixture.pl' => { statement => 3, branch => 0 } };
+$complete->{'fixture.pl'}{statement} = { covered => 3, total => 3 };
+is_deeply( [ Gnu::Quality::full_coverage_errors( ['fixture.pl'], $complete, $totals ) ],
+    [], 'exact expected totals accept a branch-free file' );
+$totals->{'fixture.pl'}{statement} = 4;
+like(
+    join( '', Gnu::Quality::full_coverage_errors( ['fixture.pl'], $complete, $totals ) ),
+    qr/Unexpected statement total/,
+    'lost instrumentation sites are rejected'
+);
+$totals->{'fixture.pl'}{statement} = -1;
+like(
+    join( '', Gnu::Quality::full_coverage_errors( ['fixture.pl'], $complete, $totals ) ),
+    qr/invalid expected/,
+    'invalid expected total rejected'
+);
+$totals->{'stale.pl'} = {};
+like(
+    join( '', Gnu::Quality::full_coverage_errors( ['fixture.pl'], {}, $totals ) ),
+    qr/Unexpected coverage target/,
+    'stale target is rejected'
+);
+like(
+    join( '', Gnu::Quality::full_coverage_errors( ['fixture.pl'], $complete, [] ) ),
+    qr/Invalid expected coverage totals/,
+    'malformed totals table rejected'
+);
+like(
+    join( '', Gnu::Quality::full_coverage_errors( ['fixture.pl'], $complete, {} ) ),
+    qr/invalid expected totals/,
+    'missing expected row rejected'
+);
+my $missing_total = { 'fixture.pl' => { statement => 3 } };
+like(
+    join( '', Gnu::Quality::full_coverage_errors( ['fixture.pl'], $complete, $missing_total ) ),
+    qr/invalid expected branch/,
+    'missing criterion total rejected'
+);
 done_testing;

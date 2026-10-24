@@ -16,7 +16,7 @@ nmake
 .github/scripts/install-author-tools.ps1
 perl script/check-perl.pl
 nmake test
-perl script/coverage-perl.pl
+perl script/coverage-perl.pl --require-full
 perl script/release.pl
 perl script/test-archive.pl
 ```
@@ -133,27 +133,74 @@ encoding. The recorded values and vendor sources are preserved.
 
 ## Coverage and limits
 
-`script/coverage-perl.pl` first calibrates the pinned native Devel::Cover build
-with a small program exercising both sides of an `if`. Statement and branch
-instrumentation must each report 100% for that probe. Unsupported instrumentation
-fails explicitly and writes calibration evidence; it is not silently skipped.
+`perl script/coverage-perl.pl --require-full` is the mandatory CI command. It
+forces native integration and requires literal 100% statement and branch
+coverage for every maintained production Perl source: `Makefile.PL`, all six
+`inc/Gnu` modules, `inc/build-native.pl`, both runtime modules, and all seven
+scripts, including extensionless `perlsh`. Tests and test support are executed
+and pass the same static gates, but are excluded from the coverage denominator.
+Inherited examples, vendor code, generated files, dependencies and C/XS are
+outside that denominator. Native C, console and dependency checks remain
+mandatory and are not represented by the Perl percentage.
 
-The runner then executes the complete Perl/native suite and author-tool
-regressions with statement and branch instrumentation. Every run uses a fresh
-database, so earlier runs cannot inflate the result. Baseline comparison is
-per module, fails on missing measurements, and has regression tests for both
-missing and reduced coverage. `config/coverage-baseline.json` records measured
-minimum percentages rounded down to two decimal places, not an arbitrary target.
+The runner first calibrates the pinned native Devel::Cover build using ordinary
+branches, postfix exception guards, loops, callbacks and short-circuit logic.
+Both statement and branch measurements must be complete. Condition
+instrumentation is also enabled: Devel::Cover 1.52 needs it to populate some
+branch counters correctly, even though condition coverage is not a target.
+Unsupported instrumentation fails explicitly rather than skipping coverage.
 
-These are initial non-regression floors, not claims of comprehensive coverage.
-Some branch floors are zero. Optional Tk, exceptional OS/I/O paths, unexercised
-build-tool routines and some native callbacks still need additional testing.
-Toolchain provisioning and release/update scripts are compiled and linted but
-do not have runtime coverage baselines. C/XS coverage is not measured by this
-Perl tool; native tests and dependency inspection remain separate requirements.
-The tool also undercounts some exception guards: a local probe exercising both
-outcomes of a postfix `die if` still reported that guard uncovered. Reported
-percentages are comparable instrumentation measurements, not proof that such
-guards lack tests. No branches are marked uncoverable to improve the numbers.
-Do not lower a floor to obtain a green build. Review changed measurements,
-add behavior tests, and record actual platform evidence when updating a floor.
+Every run creates a fresh database. Absolute source names, an unrelated
+filename root and absolute AutoSplit line directives preserve measurements
+across console subprocess working directories. Syntax-only compilation children
+clear instrumentation so disposable staging cannot replace canonical runtime
+source names. Staged copies contribute only when their bytes match the current
+maintained source. Installation children clear author libraries and harness
+options, so installed smoke tests cannot accidentally use checkout libraries.
+
+Author scripts use named phases because early exceptions in a `do FILE` probe
+can discard main-program optrees and falsely report complete coverage. Frozen
+per-source statement and branch totals in `config/coverage-baseline.json`
+reject missing or truncated measurements. A source change that alters totals
+requires reviewing a fresh integrated report and updating those totals; do not
+reduce the denominator simply to pass. Zero branches are accepted only for a
+loaded source with no branch sites. No source sites are marked uncoverable.
+Exact covered and total counts decide success; rounded percentages cannot pass.
+
+Without flags, the runner provides a faster test and per-module regression
+check. `--integration` adds actual configuration, native build, release and
+fresh archive installation. Only `--require-full` enforces the complete target;
+it implies `--integration`. The default command is not a substitute for the CI
+gate. Existing 100% module floors remain enforced in every mode.
+
+`build/quality/calibration.json`, `coverage.json`, `coverage-target.json` and
+`coverage-tests.log` record calibration, per-source counts, uncovered locations,
+failures and subprocess results. CI uploads these with native and archive logs.
+Devel::Cover may announce replacement of a reused, non-target generated fixture
+file; maintained targets still require matching bytes and exact site totals.
+Runner fixtures reject missing metrics, lost totals, excluded sites, partial
+coverage, invalid baselines, stale reports, child failures and report I/O
+failures. Checker fixtures cover formatting, Critic, POD, syntax, AutoLoader,
+configuration and subprocess failures. Fault injection is confined to disposable
+fixture children; the mandatory native integration runs real tools.
+
+Coverage is evidence that instrumented paths ran, not proof of all possible
+inputs or native behavior. Contract tests assert argument acceptance, context,
+prototypes, dispatch, tied variables, callbacks, UTF-8, REPL evaluation and
+completion, errors and warnings. Test-local Unix and Tk models exercise Perl
+adapters without claiming those platforms or a real Tk integration were tested.
+The legacy `rl_tty_set_default_bindings` and
+`rl_tty_unset_default_bindings` wrappers retain their existing unavailable-native-symbol errors, with regression tests;
+coverage does not imply those historical adapters work.
+
+Native ARM64 and hosted CI require actual runs on their respective machines.
+The committed totals were measured with the pinned x64 toolchain; an
+architecture-dependent discrepancy must be investigated and recorded, not
+silently ignored or used to weaken the full gate.
+
+The 2026-10-24 Windows 11 x64 run of `--require-full` passed all 17 targets:
+1,597/1,597 statements and 710/710 branches, with no excluded sites. The run
+passed 1,342 instrumented tests, 180 release/author checks and 1,161 extracted
+archive tests. All 54 maintained sources passed the static gates. The actual
+archive installed and loaded outside its source tree, and DLL imports passed
+inspection. See README for the toolchain and unavailable platform validation.
