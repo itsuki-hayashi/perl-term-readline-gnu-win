@@ -192,6 +192,16 @@ require a hosted run; native ARM64 also remains unverified. Evidence is in
 `path-tiny-tests.log`, `ci-path-install-console.log`, `ci-path-verification.json`
 and `ci-fix-archive.log`.
 
+A further hosted run confirmed the patched symlink target comparisons pass,
+but exposed an incorrect POSIX-specific relative-path expectation in the patch.
+That expectation now uses the actual resolved base directory. Local validation
+passed 137 installer checks and a Windows junction regression that reproduces
+the old mismatch and passes the corrected expectation. Patched Path::Tiny now
+installs separately and stops immediately on failure, preventing an unpatched
+dependency retry. Actual symlink traversal still requires the next hosted run;
+the local account lacks symlink privileges. Evidence is in
+`build/quality/ci-retry-fixtures.log` and `ci-retry-traversal.log`.
+
 The full coverage command is `perl script/coverage-perl.pl --require-full`.
 It includes real configuration, native build, release and fresh archive
 installation. Missing measurements, changed site totals, partial coverage and

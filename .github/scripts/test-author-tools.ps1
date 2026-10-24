@@ -150,15 +150,25 @@ try {
 & {
     function Initialize-AuthorBootstrap { param($Root, $Log); return @{ library = 'fixture-library'; cpanm = 'fixture-cpanm' } }
     function Initialize-AuthorPathTiny { param($Root, $Log); return "$Root/staged-Path-Tiny-0.150.tar.gz" }
+    $script:dependencyCalls = 0
     function Invoke-AuthorNative {
         param($Program, $Arguments, $Log)
         Assert-Author ($Program -eq 'perl' -and $Arguments -contains '--local-lib-contained') 'contained cpanm invocation'
         Assert-Author ($Arguments -notcontains '--notest' -and $Arguments -notcontains '--force') 'dependency tests cannot be bypassed'
-        Assert-Author (($Arguments | Where-Object { $_ -like '*.tar.gz' }).Count -eq 10) 'all ten pinned distributions requested'
-        Assert-Author ($Arguments.IndexOf("$fixture/staged-Path-Tiny-0.150.tar.gz") -lt $Arguments.IndexOf('D/DB/DBOOK/Perl-Critic-Community-v1.0.4.tar.gz')) 'tested Path::Tiny archive precedes dependent tools'
+        $script:dependencyCalls++
+        $expectedCount = if ($script:dependencyCalls -eq 1) { 1 } else { 9 }
+        Assert-Author (($Arguments | Where-Object { $_ -like '*.tar.gz' }).Count -eq $expectedCount) 'patched dependency installs separately before nine tools'
+        Assert-Author (($Arguments -contains "$fixture/staged-Path-Tiny-0.150.tar.gz") -eq ($script:dependencyCalls -eq 1)) 'patched archive is the first isolated installation'
     }
     $tools = Get-Content -LiteralPath "$fixture/config/author-tools.json" -Raw | ConvertFrom-Json
     Install-AuthorDependencies -Root $fixture -Prefix "$fixture/build/author" -Tools $tools -Log "$fixture/cpanm.log"
+    Assert-Author ($script:dependencyCalls -eq 2) 'dependent tools start only after patched dependency succeeds'
+    & {
+        function Invoke-AuthorNative { param($Program, $Arguments, $Log); $script:dependencyCalls++; throw 'patched dependency failed' }
+        $script:dependencyCalls = 0
+        Assert-AuthorFailure { Install-AuthorDependencies -Root $fixture -Prefix "$fixture/build/author" -Tools $tools -Log "$fixture/cpanm.log" } 'patched dependency failed'
+        Assert-Author ($script:dependencyCalls -eq 1) 'failed patch installation never starts dependent tools or retries upstream'
+    }
     $tools.distributions.PSObject.Properties.Remove('PPI')
     Assert-AuthorFailure { Install-AuthorDependencies -Root $fixture -Prefix "$fixture/build/author" -Tools $tools -Log "$fixture/cpanm.log" } 'Missing pinned distribution for PPI'
     Assert-AuthorFailure { Install-AuthorDependencies -Root $fixture -Prefix "$fixture/build/author" -Tools ([pscustomobject]@{ required = [pscustomobject]@{}; coverage = [pscustomobject]@{} }) -Log "$fixture/cpanm.log" } 'Empty author-tool inventory'
@@ -181,8 +191,8 @@ $patchArguments = @("-I$root/inc", '-MGnu::Patch', '-e', 'Gnu::Patch::apply(@ARG
 Invoke-AuthorNative -Program 'perl' -Arguments $patchArguments -Log "$fixture/patch.log"
 Assert-Author ((Get-Content "$patchSource/t/filesystem.t" -Raw) -match 'path\(readlink\(\$link2\)\)') 'absolute symlink assertions normalize Windows separators'
 Assert-Author ((Get-Content "$patchSource/t/symlinks.t" -Raw) -match 'path\(readlink \$bar\)') 'relative symlink assertion normalizes Windows separators'
-Assert-Author ((Get-Content "$patchSource/t/rel-abs.t" -Raw) -match '\$deep->parent->child\("F/G"\)->mkdir;') 'physical relative-path fixture exists on Windows'
-Assert-Author ((Get-Content "$patchSource/t/rel-abs.t" -Raw) -match '\$deep->parent->child\("F/G"\)->realpath') 'original symlink resolution assertion remains enabled'
+Assert-Author ((Get-Content "$patchSource/t/rel-abs.t" -Raw) -match '\$expect = \$path->relative\( \$base->realpath \);') 'relative-path expectation uses the operating system resolved base'
+Assert-Author ((Get-Content "$patchSource/t/rel-abs.t" -Raw) -notmatch '\$deep->parent') 'POSIX-only physical path assumption removed'
 Assert-Author ((Get-Content "$patchSource/lib/runtime.txt" -Raw).Trim() -eq 'unchanged runtime') 'dependency runtime files remain unchanged'
 Assert-AuthorFailure { Invoke-AuthorNative -Program 'perl' -Arguments $patchArguments -Log "$fixture/patch.log" } 'Author command failed'
 & {

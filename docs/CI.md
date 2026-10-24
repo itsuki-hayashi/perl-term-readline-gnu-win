@@ -67,13 +67,17 @@ when the runner has symlink privileges: `readlink` returns backslashes, and
 `mkdir` resolves `..` before traversing a directory symlink. The installer
 checks the upstream archive SHA256, extracts a build copy, and applies
 `patches/author/0001-path-tiny-windows-tests.patch` using `Gnu::Patch`.
-The patch normalizes three target comparisons and creates the missing physical
-directory fixture. All assertions and dependency tests remain enabled; runtime
+The patch normalizes three target comparisons and derives the relative-path
+expectation from the operating system's resolved base directory. All assertions
+and dependency tests remain enabled; runtime
 sources and upstream license notices are unchanged. Patch or applicator changes
 invalidate both the cache key and completion marker.
 The installer repacks a fresh patched copy as a local archive because cpanm
 1.7049 does not recognize drive-letter absolute directories as local sources.
 Downloaded archives and extracted or patched copies are outside the cache.
+Patched Path::Tiny installs in a separate cpanm invocation before the other
+tools. Its failure stops installation immediately, so a dependent distribution
+cannot retry an unpatched Path::Tiny release and obscure the first failure.
 
 An invalid cache fails explicitly and names its key. Delete that author-tool
 entry under the repository's Actions caches and rerun. To refresh transitive

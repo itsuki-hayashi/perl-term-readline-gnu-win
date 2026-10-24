@@ -57,21 +57,28 @@ function Initialize-AuthorPathTiny {
 function Install-AuthorDependencies {
     param([string]$Root, [string]$Prefix, $Tools, [string]$Log)
     $modules = @()
+    $patchedPathTiny = $null
     foreach ($group in @($Tools.required, $Tools.coverage)) {
         foreach ($entry in $group.PSObject.Properties) {
             $distribution = $Tools.distributions.PSObject.Properties[$entry.Name]
             if (-not $distribution) { throw "Missing pinned distribution for $($entry.Name)" }
-            $modules += if ($entry.Name -eq 'Path::Tiny') {
-                Initialize-AuthorPathTiny -Root $Root -Log $Log
-            } else { $distribution.Value }
+            if ($entry.Name -eq 'Path::Tiny') {
+                $patchedPathTiny = Initialize-AuthorPathTiny -Root $Root -Log $Log
+            } else { $modules += $distribution.Value }
         }
     }
-    if (!$modules.Count) { throw 'Empty author-tool inventory' }
+    if (!$modules.Count -and !$patchedPathTiny) { throw 'Empty author-tool inventory' }
     $bootstrap = Initialize-AuthorBootstrap -Root $Root -Log $Log
     # Keep normal dependency tests enabled. PERL_CPANM_OPT is isolated too.
     $arguments = @("-I$($bootstrap.library)", $bootstrap.cpanm, '--local-lib-contained', $Prefix,
-        '--mirror', 'https://cpan.metacpan.org', '--mirror-only') + $modules
-    Invoke-AuthorNative -Program 'perl' -Arguments $arguments -Log $Log
+        '--mirror', 'https://cpan.metacpan.org', '--mirror-only')
+    # Fail before dependent distributions can retry the unpatched CPAN release.
+    if ($patchedPathTiny) {
+        Invoke-AuthorNative -Program 'perl' -Arguments ($arguments + @($patchedPathTiny)) -Log $Log
+    }
+    if ($modules.Count) {
+        Invoke-AuthorNative -Program 'perl' -Arguments ($arguments + $modules) -Log $Log
+    }
 }
 
 function New-AuthorVerificationScripts {
