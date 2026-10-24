@@ -177,6 +177,21 @@ Both CI architectures now use exact-match caches for tested author dependencies;
 hosted cache service behavior and native ARM64 execution remain unverified
 locally. See [CI.md](docs/CI.md#author-dependency-cache) for cache recovery.
 
+The subsequent hosted x64 run exposed Path::Tiny 0.150 symlink test assumptions
+that the local account could not exercise. Author installation now pins this
+dependency and applies a checksum-verified, test-only Windows patch without
+disabling assertions. Local revalidation passed 130 installer checks, all 54
+maintained Perl quality checks, and Path::Tiny's 30-file suite (1,795 tests).
+The patched archive installed through cpanm with normal tests, all ten pinned
+modules and native coverage calibration verified, and 1,161 project tests plus
+180 author/release checks, the fresh archive build/test/install and DLL
+inspection passed.
+The local account lacks symlink privileges, so the patched symlink cases still
+require a hosted run; native ARM64 also remains unverified. Evidence is in
+`build/quality/ci-installer-fixtures.log`, `ci-fix-quality.log` and
+`path-tiny-tests.log`, `ci-path-install-console.log`, `ci-path-verification.json`
+and `ci-fix-archive.log`.
+
 The full coverage command is `perl script/coverage-perl.pl --require-full`.
 It includes real configuration, native build, release and fresh archive
 installation. Missing measurements, changed site totals, partial coverage and

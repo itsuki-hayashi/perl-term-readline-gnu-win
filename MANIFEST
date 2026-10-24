@@ -65,6 +65,7 @@ MANIFEST			This list of files
 MANIFEST.SKIP
 META.json
 META.yml
+patches/author/0001-path-tiny-windows-tests.patch
 patches/readline/0001-native-msvc.patch
 patches/readline/0002-checked-integer-conversions.patch
 README.md

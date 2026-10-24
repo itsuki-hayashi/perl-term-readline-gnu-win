@@ -44,7 +44,8 @@ Configuring required merge statuses is a repository branch-protection setting.
 Both architectures restore `build/author` independently of native Perl. The
 author key contains the centrally computed native Perl key (source checksum,
 architecture, exact compiler toolset, SDK and shared/threaded/release settings),
-CCTYPE, and a hash of the author inventory, installer and Perl bootstrap script.
+CCTYPE, and a hash of the author inventory, installer, Perl bootstrap script,
+author dependency patches and Perl patch applicator.
 Only exact matches are restored; there are no fallback keys or cross-OS caches.
 The native Perl key itself remains unchanged by this addition.
 
@@ -56,10 +57,23 @@ cpanm work trees, scratch directories and logs are outside the cache payload.
 
 On a hit, `install-author-tools.ps1 -VerifyOnly` makes no bootstrap downloads or
 cpanm calls. It checks the completion marker against the installer, inventory
-and actual native Perl configuration, loads all nine pinned tools from the
+and actual native Perl configuration, loads all ten pinned modules from the
 contained library without unrelated site modules, constructs the strict Critic
 profile, and calibrates Devel::Cover's native statement/branch instrumentation.
 All project quality, coverage, native, release and archive gates still run.
+
+Path::Tiny 0.150 is explicitly pinned because its Windows symlink tests fail
+when the runner has symlink privileges: `readlink` returns backslashes, and
+`mkdir` resolves `..` before traversing a directory symlink. The installer
+checks the upstream archive SHA256, extracts a build copy, and applies
+`patches/author/0001-path-tiny-windows-tests.patch` using `Gnu::Patch`.
+The patch normalizes three target comparisons and creates the missing physical
+directory fixture. All assertions and dependency tests remain enabled; runtime
+sources and upstream license notices are unchanged. Patch or applicator changes
+invalidate both the cache key and completion marker.
+The installer repacks a fresh patched copy as a local archive because cpanm
+1.7049 does not recognize drive-letter absolute directories as local sources.
+Downloaded archives and extracted or patched copies are outside the cache.
 
 An invalid cache fails explicitly and names its key. Delete that author-tool
 entry under the repository's Actions caches and rerun. To refresh transitive

@@ -12,6 +12,9 @@ New-Item -ItemType Directory -Path "$fixture/config", "$fixture/.github/scripts"
 Copy-Item -LiteralPath "$root/config/author-tools.json" -Destination "$fixture/config/author-tools.json"
 Copy-Item -LiteralPath "$root/.github/scripts/install-author-tools.ps1" -Destination "$fixture/.github/scripts/install-author-tools.ps1"
 Copy-Item -LiteralPath "$root/.perlcriticrc" -Destination "$fixture/.perlcriticrc"
+New-Item -ItemType Directory -Path "$fixture/patches/author", "$fixture/inc/Gnu" -Force | Out-Null
+Copy-Item "$root/patches/author/*.patch" "$fixture/patches/author/"
+Copy-Item -LiteralPath "$root/inc/Gnu/Patch.pm" -Destination "$fixture/inc/Gnu/Patch.pm"
 $marker = Join-Path $fixture 'build/author/.author-tools-complete.json'
 
 function Assert-Author {
@@ -92,6 +95,13 @@ try {
         Assert-Author ([Environment]::GetEnvironmentVariable($name, 'Process') -ceq $expected[$name]) "$name restored on success"
     }
     $completed = Get-Content -LiteralPath $marker -Raw
+    foreach ($inputFile in @("$fixture/patches/author/0001-path-tiny-windows-tests.patch", "$fixture/inc/Gnu/Patch.pm")) {
+        $bytes = [IO.File]::ReadAllBytes($inputFile)
+        try {
+            [IO.File]::AppendAllText($inputFile, "`nfixture change`n")
+            Assert-AuthorFailure { Invoke-AuthorScenario -VerifyOnly } 'Invalid author-tool cache.*does not match'
+        } finally { [IO.File]::WriteAllBytes($inputFile, $bytes) }
+    }
     foreach ($field in @('configuration', 'installer', 'perl', 'schema')) {
         $bad = $completed | ConvertFrom-Json
         if ($field -eq 'perl') { $bad.perl.archname = 'another-architecture' } else { $bad.$field = 'invalid' }
@@ -139,11 +149,13 @@ try {
 }
 & {
     function Initialize-AuthorBootstrap { param($Root, $Log); return @{ library = 'fixture-library'; cpanm = 'fixture-cpanm' } }
+    function Initialize-AuthorPathTiny { param($Root, $Log); return "$Root/staged-Path-Tiny-0.150.tar.gz" }
     function Invoke-AuthorNative {
         param($Program, $Arguments, $Log)
         Assert-Author ($Program -eq 'perl' -and $Arguments -contains '--local-lib-contained') 'contained cpanm invocation'
         Assert-Author ($Arguments -notcontains '--notest' -and $Arguments -notcontains '--force') 'dependency tests cannot be bypassed'
-        Assert-Author (($Arguments | Where-Object { $_ -like '*.tar.gz' }).Count -eq 9) 'all nine pinned distributions requested'
+        Assert-Author (($Arguments | Where-Object { $_ -like '*.tar.gz' }).Count -eq 10) 'all ten pinned distributions requested'
+        Assert-Author ($Arguments.IndexOf("$fixture/staged-Path-Tiny-0.150.tar.gz") -lt $Arguments.IndexOf('D/DB/DBOOK/Perl-Critic-Community-v1.0.4.tar.gz')) 'tested Path::Tiny archive precedes dependent tools'
     }
     $tools = Get-Content -LiteralPath "$fixture/config/author-tools.json" -Raw | ConvertFrom-Json
     Install-AuthorDependencies -Root $fixture -Prefix "$fixture/build/author" -Tools $tools -Log "$fixture/cpanm.log"
@@ -153,6 +165,34 @@ try {
 }
 
 # Actual Perl subprocesses check exit propagation and verifier isolation.
+$patchSource = Join-Path $fixture 'patch-source'
+New-Item -ItemType Directory -Path "$patchSource/t", "$patchSource/lib" -Force | Out-Null
+$filesystem = (@('') * 464) + @(
+    '    is readlink($link2), $link, ''symbolic link is available after spewing'';',
+    '    is readlink($link),  $file, ''symbolic link is available after spewing'';')
+$symlinks = (@('') * 26) + '    is readlink $bar, "../foo", "the link seems right";'
+$relative = (@('') * 186) + '    $expect = $path->relative( $deep->parent->child("F/G")->realpath );'
+[IO.File]::WriteAllText("$patchSource/t/filesystem.t", ($filesystem -join "`n") + "`n")
+[IO.File]::WriteAllText("$patchSource/t/symlinks.t", ($symlinks -join "`n") + "`n")
+[IO.File]::WriteAllText("$patchSource/t/rel-abs.t", ($relative -join "`n") + "`n")
+'unchanged runtime' | Set-Content -LiteralPath "$patchSource/lib/runtime.txt"
+$patchArguments = @("-I$root/inc", '-MGnu::Patch', '-e', 'Gnu::Patch::apply(@ARGV)',
+    $patchSource, "$root/patches/author/0001-path-tiny-windows-tests.patch")
+Invoke-AuthorNative -Program 'perl' -Arguments $patchArguments -Log "$fixture/patch.log"
+Assert-Author ((Get-Content "$patchSource/t/filesystem.t" -Raw) -match 'path\(readlink\(\$link2\)\)') 'absolute symlink assertions normalize Windows separators'
+Assert-Author ((Get-Content "$patchSource/t/symlinks.t" -Raw) -match 'path\(readlink \$bar\)') 'relative symlink assertion normalizes Windows separators'
+Assert-Author ((Get-Content "$patchSource/t/rel-abs.t" -Raw) -match '\$deep->parent->child\("F/G"\)->mkdir;') 'physical relative-path fixture exists on Windows'
+Assert-Author ((Get-Content "$patchSource/t/rel-abs.t" -Raw) -match '\$deep->parent->child\("F/G"\)->realpath') 'original symlink resolution assertion remains enabled'
+Assert-Author ((Get-Content "$patchSource/lib/runtime.txt" -Raw).Trim() -eq 'unchanged runtime') 'dependency runtime files remain unchanged'
+Assert-AuthorFailure { Invoke-AuthorNative -Program 'perl' -Arguments $patchArguments -Log "$fixture/patch.log" } 'Author command failed'
+& {
+    function Invoke-WebRequest { param($Uri, $OutFile); 'invalid archive' | Set-Content -LiteralPath $OutFile }
+    Assert-AuthorFailure { Initialize-AuthorPathTiny -Root $fixture -Log "$fixture/patch.log" } 'archive checksum mismatch'
+}
+& {
+    function Invoke-WebRequest { param($Uri, $OutFile); throw 'fixture Path::Tiny download failure' }
+    Assert-AuthorFailure { Initialize-AuthorPathTiny -Root $fixture -Log "$fixture/patch.log" } 'Path::Tiny download failure'
+}
 $directory = Join-Path $fixture 'native probes with spaces'
 New-Item -ItemType Directory -Path $directory | Out-Null
 $scripts = New-AuthorVerificationScripts -Directory $directory

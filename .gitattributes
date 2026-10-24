@@ -2,6 +2,7 @@
 # Vendor hashes are of the exact upstream archive bytes, including manuals.
 vendor/readline/** -text
 patches/readline/*.patch -text
+patches/author/*.patch -text
 LICENSES/** -text
 COPYING -text
 *.pl text eol=lf

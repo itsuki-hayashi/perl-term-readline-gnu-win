@@ -32,6 +32,28 @@ function Initialize-AuthorBootstrap {
     }
 }
 
+function Initialize-AuthorPathTiny {
+    param([string]$Root, [string]$Log)
+    $directory = Join-Path $Root ('build/author-path-tiny/' + [IO.Path]::GetRandomFileName())
+    New-Item -ItemType Directory -Force $directory | Out-Null
+    $archive = Join-Path $directory 'Path-Tiny-0.150.tar.gz'
+    Invoke-WebRequest 'https://cpan.metacpan.org/authors/id/D/DA/DAGOLDEN/Path-Tiny-0.150.tar.gz' -OutFile $archive
+    if ((Get-FileHash -LiteralPath $archive -Algorithm SHA256).Hash.ToLowerInvariant() -ne
+        'ff20713d1a14d257af9c78209001f40dc177e4b9d1496115cbd8726d577946c7') {
+        throw 'Path::Tiny archive checksum mismatch'
+    }
+    Invoke-AuthorNative -Program "$env:SystemRoot/System32/tar.exe" -Arguments @('-xzf', $archive, '-C', $directory) -Log $Log
+    $source = Join-Path $directory 'Path-Tiny-0.150'
+    # Only test expectations change: preserve symlink coverage and runtime code.
+    Invoke-AuthorNative -Program 'perl' -Arguments @("-I$Root/inc", '-MGnu::Patch', '-e',
+        'Gnu::Patch::apply(@ARGV)', $source, "$Root/patches/author/0001-path-tiny-windows-tests.patch") -Log $Log
+    # cpanm 1.7049 recognizes absolute Windows files, but not drive-letter
+    # directory arguments. Repack only this fresh, patched build copy.
+    $patched = Join-Path $directory 'Path-Tiny-0.150-windows.tar.gz'
+    Invoke-AuthorNative -Program "$env:SystemRoot/System32/tar.exe" -Arguments @('-czf', $patched, '-C', $directory, 'Path-Tiny-0.150') -Log $Log
+    return $patched
+}
+
 function Install-AuthorDependencies {
     param([string]$Root, [string]$Prefix, $Tools, [string]$Log)
     $modules = @()
@@ -39,7 +61,9 @@ function Install-AuthorDependencies {
         foreach ($entry in $group.PSObject.Properties) {
             $distribution = $Tools.distributions.PSObject.Properties[$entry.Name]
             if (-not $distribution) { throw "Missing pinned distribution for $($entry.Name)" }
-            $modules += $distribution.Value
+            $modules += if ($entry.Name -eq 'Path::Tiny') {
+                Initialize-AuthorPathTiny -Root $Root -Log $Log
+            } else { $distribution.Value }
         }
     }
     if (!$modules.Count) { throw 'Empty author-tool inventory' }
@@ -227,7 +251,8 @@ function Invoke-AuthorTools {
         $result.scratch = $shortScratch
         $identity = Get-AuthorIdentity -Scripts $scripts -Directory $scratch -Log $log
         $manifest = Join-Path $Root 'config/author-tools.json'
-        $configuration = (Get-FileHash -LiteralPath $manifest -Algorithm SHA256).Hash
+        $configuration = (@($manifest, "$Root/patches/author/0001-path-tiny-windows-tests.patch", "$Root/inc/Gnu/Patch.pm") |
+            ForEach-Object { (Get-FileHash -LiteralPath $_ -Algorithm SHA256).Hash }) -join ':'
         $installer = (Get-FileHash -LiteralPath (Join-Path $Root '.github/scripts/install-author-tools.ps1') -Algorithm SHA256).Hash
         $result.perl = $identity
         $result.configuration = $configuration

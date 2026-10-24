@@ -48,7 +48,7 @@ jobs:
         run: |
           $native = 'native-perl-v2-${{ runner.os }}-${{ matrix.arch }}-${{ matrix.perl_sha256 }}-${{ steps.compiler.outputs.tools }}-${{ steps.compiler.outputs.sdk }}-shared-threaded-release'
           "perl=$native" | Out-File $env:GITHUB_OUTPUT -Append -Encoding utf8
-          "author=author-tools-v1-$native-${{ matrix.cctype }}-${{ hashFiles('config/author-tools.json', '.github/scripts/install-author-tools.ps1', '.github/scripts/bootstrap-perl.ps1') }}" | Out-File $env:GITHUB_OUTPUT -Append -Encoding utf8
+          "author=author-tools-v1-$native-${{ matrix.cctype }}-${{ hashFiles('config/author-tools.json', '.github/scripts/install-author-tools.ps1', '.github/scripts/bootstrap-perl.ps1', 'patches/author/*.patch', 'inc/Gnu/Patch.pm') }}" | Out-File $env:GITHUB_OUTPUT -Append -Encoding utf8
       - name: Cache native MSVC Perl
         id: perl-cache
         uses: actions/cache@55cc8345863c7cc4c66a329aec7e433d2d1c52a9 # v6.1.0

@@ -1,0 +1,28 @@
+SPDX-FileCopyrightText: 2026 Itsuki Hayashi
+SPDX-License-Identifier: GPL-3.0-or-later
+
+Path::Tiny 0.150: retain all assertions on native Win32 with symlink privileges.
+Normalize readlink output through Path::Tiny, and create the physical fixture
+that Windows mkdir does not create when it resolves '..' lexically.
+No runtime code changes. Original upstream Apache-2.0 notices remain intact.
+
+--- a/t/filesystem.t
++++ b/t/filesystem.t
+@@ -465,2 +465,2 @@
+-    is readlink($link2), $link, 'symbolic link is available after spewing';
+-    is readlink($link),  $file, 'symbolic link is available after spewing';
++    is path(readlink($link2)), $link, 'symbolic link is available after spewing';
++    is path(readlink($link)),  $file, 'symbolic link is available after spewing';
+--- a/t/symlinks.t
++++ b/t/symlinks.t
+@@ -27 +27 @@
+-    is readlink $bar, "../foo", "the link seems right";
++    is path(readlink $bar), "../foo", "the link seems right";
+--- a/t/rel-abs.t
++++ b/t/rel-abs.t
+@@ -187 +187,4 @@
+-    $expect = $path->relative( $deep->parent->child("F/G")->realpath );
++    # Win32 mkdir resolves '..' before traversing directory symlinks. Also
++    # create the physical fixture required by relative()'s symlink algorithm.
++    $deep->parent->child("F/G")->mkdir;
++    $expect = $path->relative( $deep->parent->child("F/G")->realpath );

@@ -1,5 +1,6 @@
 {
   "required": {
+    "Path::Tiny": "0.150",
     "Module::Pluggable": "6.3",
     "PPI": "1.291",
     "Perl::Critic": "1.156",
@@ -11,6 +12,7 @@
   },
   "coverage": { "Devel::Cover": "1.52" },
   "distributions": {
+    "Path::Tiny": "D/DA/DAGOLDEN/Path-Tiny-0.150.tar.gz",
     "Module::Pluggable": "S/SI/SIMONW/Module-Pluggable-6.3.tar.gz",
     "PPI": "M/MI/MITHALDU/PPI-1.291.tar.gz",
     "Perl::Critic": "P/PE/PETDANCE/Perl-Critic-1.156.tar.gz",
